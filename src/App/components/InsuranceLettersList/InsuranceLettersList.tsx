@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import {
-	AmendmentDetailsData,
+	InsuranceLetterDetailsData,
 	ListColumnData,
 	TabProps,
 	getDetailsLayoutAttributes,
@@ -9,10 +9,10 @@ import {
 import CustomList from '../CustomList/CustomList'
 import Scripts from '../../shared/utils/clientScripts'
 import { useMapState } from '../../shared/utils/utils'
-import AmendmentDetails from './AmendmentDetails/AmendmentDetails'
+import InsuranceLetterDetails from './InsuranceLetterDetails/InsuranceLetterDetails'
 
-/** Вкладка ДС */
-function AmendmentTab({
+/** Список гарантийных писем */
+function InsuranceLettersList({
 	handler,
 	values,
 	isViewMode,
@@ -42,7 +42,7 @@ function AmendmentTab({
 
 	// Данные формы деталей ДС
 	const [amendmentValues, setAmendmentValue, setAmendmentValues] =
-		useMapState<AmendmentDetailsData>(new AmendmentDetailsData())
+		useMapState<InsuranceLetterDetailsData>(new InsuranceLetterDetailsData())
 
 	/** Получение формы детальной информации по строке списка ДС */
 	const getAmendmentDetailsLayout = ({
@@ -51,7 +51,7 @@ function AmendmentTab({
 		onClickRowHandler,
 	}: getDetailsLayoutAttributes) => {
 		return (
-			<AmendmentDetails
+			<InsuranceLetterDetails
 				reloadData={reloadData}
 				columnsSettings={columns}
 				data={rowData}
@@ -77,4 +77,4 @@ function AmendmentTab({
 	)
 }
 
-export default AmendmentTab
+export default InsuranceLettersList

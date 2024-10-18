@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Panel from '../../components/Panel/Panel'
-import Button from '../../components/Button/Button'
-import { IFormData, TreatyFormData } from '../../shared/types'
+import Panel from '../Panel/Panel'
+import Button from '../Button/Button'
+import { ApprovalFormType, Forma, IFormData, TreatyFormData } from '../../shared/types'
 import Scripts from '../../shared/utils/clientScripts'
 import {
 	localStorageDraftKey,
@@ -9,7 +9,7 @@ import {
 	localStorageIdKey,
 } from '../../shared/utils/constants'
 import { useMapState } from '../../shared/utils/utils'
-import AmendmentTab from '../AmendmentTab/AmendmentTab'
+import InsuranceLettersList from '../InsuranceLettersList/InsuranceLettersList'
 
 enum TabCodes {
 	general = 'general',
@@ -20,11 +20,8 @@ enum TabCodes {
 	files = 'files',
 }
 
-type Forma = {
-	value: string
-}
 /** Форма договора */
-export default function TreatyForm() {
+export default function ApprovalForm() {
 	const [isViewMode, setIsViewMode] = useState<boolean>(true)
 
 	// Код активной вкладки
@@ -101,43 +98,39 @@ export default function TreatyForm() {
 	}
 
 	return (
-		<>
-			<div style={{ background: '#F2F4F6', padding: '10px', minHeight: '100%' }}>
-				<Panel>
-					<AmendmentTab
-						handler={() => {}}
-						values={values}
-						isViewMode={isViewMode}
-						saveStateHandler={saveState}
-						setSelectedForma={setSelectedForma}
-						onRowClick={handleRowClick}
-					/>
-					<div
-						style={{
-							padding: '0 18px 18px 18px',
-							textAlign: 'right',
-							display: 'flex',
-							gap: '18px',
-							flexDirection: 'row',
-							justifyContent: 'flex-end',
-						}}
-					>
-						{selectedForma && selectedForma.value === 'Устное' && (
-							<Button clickHandler={''} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
-						)}
-						{selectedForma && selectedForma.value === 'Email' && (
-							<Button clickHandler={''} title="СФОРМИРОВАТЬ ПИСЬМО" />
-						)}
-						{selectedForma && selectedForma.value === 'ГП на бланке' && (
-							<>
-								<Button clickHandler={''} title="СФОРМИРОВАТЬ ГП В WORD" />
-								<Button clickHandler={''} title="СФОРМИРОВАТЬ ГП В PDF" />
-							</>
-						)}
-						<Button clickHandler={handleCloseTreaty} buttonType="outline" title="АННУЛИРОВАТЬ" />
-					</div>
-				</Panel>
+		<div className='approval-form'>
+			<InsuranceLettersList
+				handler={() => { }}
+				values={values}
+				isViewMode={isViewMode}
+				saveStateHandler={saveState}
+				setSelectedForma={setSelectedForma}
+				onRowClick={handleRowClick}
+			/>
+			<div
+				style={{
+					padding: '0 18px 18px 18px',
+					textAlign: 'right',
+					display: 'flex',
+					gap: '18px',
+					flexDirection: 'row',
+					justifyContent: 'flex-end',
+				}}
+			>
+				{selectedForma && selectedForma.value === ApprovalFormType.verbal && (
+					<Button clickHandler={''} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
+				)}
+				{selectedForma && selectedForma.value === ApprovalFormType.email && (
+					<Button clickHandler={''} title="СФОРМИРОВАТЬ ПИСЬМО" />
+				)}
+				{selectedForma && selectedForma.value === ApprovalFormType.paper && (
+					<>
+						<Button clickHandler={''} title="СФОРМИРОВАТЬ ГП В WORD" />
+						<Button clickHandler={''} title="СФОРМИРОВАТЬ ГП В PDF" />
+					</>
+				)}
+				<Button clickHandler={handleCloseTreaty} buttonType="outline" title="АННУЛИРОВАТЬ" />
 			</div>
-		</>
+		</div>
 	)
 }

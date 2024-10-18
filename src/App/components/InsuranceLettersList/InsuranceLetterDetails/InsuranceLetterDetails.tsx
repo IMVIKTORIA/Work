@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-	AmendmentDetailsData,
+	InsuranceLetterDetailsData,
 	DetailsProps,
 	InputDataCategory,
 	InputDataString,
@@ -15,7 +15,7 @@ import CustomSelect from '../../CustomSelect/CustomSelect'
 import CustomText from '../../CustomText/CustomText'
 import Loader from '../../Loader/Loader'
 
-interface AmendmentRowData {
+interface InsuranceLetterRowData {
 	'id': string
 	'numberGP': InputDataCategory
 	'services': InputDataCategory
@@ -25,11 +25,11 @@ interface AmendmentRowData {
 	'startDate': InputDataCategory
 }
 
-class AmendmentDetailsProps implements DetailsProps {
-	data: AmendmentRowData
-	values: AmendmentDetailsData
+class InsuranceLetterDetailsProps implements DetailsProps {
+	data: InsuranceLetterRowData
+	values: InsuranceLetterDetailsData
 	setValue: (name: string, value: any) => void
-	setValues: (values: AmendmentDetailsData) => void
+	setValues: (values: InsuranceLetterDetailsData) => void
 	columnsSettings: ListColumnData[]
 	onClickRowHandler: () => any
 	reloadData: () => void
@@ -38,7 +38,7 @@ class AmendmentDetailsProps implements DetailsProps {
 }
 
 /** Форма редактирования/просмотра плана страхования */
-function AmendmentDetails(props: AmendmentDetailsProps) {
+function InsuranceLetterDetails(props: InsuranceLetterDetailsProps) {
 	const {
 		data,
 		values,
@@ -141,4 +141,4 @@ function AmendmentDetails(props: AmendmentDetailsProps) {
 	)
 }
 
-export default AmendmentDetails
+export default InsuranceLetterDetails
