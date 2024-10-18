@@ -12,6 +12,7 @@ function randomDelay() {
 }
 
 /** Получение списка форм */
+// TODO: Типизировать
 async function getForma() {
   const data = [
     {
@@ -38,183 +39,185 @@ async function getForma() {
   return data;
 }
 
-/** Получение списка статусов */
-async function saveTreaty(data) {
-  await randomDelay();
-  console.log(data);
-}
+// /** Получение списка статусов */
+// async function saveTreaty(data) {
+//   await randomDelay();
+//   console.log(data);
+// }
 
-/** Получение списка статусов */
-async function getTreaty() {
-  const data = {
-    treaty: {
-      value: "test",
-      data: {
-        code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
-      },
-    },
-    number: {
-      value: "test",
-    },
-    policyHolder: {
-      value: "test",
-      data: {
-        code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
-      },
-    },
-    objProduct: {
-      value: "Aenean tellus elit leo consectetur",
-      data: {
-        code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
-      },
-    },
-    channel: {
-      value: "channelTest",
-      data: {
-        code: "channelTest",
-      },
-    },
-    region: {
-      value: "test",
-    },
-    currency: {
-      value: "currencyTest",
-      data: {
-        code: "currencyTest",
-      },
-    },
-    status: {
-      value: "Еще статус",
-      data: {
-        code: "eshe_status",
-      },
-    },
-    conclusionDate: {
-      value: "28.03.2024",
-    },
-    startDate: {
-      value: "28.03.2024",
-    },
-    insuranceAmount: {
-      value: "",
-    },
-    insuranceAmountRub: {
-      value: "",
-    },
-    insurancePremium: {
-      value: "",
-    },
-    insurancePremiumRub: {
-      value: "",
-    },
-    sides: [
-      {
-        isEdit: false,
-        originalData: {
-          type: {
-            value: "Менеджер договора",
-            data: {
-              code: "manager",
-            },
-          },
-          contractor: {
-            value: "Иванов Иван Иванович",
-          },
-        },
-        actualData: {
-          type: {
-            value: "Менеджер договора",
-            data: {
-              code: "manager",
-            },
-          },
-          contractor: {
-            value: "Иванов Иван Иванович",
-          },
-        },
-      },
-      {
-        isEdit: false,
-        originalData: {
-          type: {
-            value: "Медицинский куратор",
-            data: {
-              code: "medical",
-            },
-          },
-          contractor: {
-            value: "Петров Петр Петрович",
-            data: {
-              code: "42515215",
-            },
-          },
-        },
-        actualData: {
-          type: {
-            value: "Медицинский куратор",
-            data: {
-              code: "medical",
-            },
-          },
-          contractor: {
-            value: "Петров Петр Петрович",
-            data: {
-              code: "42515215",
-            },
-          },
-        },
-      },
-      {
-        isEdit: true,
-        originalData: {
-          type: {
-            value: "Технический куратор",
-            data: {
-              code: "technical",
-            },
-          },
-          contractor: {
-            value: "Плюшкин Лев Николаевич",
-            data: {
-              code: "4643645654",
-            },
-          },
-        },
-        actualData: {
-          type: {
-            value: "Технический куратор",
-            data: {
-              code: "technical",
-            },
-          },
-          contractor: {
-            value: "Плюшкин Лев Николаевич",
-            data: {
-              code: "4643645654",
-            },
-          },
-        },
-      },
-    ],
-  };
-  await randomDelay();
-  return data;
-}
+// /** Получение списка статусов */
+// async function getTreaty() {
+//   const data = {
+//     treaty: {
+//       value: "test",
+//       data: {
+//         code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
+//       },
+//     },
+//     number: {
+//       value: "test",
+//     },
+//     policyHolder: {
+//       value: "test",
+//       data: {
+//         code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
+//       },
+//     },
+//     objProduct: {
+//       value: "Aenean tellus elit leo consectetur",
+//       data: {
+//         code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
+//       },
+//     },
+//     channel: {
+//       value: "channelTest",
+//       data: {
+//         code: "channelTest",
+//       },
+//     },
+//     region: {
+//       value: "test",
+//     },
+//     currency: {
+//       value: "currencyTest",
+//       data: {
+//         code: "currencyTest",
+//       },
+//     },
+//     status: {
+//       value: "Еще статус",
+//       data: {
+//         code: "eshe_status",
+//       },
+//     },
+//     conclusionDate: {
+//       value: "28.03.2024",
+//     },
+//     startDate: {
+//       value: "28.03.2024",
+//     },
+//     insuranceAmount: {
+//       value: "",
+//     },
+//     insuranceAmountRub: {
+//       value: "",
+//     },
+//     insurancePremium: {
+//       value: "",
+//     },
+//     insurancePremiumRub: {
+//       value: "",
+//     },
+//     sides: [
+//       {
+//         isEdit: false,
+//         originalData: {
+//           type: {
+//             value: "Менеджер договора",
+//             data: {
+//               code: "manager",
+//             },
+//           },
+//           contractor: {
+//             value: "Иванов Иван Иванович",
+//           },
+//         },
+//         actualData: {
+//           type: {
+//             value: "Менеджер договора",
+//             data: {
+//               code: "manager",
+//             },
+//           },
+//           contractor: {
+//             value: "Иванов Иван Иванович",
+//           },
+//         },
+//       },
+//       {
+//         isEdit: false,
+//         originalData: {
+//           type: {
+//             value: "Медицинский куратор",
+//             data: {
+//               code: "medical",
+//             },
+//           },
+//           contractor: {
+//             value: "Петров Петр Петрович",
+//             data: {
+//               code: "42515215",
+//             },
+//           },
+//         },
+//         actualData: {
+//           type: {
+//             value: "Медицинский куратор",
+//             data: {
+//               code: "medical",
+//             },
+//           },
+//           contractor: {
+//             value: "Петров Петр Петрович",
+//             data: {
+//               code: "42515215",
+//             },
+//           },
+//         },
+//       },
+//       {
+//         isEdit: true,
+//         originalData: {
+//           type: {
+//             value: "Технический куратор",
+//             data: {
+//               code: "technical",
+//             },
+//           },
+//           contractor: {
+//             value: "Плюшкин Лев Николаевич",
+//             data: {
+//               code: "4643645654",
+//             },
+//           },
+//         },
+//         actualData: {
+//           type: {
+//             value: "Технический куратор",
+//             data: {
+//               code: "technical",
+//             },
+//           },
+//           contractor: {
+//             value: "Плюшкин Лев Николаевич",
+//             data: {
+//               code: "4643645654",
+//             },
+//           },
+//         },
+//       },
+//     ],
+//   };
+//   await randomDelay();
+//   return data;
+// }
 
-/** Получение ссылки на форму контрагента */
-function getContractorPageLink() {
-  const pageLink = "#test";
-  return pageLink;
-}
+// /** Получение ссылки на форму контрагента */
+// function getContractorPageLink() {
+//   const pageLink = "#test";
+//   return pageLink;
+// }
 
-/** Создание Плана страхования */
-async function createPlan(values) {
-  console.log(values);
-  await randomDelay();
-}
+// /** Создание Плана страхования */
+// async function createPlan(values) {
+//   console.log(values);
+//   await randomDelay();
+// }
 
 /** Получение ДС */
-const getAmendments = async (page) => {
+// TODO: Переименовать типизировать
+// ВАЖНО: Все функции, описываемые в clientScripts должны быть объявлены в синтаксисе Function Declaration
+async function getAmendments(page) {
   const mockData = {
     /** Идентификатор */
     id: "1",
@@ -241,7 +244,7 @@ const getAmendments = async (page) => {
       }),
     hasMore: false,
   };
-};
+}
 
 /** Получение полных данных плана по идентификатору */
 // TODO: Переименовать типизировать
@@ -307,10 +310,10 @@ async function getLabel() {
 export default {
   getForma,
   getLabel,
-  saveTreaty,
-  getTreaty,
-  getContractorPageLink,
-  createPlan,
+  //   saveTreaty,
+  //   getTreaty,
+  //   getContractorPageLink,
+  //   createPlan,
   getAmendments,
   getAmendmentFulldata,
   setChangeTaskCallback,
