@@ -217,7 +217,7 @@ async function getForma() {
 /** Получение ДС */
 // TODO: Переименовать типизировать
 // ВАЖНО: Все функции, описываемые в clientScripts должны быть объявлены в синтаксисе Function Declaration
-async function getAmendments(page) {
+async function getAmendments(taskId: string) {
   const mockData = {
     /** Идентификатор */
     id: "1",

@@ -9,16 +9,28 @@ import {
 import CustomList from '../CustomList/CustomList'
 import Scripts from '../../shared/utils/clientScripts'
 import { useMapState } from '../../shared/utils/utils'
-import InsuranceLetterDetails from './InsuranceLetterDetails/InsuranceLetterDetails'
+import ApprovalDetails from './ApprovalDetails/ApprovalDetails'
 
-/** Список гарантийных писем */
-function InsuranceLettersList({
+/** Пропсы списка согласований */
+type ApprovalsListProps = {
+	/** id задачи */
+	taskId: string
+	handler: any
+	isViewMode: any
+	saveStateHandler: any
+	setSelectedForma: any
+	onRowClick: any
+}
+
+/** Список согласований */
+function ApprovalsList({
+	taskId,
 	handler,
 	isViewMode,
 	saveStateHandler,
 	setSelectedForma,
 	onRowClick,
-}) {
+}: ApprovalsListProps) {
 	/** Колонки списка */
 	const columns = [
 		new ListColumnData({ name: 'Номер ГП', code: 'numberGP', fr: 1, isSortable: true }),
@@ -50,7 +62,7 @@ function InsuranceLettersList({
 		onClickRowHandler,
 	}: getDetailsLayoutAttributes) => {
 		return (
-			<InsuranceLetterDetails
+			<ApprovalDetails
 				reloadData={reloadData}
 				columnsSettings={columns}
 				data={rowData}
@@ -69,11 +81,11 @@ function InsuranceLettersList({
 			<CustomList
 				getDetailsLayout={getAmendmentDetailsLayout}
 				columnsSettings={columns}
-				getDataHandler={Scripts.getAmendments}
+				getDataHandler={() => Scripts.getAmendments(taskId)}
 				isScrollable={false}
 			/>
 		</div>
 	)
 }
 
-export default InsuranceLettersList
+export default ApprovalsList

@@ -15,7 +15,7 @@ import CustomSelect from '../../CustomSelect/CustomSelect'
 import CustomText from '../../CustomText/CustomText'
 import Loader from '../../Loader/Loader'
 
-interface InsuranceLetterRowData {
+interface ApprovalRowData {
 	'id': string
 	'numberGP': InputDataCategory
 	'services': InputDataCategory
@@ -25,8 +25,8 @@ interface InsuranceLetterRowData {
 	'startDate': InputDataCategory
 }
 
-class InsuranceLetterDetailsProps implements DetailsProps {
-	data: InsuranceLetterRowData
+class ApprovalDetailsProps implements DetailsProps {
+	data: ApprovalRowData
 	values: InsuranceLetterDetailsData
 	setValue: (name: string, value: any) => void
 	setValues: (values: InsuranceLetterDetailsData) => void
@@ -37,8 +37,8 @@ class InsuranceLetterDetailsProps implements DetailsProps {
 	onRowClick: () => void
 }
 
-/** Форма редактирования/просмотра плана страхования */
-function InsuranceLetterDetails(props: InsuranceLetterDetailsProps) {
+/** Детальная форма согласования */
+function ApprovalDetails(props: ApprovalDetailsProps) {
 	const {
 		data,
 		values,
@@ -141,4 +141,4 @@ function InsuranceLetterDetails(props: InsuranceLetterDetailsProps) {
 	)
 }
 
-export default InsuranceLetterDetails
+export default ApprovalDetails

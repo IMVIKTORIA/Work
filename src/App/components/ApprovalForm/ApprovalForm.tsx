@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Button from '../Button/Button'
 import { ApprovalFormType, Forma } from '../../shared/types'
 import Scripts from '../../shared/utils/clientScripts'
-import InsuranceLettersList from '../InsuranceLettersList/InsuranceLettersList'
+import ApprovalsList from '../ApprovalsList/ApprovalsList'
 
 
 /** Форма вкладки согласования в задаче */
@@ -67,7 +67,8 @@ export default function ApprovalForm() {
 	return (
 		taskId &&
 		<div className='approval-form'>
-			<InsuranceLettersList
+			<ApprovalsList
+				taskId={taskId}
 				handler={() => { }}
 				isViewMode={isViewMode}
 				saveStateHandler={saveState}
