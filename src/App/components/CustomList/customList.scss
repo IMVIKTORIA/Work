@@ -1,0 +1,27 @@
+.custom-list {
+	&__header {
+		display: flex;
+		flex-direction: row;
+
+		background: #f9f9fa;
+		border-bottom: 2px solid var(--medpult-bg-color);
+		height: 52px;
+		align-items: center;
+		padding: 0px 20px;
+
+		&::-webkit-scrollbar {
+			visibility: hidden;
+		}
+
+		&_scrollable {
+			overflow-y: scroll;
+		}
+	}
+
+	&__body {
+		&_scrollable {
+			height: 500px;
+			overflow-y: scroll;
+		}
+	}
+}

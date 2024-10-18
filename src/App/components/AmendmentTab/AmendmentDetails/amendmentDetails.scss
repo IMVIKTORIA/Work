@@ -1,0 +1,36 @@
+.amendment-details {
+	background-color: #f0f6fa;
+	display: grid;
+
+	// grid-template-columns:
+	// 	minmax(0, 2fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 2fr)
+	// 	minmax(0, 2fr);
+
+	& > div {
+		padding-right: 24px;
+
+		&:last-child {
+			padding-right: 0;
+		}
+	}
+
+	& .custom-input__input,
+	& .custom-input__wrapper {
+		background-color: white;
+	}
+
+	&__actions-column {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__button-wrapper {
+		width: 52px;
+		height: 52px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
