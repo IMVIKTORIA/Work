@@ -14,7 +14,6 @@ import InsuranceLetterDetails from './InsuranceLetterDetails/InsuranceLetterDeta
 /** Список гарантийных писем */
 function InsuranceLettersList({
 	handler,
-	values,
 	isViewMode,
 	saveStateHandler,
 	setSelectedForma,

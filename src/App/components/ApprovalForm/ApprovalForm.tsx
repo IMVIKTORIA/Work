@@ -1,34 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import Panel from '../Panel/Panel'
 import Button from '../Button/Button'
-import { ApprovalFormType, Forma, IFormData, TreatyFormData } from '../../shared/types'
+import { ApprovalFormType, Forma } from '../../shared/types'
 import Scripts from '../../shared/utils/clientScripts'
-import {
-	localStorageDraftKey,
-	localStorageDraftKeyInsuredId,
-	localStorageIdKey,
-} from '../../shared/utils/constants'
-import { useMapState } from '../../shared/utils/utils'
 import InsuranceLettersList from '../InsuranceLettersList/InsuranceLettersList'
 
-enum TabCodes {
-	general = 'general',
-	sides = 'sides',
-	insured = 'insured',
-	insurancePlans = 'insurancePlans',
-	agreementsAdditional = 'agreementsAdditional',
-	files = 'files',
-}
 
-/** Форма договора */
+/** Форма вкладки согласования в задаче */
 export default function ApprovalForm() {
 	const [isViewMode, setIsViewMode] = useState<boolean>(true)
 
-	// Код активной вкладки
-	const [activeTabCode, setActiveTabCode] = useState<string>()
-
-	const [values, setValue, setValues] = useMapState<IFormData>(new TreatyFormData())
-
+	// Идентификатор текущей задачи
+	const [taskId, setTaskId] = useState<string>()
+	// Данные выбранного гарантийного письма
 	const [selectedForma, setSelectedForma] = useState<Forma | null>(null)
 	const [isButtonVisible, setIsButtonVisible] = useState(true)
 
@@ -41,55 +24,39 @@ export default function ApprovalForm() {
 		}
 	}
 
-	// Получение данных договора
+	// Запись callback изменения задачи
 	React.useLayoutEffect(() => {
-		// Получение данных из черновика
-		const draftData = localStorage.getItem(localStorageDraftKey)
-		localStorage.removeItem(localStorageDraftKey)
-		if (draftData) {
-			const data = JSON.parse(draftData)
+		const changeTaskCallback = (taskId?: string) => setTaskId(taskId);
+		Scripts.setChangeTaskCallback(changeTaskCallback)
 
-			setValues(data.values)
-			setIsViewMode(data.isViewMode)
-			setActiveTabCode(data.activeTabCode)
-
-			return
-		}
-
-		// Получение данных из черновика
-		const insuredId = localStorage.getItem(localStorageDraftKeyInsuredId)
-		if (insuredId) {
-			setActiveTabCode(TabCodes.insured)
-		}
-
-		// Получение данных из Системы
-		const dataPromise: Promise<IFormData> = Scripts.getTreaty()
-		dataPromise.then((data) => {
-			setValues(data)
-		})
+		return () => Scripts.setChangeTaskCallback()
 	}, [])
 
-	// Debug
+	// При изменении taskId
 	useEffect(() => {
-		console.log(values)
-	}, [values])
+		if (!taskId) return;
 
-	/** Сохранить состояние в localStorage */
+		// TODO: Получение данных задачи и запись списка ГП в state
+		// TODO: Реализовать state
+		// TODO: Реализовать метод получения в Scripts
+	}, [taskId])
+
+	/** Сохранить состояние в localStorage TODO: Скорее всего не нужно*/
 	const saveState = () => {
-		const dataValues = values
-		const dataIsViewMode = isViewMode
-		const dataActiveTabCode = activeTabCode
+		// const dataValues = values
+		// const dataIsViewMode = isViewMode
+		// const dataActiveTabCode = activeTabCode
 
-		const data = JSON.stringify({
-			values: dataValues,
-			isViewMode: dataIsViewMode,
-			activeTabCode: dataActiveTabCode,
-			selectedForma: selectedForma,
-		})
+		// const data = JSON.stringify({
+		// 	values: dataValues,
+		// 	isViewMode: dataIsViewMode,
+		// 	activeTabCode: dataActiveTabCode,
+		// 	selectedForma: selectedForma,
+		// })
 
-		localStorage.setItem(localStorageDraftKey, data)
+		// localStorage.setItem(localStorageDraftKey, data)
 
-		localStorage.setItem(localStorageIdKey, values.treaty.data.code)
+		// localStorage.setItem(localStorageIdKey, values.treaty.data.code)
 	}
 
 	/** Закрытие задачи */
@@ -98,25 +65,16 @@ export default function ApprovalForm() {
 	}
 
 	return (
+		taskId &&
 		<div className='approval-form'>
 			<InsuranceLettersList
 				handler={() => { }}
-				values={values}
 				isViewMode={isViewMode}
 				saveStateHandler={saveState}
 				setSelectedForma={setSelectedForma}
 				onRowClick={handleRowClick}
 			/>
-			<div
-				style={{
-					padding: '0 18px 18px 18px',
-					textAlign: 'right',
-					display: 'flex',
-					gap: '18px',
-					flexDirection: 'row',
-					justifyContent: 'flex-end',
-				}}
-			>
+			<div className='approval-form__buttons'>
 				{selectedForma && selectedForma.value === ApprovalFormType.verbal && (
 					<Button clickHandler={''} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
 				)}

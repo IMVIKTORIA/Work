@@ -11,48 +11,16 @@ export interface IInputData {
   data?: any;
 }
 
-/** Значения полей формы общие*/
+/** Значения полей формы общие */
 export interface IFormDataGeneral {
-  treaty: IInputData;
-  number: IInputData;
-  status: IInputData;
-  sides: SideDataExtended[];
-  conclusionDate: IInputData;
-  startDate: IInputData;
+  /** Видимость вкладки Согласования */
+  isTabVisible: IInputData;
 }
 
 /** Значения полей формы */
-export interface IFormData extends IFormDataGeneral {
-  /** Договор */
-  treaty: IInputData;
-  /** Номер */
-  number: IInputData;
-  /** Страхователь */
-  policyHolder: IInputData;
-  /** Продукт */
-  objProduct: IInputData;
-  /** Канал продажи */
-  channel: IInputData;
-  /** Регион заключения */
-  region: IInputData;
-  /** Валюта договора */
-  currency: IInputData;
-  /** Статус */
-  status: IInputData;
-  /** Дата заключения */
-  conclusionDate: IInputData;
-  /** Дата начала действия */
-  startDate: IInputData;
-  /** Страховая сумма по договору */
-  insuranceAmount: IInputData;
-  /** Страховая сумма по договору, руб */
-  insuranceAmountRub: IInputData;
-  /** Страховая премия по договору */
-  insurancePremium: IInputData;
-  /** Страховая премия по договору, руб */
-  insurancePremiumRub: IInputData;
-  /** Стороны */
-  sides: SideDataExtended[];
+export interface IFormData {
+  /** Видимость вкладки Согласования */
+  isTabVisible: boolean;
 }
 
 /** Значения полей формы ЛПУ */

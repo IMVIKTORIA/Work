@@ -1,3 +1,6 @@
+/**
+ * TODO: убрать лишнюю логику
+ */
 import { InputDataCategory, InputDataString } from "../types";
 
 /** Заглушка ожидания ответа сервера */
@@ -241,6 +244,7 @@ const getAmendments = async (page) => {
 };
 
 /** Получение полных данных плана по идентификатору */
+// TODO: Переименовать типизировать
 async function getAmendmentFulldata(id) {
   const mockData = {
     /** Идентификатор */
@@ -263,6 +267,15 @@ async function getAmendmentFulldata(id) {
   return mockData;
 }
 
+type SetVisibilityCallback = (taskId?: string) => void;
+let changeTaskCallback: SetVisibilityCallback | undefined;
+
+/** Установить функцию обратного вызова для изменения id задачи */
+function setChangeTaskCallback(callback?: SetVisibilityCallback): void {
+  changeTaskCallback = callback;
+}
+
+// TODO: Типизировать
 async function getLabel() {
   const labels = [
     { label: "Дата выпуска согласования", children: "10.03.24" },
@@ -290,6 +303,7 @@ async function getLabel() {
   await randomDelay();
   return labels;
 }
+
 export default {
   getForma,
   getLabel,
@@ -299,4 +313,5 @@ export default {
   createPlan,
   getAmendments,
   getAmendmentFulldata,
+  setChangeTaskCallback,
 };
