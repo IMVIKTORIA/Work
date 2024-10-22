@@ -1,46 +1,6 @@
-// /** Тип категория/элемент приложения */
-// export interface ICategory {
-// 	/** Код или идетификатор */
-// 	code: string
-// 	/** Название */
-// 	name: string
-// }
-
 export interface IInputData {
   value: string;
   data?: any;
-}
-
-/** Значения полей формы общие */
-export interface IFormDataGeneral {
-  /** Видимость вкладки Согласования */
-  isTabVisible: IInputData;
-}
-
-/** Значения полей формы */
-export interface IFormData {
-  /** Видимость вкладки Согласования */
-  isTabVisible: boolean;
-}
-
-/** Значения полей формы ЛПУ */
-export interface IFormDataLPU extends IFormDataGeneral {
-  /** Договор */
-  treaty: IInputData;
-  /** Номер */
-  number: IInputData;
-  /** ЛПУ */
-  lpu: IInputData;
-  /** Тип договора */
-  type: IInputData;
-  /** Статус */
-  status: IInputData;
-  /** Дата заключения */
-  conclusionDate: IInputData;
-  /** Дата начала действия */
-  startDate: IInputData;
-  /** Стороны */
-  sides: SideDataExtended[];
 }
 
 /** Данные столбца таблицы */
@@ -102,43 +62,6 @@ export interface CustomInputProps extends React.ComponentProps<"input"> {
   customClassname?: string;
 }
 
-/** Сторона (С сохранением изначального состояния данных) */
-export class SideDataExtended {
-  originalData: SideData;
-  actualData: SideData;
-  isEdit: boolean;
-
-  constructor(isEdit?: boolean) {
-    // this.isEdit = !!isEdit
-    this.originalData = new SideData();
-    this.actualData = new SideData();
-    this.isEdit = !!isEdit;
-  }
-}
-
-/** Сторона */
-export class SideData {
-  type: InputDataCategory;
-  contractor: InputDataString;
-  // isEdit: boolean
-
-  constructor(/* isEdit?: boolean */) {
-    // this.isEdit = !!isEdit
-    this.type = new InputDataCategory();
-    this.contractor = new InputDataString();
-  }
-}
-
-/** Значение поля ввода типа Строка */
-export class InputDataString implements IInputData {
-  value: string;
-  data: null;
-
-  constructor(value?: string) {
-    this.value = value ?? "";
-  }
-}
-
 /** Значение поля ввода типа Категория */
 export class InputDataCategory implements IInputData {
   value: string;
@@ -149,45 +72,6 @@ export class InputDataCategory implements IInputData {
   constructor(value?: string, code?: string) {
     this.value = value ?? "";
     this.data = { code: code ?? "" };
-  }
-}
-
-/** Значения полей формы с уточненными типами полей */
-export class TreatyFormData implements IFormData {
-  treaty: InputDataCategory;
-  objProduct: InputDataCategory;
-  channel: InputDataCategory;
-  currency: InputDataCategory;
-  status: InputDataCategory;
-
-  sides: SideDataExtended[];
-
-  number: IInputData;
-  policyHolder: IInputData;
-  region: IInputData;
-  conclusionDate: IInputData;
-  startDate: IInputData;
-  insuranceAmount: IInputData;
-  insuranceAmountRub: IInputData;
-  insurancePremium: IInputData;
-  insurancePremiumRub: IInputData;
-
-  constructor() {
-    this.treaty = new InputDataCategory();
-    this.objProduct = new InputDataCategory();
-    this.channel = new InputDataCategory();
-    this.currency = new InputDataCategory();
-    this.status = new InputDataCategory();
-
-    this.number = new InputDataString();
-    this.policyHolder = new InputDataString();
-    this.region = new InputDataCategory();
-    this.conclusionDate = new InputDataString();
-    this.startDate = new InputDataString();
-    this.insuranceAmount = new InputDataString();
-    this.insuranceAmountRub = new InputDataString();
-    this.insurancePremium = new InputDataString();
-    this.insurancePremiumRub = new InputDataString();
   }
 }
 
@@ -202,27 +86,14 @@ export class SortData {
   }
 }
 
-export interface TabProps {
-  handler: any;
-  values: IFormData;
-  isViewMode: boolean;
-  saveStateHandler: () => void;
-  setActionHandlers: {
-    setAddHandler: React.Dispatch<
-      React.SetStateAction<(() => void) | undefined>
-    >;
-    setEditHandler: React.Dispatch<
-      React.SetStateAction<(() => void) | undefined>
-    >;
-    setDeleteHandler: React.Dispatch<
-      React.SetStateAction<(() => void) | undefined>
-    >;
-  };
-}
-
 export interface DetailsProps {
   data: any;
   values: any;
+}
+
+export interface AdditionalInfo {
+  value: string;
+  info: string;
 }
 
 /** Атрибуты функции получения разметки деталей строки динамического списка */
@@ -236,22 +107,29 @@ export interface getDetailsLayoutAttributes {
 }
 
 /** Детальные данные Гарантийного письма */
-export class InsuranceLetterDetailsData {
+export class ApprovalData {
+  id: string;
   numberGP: InputDataCategory;
   services: InputDataCategory;
-  conclusionDate: InputDataCategory;
+  term: InputDataCategory;
   status: InputDataCategory;
   forma: InputDataCategory;
-  startDate: InputDataCategory;
+  cancelkDate: InputDataCategory;
 
   constructor() {
     this.numberGP = new InputDataCategory();
     this.services = new InputDataCategory();
-    this.conclusionDate = new InputDataCategory();
+    this.term = new InputDataCategory();
     this.status = new InputDataCategory();
     this.forma = new InputDataCategory();
-    this.startDate = new InputDataCategory();
+    this.cancelkDate = new InputDataCategory();
   }
+}
+
+/** интерфейс для возвращаемого значения функции */
+export interface GetApprovalsResponse {
+  data: ApprovalData[];
+  hasMore: boolean;
 }
 
 /** Форма согласования */
