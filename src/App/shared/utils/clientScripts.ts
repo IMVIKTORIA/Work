@@ -96,7 +96,9 @@ function setChangeTaskCallback(callback?: SetVisibilityCallback): void {
 }
 
 /** Получение дополнительной информации */
-async function getAdditionalInfo(): Promise<AdditionalInfo[]> {
+async function getAdditionalInfo(
+  approvalId: string
+): Promise<AdditionalInfo[]> {
   const labels: AdditionalInfo[] = [
     { value: "Дата выпуска согласования", info: "10.03.24" },
     { value: "Дата начала действия согласования", info: "03.10.2024" },

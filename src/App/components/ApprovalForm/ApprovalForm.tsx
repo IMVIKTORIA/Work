@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
-import { ApprovalFormType, Forma, ApprovalData } from "../../shared/types";
+import {
+  ApprovalFormType,
+  Forma,
+  ApprovalData,
+  InputDataCategory,
+} from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import ApprovalsList from "../ApprovalsList/ApprovalsList";
 
@@ -9,16 +14,18 @@ export default function ApprovalForm() {
   const [isViewMode, setIsViewMode] = useState<boolean>(true);
 
   // Идентификатор текущей задачи
-  const [taskId, setTaskId] = useState<string>(/* "test" */);
+  const [taskId, setTaskId] = useState<string>(/**"test"*/);
   // Данные выбранного гарантийного письма
-  const [selectedForma, setSelectedForma] = useState<Forma | null>(null);
+  const [selectedForma, setSelectedForma] = useState<InputDataCategory | null>(
+    null
+  );
   const [isButtonVisible, setIsButtonVisible] = useState(true);
   const [approvalList, setApprovalList] = useState<Forma[]>([]);
   const [approvalsData, setApprovalsData] = useState<ApprovalData[]>([]); // Для хранения списка ГП
 
   const handleRowClick = (forma) => {
     setSelectedForma(forma);
-    if (forma.value) {
+    if (forma.data.code) {
       setIsButtonVisible(true); // Показываем кнопку
     } else {
       setIsButtonVisible(false); // Скрываем кнопку
@@ -69,25 +76,28 @@ export default function ApprovalForm() {
       <div className="approval-form">
         <ApprovalsList
           taskId={taskId}
-          handler={() => { }}
+          handler={() => {}}
           isViewMode={isViewMode}
           saveStateHandler={saveState}
           setSelectedForma={setSelectedForma}
           onRowClick={handleRowClick}
         />
         <div className="approval-form__buttons">
-          {selectedForma && selectedForma.value === ApprovalFormType.verbal && (
-            <Button clickHandler={""} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
-          )}
-          {selectedForma && selectedForma.value === ApprovalFormType.email && (
-            <Button clickHandler={""} title="СФОРМИРОВАТЬ ПИСЬМО" />
-          )}
-          {selectedForma && selectedForma.value === ApprovalFormType.paper && (
-            <>
-              <Button clickHandler={""} title="СФОРМИРОВАТЬ ГП В WORD" />
-              <Button clickHandler={""} title="СФОРМИРОВАТЬ ГП В PDF" />
-            </>
-          )}
+          {selectedForma &&
+            selectedForma.data.code === ApprovalFormType.verbal && (
+              <Button clickHandler={""} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
+            )}
+          {selectedForma &&
+            selectedForma.data.code === ApprovalFormType.email && (
+              <Button clickHandler={""} title="СФОРМИРОВАТЬ ПИСЬМО" />
+            )}
+          {selectedForma &&
+            selectedForma.data.code === ApprovalFormType.paper && (
+              <>
+                <Button clickHandler={""} title="СФОРМИРОВАТЬ ГП В WORD" />
+                <Button clickHandler={""} title="СФОРМИРОВАТЬ ГП В PDF" />
+              </>
+            )}
           <Button
             clickHandler={handleCloseTreaty}
             buttonType="outline"

@@ -54,7 +54,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
 
   useEffect(() => {
     const fetchLabels = async () => {
-      const fetchedLabels = await Scripts.getAdditionalInfo();
+      const fetchedLabels = await Scripts.getAdditionalInfo(data.id);
       const labelsObject = fetchedLabels.reduce((acc, item) => {
         acc[item.value] = item.info;
         return acc;
@@ -83,7 +83,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
     }
   };
 
-  const handleFormaChange = (name: string, value: any) => {
+  const handleFormaChange = (name: string, value: InputDataCategory) => {
     setValue(name, value);
     setSelectedForma(value); // Сохраняем выбранное значение
   };
