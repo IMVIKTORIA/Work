@@ -1,9 +1,9 @@
 import React from 'react'
-import TreatyForm from './components/TreatyForm/TreatyForm'
+import ApprovalForm from './components/ApprovalForm/ApprovalForm'
 
 export default function App() {
 
 	return (
-		<TreatyForm />
+		<ApprovalForm />
 	)
 }

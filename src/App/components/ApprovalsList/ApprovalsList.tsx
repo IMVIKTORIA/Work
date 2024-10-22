@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import {
-	AmendmentDetailsData,
+	InsuranceLetterDetailsData,
 	ListColumnData,
 	TabProps,
 	getDetailsLayoutAttributes,
@@ -9,17 +9,28 @@ import {
 import CustomList from '../CustomList/CustomList'
 import Scripts from '../../shared/utils/clientScripts'
 import { useMapState } from '../../shared/utils/utils'
-import AmendmentDetails from './AmendmentDetails/AmendmentDetails'
+import ApprovalDetails from './ApprovalDetails/ApprovalDetails'
 
-/** Вкладка ДС */
-function AmendmentTab({
+/** Пропсы списка согласований */
+type ApprovalsListProps = {
+	/** id задачи */
+	taskId: string
+	handler: any
+	isViewMode: any
+	saveStateHandler: any
+	setSelectedForma: any
+	onRowClick: any
+}
+
+/** Список согласований */
+function ApprovalsList({
+	taskId,
 	handler,
-	values,
 	isViewMode,
 	saveStateHandler,
 	setSelectedForma,
 	onRowClick,
-}) {
+}: ApprovalsListProps) {
 	/** Колонки списка */
 	const columns = [
 		new ListColumnData({ name: 'Номер ГП', code: 'numberGP', fr: 1, isSortable: true }),
@@ -42,7 +53,7 @@ function AmendmentTab({
 
 	// Данные формы деталей ДС
 	const [amendmentValues, setAmendmentValue, setAmendmentValues] =
-		useMapState<AmendmentDetailsData>(new AmendmentDetailsData())
+		useMapState<InsuranceLetterDetailsData>(new InsuranceLetterDetailsData())
 
 	/** Получение формы детальной информации по строке списка ДС */
 	const getAmendmentDetailsLayout = ({
@@ -51,7 +62,7 @@ function AmendmentTab({
 		onClickRowHandler,
 	}: getDetailsLayoutAttributes) => {
 		return (
-			<AmendmentDetails
+			<ApprovalDetails
 				reloadData={reloadData}
 				columnsSettings={columns}
 				data={rowData}
@@ -70,11 +81,11 @@ function AmendmentTab({
 			<CustomList
 				getDetailsLayout={getAmendmentDetailsLayout}
 				columnsSettings={columns}
-				getDataHandler={Scripts.getAmendments}
+				getDataHandler={() => Scripts.getAmendments(taskId)}
 				isScrollable={false}
 			/>
 		</div>
 	)
 }
 
-export default AmendmentTab
+export default ApprovalsList
