@@ -64,7 +64,7 @@ function ApprovalsList({
     }),
     new ListColumnData({
       name: "Дата отзыва",
-      code: "cancelkDate",
+      code: "cancelDate",
       fr: 1,
       isSortable: true,
     }),
