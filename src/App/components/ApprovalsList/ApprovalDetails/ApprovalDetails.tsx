@@ -21,7 +21,7 @@ interface ApprovalRowData {
   term: InputDataCategory;
   status: InputDataCategory;
   forma: InputDataCategory;
-  cancelkDate: InputDataCategory;
+  cancelDate: InputDataCategory;
 }
 
 class ApprovalDetailsProps implements DetailsProps {
@@ -140,7 +140,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
             </div>
             <div className="amendment-details__actions-column">
               <CustomText
-                name="cancelkDate"
+                name="cancelDate"
                 inputHandler={setValue}
                 values={values}
               />

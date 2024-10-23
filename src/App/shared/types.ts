@@ -114,7 +114,7 @@ export class ApprovalData {
   term: InputDataCategory;
   status: InputDataCategory;
   forma: InputDataCategory;
-  cancelkDate: InputDataCategory;
+  cancelDate: InputDataCategory;
 
   constructor() {
     this.numberGP = new InputDataCategory();
@@ -122,7 +122,7 @@ export class ApprovalData {
     this.term = new InputDataCategory();
     this.status = new InputDataCategory();
     this.forma = new InputDataCategory();
-    this.cancelkDate = new InputDataCategory();
+    this.cancelDate = new InputDataCategory();
   }
 }
 
@@ -139,7 +139,7 @@ export type Forma = {
 
 /** Формы согласования */
 export enum ApprovalFormType {
-  verbal = "Устное",
-  email = "Email",
-  paper = "ГП на бланке",
+  verbal = "verbal",
+  email = "email",
+  paper = "gp",
 }

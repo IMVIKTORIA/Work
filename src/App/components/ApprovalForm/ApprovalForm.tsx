@@ -23,13 +23,9 @@ export default function ApprovalForm() {
   const [approvalList, setApprovalList] = useState<Forma[]>([]);
   const [approvalsData, setApprovalsData] = useState<ApprovalData[]>([]); // Для хранения списка ГП
 
-  const handleRowClick = (forma) => {
+  const handleRowClick = (forma: InputDataCategory) => {
     setSelectedForma(forma);
-    if (forma.data.code) {
-      setIsButtonVisible(true); // Показываем кнопку
-    } else {
-      setIsButtonVisible(false); // Скрываем кнопку
-    }
+    setIsButtonVisible(!!forma.data.code); // Показываем или скрываем кнопку
   };
 
   // Запись callback изменения задачи

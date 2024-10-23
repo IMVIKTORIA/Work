@@ -16,12 +16,9 @@ function randomDelay() {
 /** Получение списка форм */
 async function getForma(): Promise<InputDataCategory[]> {
   const data: InputDataCategory[] = [
-    new InputDataCategory("Устное", "018e7fa6-010e-712b-aecd-d07441142e97"),
-    new InputDataCategory("Email", "018e7fa6-46b6-7345-927e-d07cb06e3107"),
-    new InputDataCategory(
-      "ГП на бланке",
-      "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3"
-    ),
+    new InputDataCategory("Устное", "verbal"),
+    new InputDataCategory("Email", "email"),
+    new InputDataCategory("ГП на бланке", "gp"),
   ];
 
   await randomDelay();
@@ -47,7 +44,7 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
     /** Форма */
     forma: new InputDataCategory("Устное", "forma_code"),
     /** Дата отзыва */
-    cancelkDate: new InputDataCategory("10.05.2024"),
+    cancelDate: new InputDataCategory("10.05.2024"),
   };
 
   await randomDelay();
@@ -62,10 +59,10 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
 }
 
 /** Получение полных Согласований */
-async function getApprovalFulldata(taskId: string): Promise<ApprovalData> {
+async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
   const mockData: ApprovalData = {
     /** Идентификатор */
-    id: taskId,
+    id: approvalId,
     /** Номер ГП */
     numberGP: new InputDataCategory("TS000025/24", "number_id"),
     /** Согласованные услуги */
@@ -78,9 +75,9 @@ async function getApprovalFulldata(taskId: string): Promise<ApprovalData> {
     /**Статус */
     status: new InputDataCategory("Оформление", "status_code"),
     /** Форма */
-    forma: new InputDataCategory(" ", "forma_code"),
+    forma: new InputDataCategory("Устное ", "forma_code"),
     /** Дата отзыва */
-    cancelkDate: new InputDataCategory("10.05.2024"),
+    cancelDate: new InputDataCategory("10.05.2024"),
   };
 
   await randomDelay();
