@@ -75,7 +75,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /**Статус */
     status: new InputDataCategory("Оформление", "status_code"),
     /** Форма */
-    forma: new InputDataCategory("Устное ", "forma_code"),
+    forma: new InputDataCategory("Устное ", "verbal"),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
   };

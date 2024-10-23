@@ -72,6 +72,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
       setIsLoading(false);
       // Присвоить полные данные в состояние
       setValues(fullData as any);
+      setSelectedForma(fullData.forma);
     });
   }, []);
 
