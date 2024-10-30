@@ -126,6 +126,15 @@ export class ApprovalData {
   }
 }
 
+/** Данные проекта письма */
+export class EmailPreviewData {
+  text: string;
+
+  constructor() {
+    this.text = "";
+  }
+}
+
 /** интерфейс для возвращаемого значения функции */
 export interface GetApprovalsResponse {
   data: ApprovalData[];
@@ -142,4 +151,8 @@ export enum ApprovalFormType {
   verbal = "verbal",
   email = "email",
   paper = "gp",
+}
+
+export enum ButtonType {
+  outline = "outline",
 }

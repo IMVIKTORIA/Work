@@ -43,11 +43,11 @@ function CustomListRow(props: ListRowProps) {
 	/** Получение значения класса строки */
 	const getRowClassname = (): string => {
 		// Показана детальная информация
-		if ((getDetailsLayout && isShowDetails) || isOpen) return 'custom-list-row amendment-details'
+		if ((getDetailsLayout && isShowDetails) || isOpen) return 'custom-list-row-approval amendment-details'
 		// Скрыта детальная информация, можно развернуть
-		if (getDetailsLayout || isClickable) return 'custom-list-row custom-list-row_openable'
+		if (getDetailsLayout || isClickable) return 'custom-list-row-approval custom-list-row-approval_openable'
 		// Нельзя развернуть детальную информацию
-		return 'custom-list-row'
+		return 'custom-list-row-approval'
 	}
 
 	return (

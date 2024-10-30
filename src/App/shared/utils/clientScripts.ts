@@ -3,6 +3,7 @@ import {
   ApprovalData,
   GetApprovalsResponse,
   AdditionalInfo,
+  EmailPreviewData,
 } from "../types";
 
 /** Заглушка ожидания ответа сервера */
@@ -75,7 +76,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /**Статус */
     status: new InputDataCategory("Оформление", "status_code"),
     /** Форма */
-    forma: new InputDataCategory("Устное ", "forma_code"),
+    forma: new InputDataCategory("email ", "verbal"),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
   };
@@ -123,10 +124,51 @@ async function getAdditionalInfo(
   return labels;
 }
 
+/** Продолжить согласование */
+async function handleContinueApproval(approvalId: string): Promise<void> {
+  // Сменить статус
+}
+
+/** Аннулировать согласование */
+async function handleCloseApproval(approvalId: string): Promise<void> {
+  // Сменить статус
+}
+
+/** Ожидание */
+function sleep(ms: number) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+/** Генерация текста для email */
+async function generateEmailText(): Promise<string> {
+  // TODO
+  await sleep(1000);
+
+  return `Добрый день! 
+
+Согласованы услуги: подтягиваем инфо из Задачи, поле Согласованные слуги
+Не согласованы услуги: подтягиваем инфо из Задачи, поле Несогласованные слуги (выводим только если поле заполнено, в противном случае не выводим всю строку)
+
+Согласовал: подтягиваем инфо из задачи, поле Услуги согласовал`;
+}
+
+/** Получение проекта письма */
+async function getEmailPreview(approvalId: string): Promise<EmailPreviewData> {
+  // TODO
+  const text = await generateEmailText();
+
+  return {
+    text: text,
+  };
+}
+
 export default {
   getForma,
   getAdditionalInfo,
   getApprovals,
   getApprovalFulldata,
   setChangeTaskCallback,
+  handleContinueApproval,
+  handleCloseApproval,
+  generateEmailText,
+  getEmailPreview,
 };

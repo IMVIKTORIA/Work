@@ -14,7 +14,7 @@ export default function ApprovalForm() {
   const [isViewMode, setIsViewMode] = useState<boolean>(true);
 
   // Идентификатор текущей задачи
-  const [taskId, setTaskId] = useState<string>(/**"test"*/);
+  const [taskId, setTaskId] = useState<string>(/* "test" */);
   // Данные выбранного гарантийного письма
   const [selectedForma, setSelectedForma] = useState<InputDataCategory | null>(
     null
@@ -23,9 +23,13 @@ export default function ApprovalForm() {
   const [approvalList, setApprovalList] = useState<Forma[]>([]);
   const [approvalsData, setApprovalsData] = useState<ApprovalData[]>([]); // Для хранения списка ГП
 
-  const handleRowClick = (forma: InputDataCategory) => {
+  const handleRowClick = (forma?: InputDataCategory) => {
+    if (!forma) {
+      setSelectedForma(null);
+      return;
+    }
+
     setSelectedForma(forma);
-    setIsButtonVisible(!!forma.data.code); // Показываем или скрываем кнопку
   };
 
   // Запись callback изменения задачи
@@ -72,26 +76,25 @@ export default function ApprovalForm() {
       <div className="approval-form">
         <ApprovalsList
           taskId={taskId}
-          handler={() => {}}
+          handler={() => { }}
           isViewMode={isViewMode}
           saveStateHandler={saveState}
           setSelectedForma={setSelectedForma}
           onRowClick={handleRowClick}
         />
-        <div className="approval-form__buttons">
+        {/* <div className="approval-form__buttons">
           {selectedForma &&
             selectedForma.data.code === ApprovalFormType.verbal && (
-              <Button clickHandler={""} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
+              <Button clickHandler={onClickComplete} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
             )}
           {selectedForma &&
             selectedForma.data.code === ApprovalFormType.email && (
-              <Button clickHandler={""} title="СФОРМИРОВАТЬ ПИСЬМО" />
+              <Button clickHandler={onClickEmail} title="СФОРМИРОВАТЬ ПИСЬМО" />
             )}
           {selectedForma &&
             selectedForma.data.code === ApprovalFormType.paper && (
               <>
-                <Button clickHandler={""} title="СФОРМИРОВАТЬ ГП В WORD" />
-                <Button clickHandler={""} title="СФОРМИРОВАТЬ ГП В PDF" />
+                <Button clickHandler={onClickPaper} title="СФОРМИРОВАТЬ ГП В БЛАНКЕ" />
               </>
             )}
           <Button
@@ -99,7 +102,7 @@ export default function ApprovalForm() {
             buttonType="outline"
             title="АННУЛИРОВАТЬ"
           />
-        </div>
+        </div> */}
       </div>
     )
   );

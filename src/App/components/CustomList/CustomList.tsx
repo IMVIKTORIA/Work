@@ -142,12 +142,11 @@ function CustomList(props: ListProps) {
   };
 
   return (
-    <div className="custom-list">
+    <div className="custom-list-approval">
       {/* Заголовок */}
       <div
-        className={`custom-list__header${
-          isScrollable ? " custom-list__header_scrollable" : ""
-        }`}
+        className={`custom-list-approval__header${isScrollable ? " custom-list-approval__header_scrollable" : ""
+          }`}
       >
         {columnsSettings.map((columnSettings) => (
           <CustomListColumn
@@ -159,9 +158,8 @@ function CustomList(props: ListProps) {
       </div>
       {/* Тело */}
       <div
-        className={`custom-list__body${
-          isScrollable ? " custom-list__body_scrollable" : ""
-        }`}
+        className={`custom-list-approval__body${isScrollable ? " custom-list-approval__body_scrollable" : ""
+          }`}
         ref={bodyRef}
         onScroll={onScroll}
       >
@@ -170,7 +168,7 @@ function CustomList(props: ListProps) {
           getCreateLayout &&
           getCreateLayout({
             reloadData: reloadData,
-            onClickRowHandler: () => {},
+            onClickRowHandler: () => { },
           })}
         {/* Данные */}
         {items.map((data) => {

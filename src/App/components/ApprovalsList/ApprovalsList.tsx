@@ -9,6 +9,7 @@ import CustomList from "../CustomList/CustomList";
 import Scripts from "../../shared/utils/clientScripts";
 import { useMapState } from "../../shared/utils/utils";
 import ApprovalDetails from "./ApprovalDetails/ApprovalDetails";
+import Button from "../Button/Button";
 
 /** Пропсы списка согласований */
 type ApprovalsListProps = {
