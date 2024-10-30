@@ -1,7 +1,10 @@
-/**
- * TODO: убрать лишнюю логику
- */
-import { InputDataCategory, InputDataString } from "../types";
+import {
+  InputDataCategory,
+  ApprovalData,
+  GetApprovalsResponse,
+  AdditionalInfo,
+  EmailPreviewData,
+} from "../types";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -12,258 +15,70 @@ function randomDelay() {
 }
 
 /** Получение списка форм */
-// TODO: Типизировать
-async function getForma() {
-  const data = [
-    {
-      value: "Устное",
-      data: {
-        code: "018e7fa6-010e-712b-aecd-d07441142e97",
-      },
-    },
-    {
-      value: "Email",
-      data: {
-        code: "018e7fa6-46b6-7345-927e-d07cb06e3107",
-      },
-    },
-    {
-      value: "ГП на бланке",
-      data: {
-        code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
-      },
-    },
+async function getForma(): Promise<InputDataCategory[]> {
+  const data: InputDataCategory[] = [
+    new InputDataCategory("Устное", "verbal"),
+    new InputDataCategory("Email", "email"),
+    new InputDataCategory("ГП на бланке", "gp"),
   ];
 
   await randomDelay();
   return data;
 }
 
-// /** Получение списка статусов */
-// async function saveTreaty(data) {
-//   await randomDelay();
-//   console.log(data);
-// }
-
-// /** Получение списка статусов */
-// async function getTreaty() {
-//   const data = {
-//     treaty: {
-//       value: "test",
-//       data: {
-//         code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
-//       },
-//     },
-//     number: {
-//       value: "test",
-//     },
-//     policyHolder: {
-//       value: "test",
-//       data: {
-//         code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
-//       },
-//     },
-//     objProduct: {
-//       value: "Aenean tellus elit leo consectetur",
-//       data: {
-//         code: "018e7fa6-5a9f-7ee2-a81c-1b7ec10031f3",
-//       },
-//     },
-//     channel: {
-//       value: "channelTest",
-//       data: {
-//         code: "channelTest",
-//       },
-//     },
-//     region: {
-//       value: "test",
-//     },
-//     currency: {
-//       value: "currencyTest",
-//       data: {
-//         code: "currencyTest",
-//       },
-//     },
-//     status: {
-//       value: "Еще статус",
-//       data: {
-//         code: "eshe_status",
-//       },
-//     },
-//     conclusionDate: {
-//       value: "28.03.2024",
-//     },
-//     startDate: {
-//       value: "28.03.2024",
-//     },
-//     insuranceAmount: {
-//       value: "",
-//     },
-//     insuranceAmountRub: {
-//       value: "",
-//     },
-//     insurancePremium: {
-//       value: "",
-//     },
-//     insurancePremiumRub: {
-//       value: "",
-//     },
-//     sides: [
-//       {
-//         isEdit: false,
-//         originalData: {
-//           type: {
-//             value: "Менеджер договора",
-//             data: {
-//               code: "manager",
-//             },
-//           },
-//           contractor: {
-//             value: "Иванов Иван Иванович",
-//           },
-//         },
-//         actualData: {
-//           type: {
-//             value: "Менеджер договора",
-//             data: {
-//               code: "manager",
-//             },
-//           },
-//           contractor: {
-//             value: "Иванов Иван Иванович",
-//           },
-//         },
-//       },
-//       {
-//         isEdit: false,
-//         originalData: {
-//           type: {
-//             value: "Медицинский куратор",
-//             data: {
-//               code: "medical",
-//             },
-//           },
-//           contractor: {
-//             value: "Петров Петр Петрович",
-//             data: {
-//               code: "42515215",
-//             },
-//           },
-//         },
-//         actualData: {
-//           type: {
-//             value: "Медицинский куратор",
-//             data: {
-//               code: "medical",
-//             },
-//           },
-//           contractor: {
-//             value: "Петров Петр Петрович",
-//             data: {
-//               code: "42515215",
-//             },
-//           },
-//         },
-//       },
-//       {
-//         isEdit: true,
-//         originalData: {
-//           type: {
-//             value: "Технический куратор",
-//             data: {
-//               code: "technical",
-//             },
-//           },
-//           contractor: {
-//             value: "Плюшкин Лев Николаевич",
-//             data: {
-//               code: "4643645654",
-//             },
-//           },
-//         },
-//         actualData: {
-//           type: {
-//             value: "Технический куратор",
-//             data: {
-//               code: "technical",
-//             },
-//           },
-//           contractor: {
-//             value: "Плюшкин Лев Николаевич",
-//             data: {
-//               code: "4643645654",
-//             },
-//           },
-//         },
-//       },
-//     ],
-//   };
-//   await randomDelay();
-//   return data;
-// }
-
-// /** Получение ссылки на форму контрагента */
-// function getContractorPageLink() {
-//   const pageLink = "#test";
-//   return pageLink;
-// }
-
-// /** Создание Плана страхования */
-// async function createPlan(values) {
-//   console.log(values);
-//   await randomDelay();
-// }
-
-/** Получение ДС */
-// TODO: Переименовать типизировать
-// ВАЖНО: Все функции, описываемые в clientScripts должны быть объявлены в синтаксисе Function Declaration
-async function getAmendments(taskId: string) {
-  const mockData = {
+/** Получение Согласований */
+async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
+  const mockData: ApprovalData = {
     /** Идентификатор */
-    id: "1",
-    /** Номер договора */
-    numberGP: new InputDataCategory("TS000025/24", "treaty_id"),
-    /** Доп. соглашение */
-    services: new InputDataCategory("Диагностика обследование", "amendment_id"),
-    /** Дата подписания */
-    conclusionDate: new InputDataCategory("01.01.2024-01.02.2024"),
-    /** Тип ДС */
-    status: new InputDataCategory("Оформление", "type_id"),
+    id: taskId,
+    /** Номер ГП */
+    numberGP: new InputDataCategory("TS000025/24", "number_id"),
+    /** Согласованные услуги */
+    services: new InputDataCategory(
+      "Диагностика обследование",
+      "services_code"
+    ),
+    /** Срок действия */
+    term: new InputDataCategory("01.01.2024-01.02.2024"),
     /** Статус */
-    forma: new InputDataCategory("Устное", "status_code"),
-    /** Дата начала */
-    startDate: new InputDataCategory("10.05.2024"),
+    status: new InputDataCategory("Оформление", "status_code"),
+    /** Форма */
+    forma: new InputDataCategory("Устное", "forma_code"),
+    /** Дата отзыва */
+    cancelDate: new InputDataCategory("10.05.2024"),
   };
 
   await randomDelay();
   return {
     data: Array(5)
-      .fill()
+      .fill(null)
       .map((data, index) => {
-        return { ...mockData, id: index };
+        return { ...mockData, id: `${taskId}-${index}` };
       }),
     hasMore: false,
   };
 }
 
-/** Получение полных данных плана по идентификатору */
-// TODO: Переименовать типизировать
-async function getAmendmentFulldata(id) {
-  const mockData = {
+/** Получение полных Согласований */
+async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
+  const mockData: ApprovalData = {
     /** Идентификатор */
-    id: "1",
-    /** Номер договора */
-    numberGP: new InputDataCategory("TS000025/24", "treaty_id"),
-    /** Доп. соглашение */
-    services: new InputDataCategory("Диагностика обследование", "amendment_id"),
-    /** Дата подписания */
-    conclusionDate: new InputDataCategory("01.01.2024-01.02.2024"),
-    /** Тип ДС */
-    status: new InputDataCategory("Оформление", "type_id"),
-    /** Статус */
-    forma: new InputDataCategory(" ", "status_code"),
-    /** Дата начала */
-    startDate: new InputDataCategory("10.05.2024"),
+    id: approvalId,
+    /** Номер ГП */
+    numberGP: new InputDataCategory("TS000025/24", "number_id"),
+    /** Согласованные услуги */
+    services: new InputDataCategory(
+      "Диагностика обследование",
+      "services_code"
+    ),
+    /** Срок действия */
+    term: new InputDataCategory("01.01.2024-01.02.2024"),
+    /**Статус */
+    status: new InputDataCategory("Оформление", "status_code"),
+    /** Форма */
+    forma: new InputDataCategory("email ", "verbal"),
+    /** Дата отзыва */
+    cancelDate: new InputDataCategory("10.05.2024"),
   };
 
   await randomDelay();
@@ -278,43 +93,82 @@ function setChangeTaskCallback(callback?: SetVisibilityCallback): void {
   changeTaskCallback = callback;
 }
 
-// TODO: Типизировать
-async function getLabel() {
-  const labels = [
-    { label: "Дата выпуска согласования", children: "10.03.24" },
-    { label: "Дата начала действия согласования", children: "03.10.2024" },
-    { label: "Дата окончания действия согласования", children: "01.11.24" },
-    { label: "Номер согласования", children: "TS000025/24" },
-    { label: "Наименование ЛПУ", children: 'ООО "МедКлиникСервис"' },
-    { label: "Наименование ТОУ", children: '"Клиника здоровья"' },
-    { label: "Номер договора с ЛПУ", children: "PHP00000258" },
-    { label: " ФИО застрахованного", children: "Иванов Иван Иванович" },
-    { label: "Дата рождения застрахованного", children: "21.12.1995" },
-    { label: "Номер страхового полиса", children: "VMI000012/5" },
-    { label: "Срок действия полиса", children: "12.12.2023-11.12.2024" },
-    { label: "Страхователь", children: 'ООО "Росавтодор"' },
-    { label: "Номер договора страхования", children: "VMI000012" },
-    { label: "Диагноз", children: "Ишемическая болезнь сердца" },
-    { label: "Код МКБ", children: "l25" },
-    { label: "Согласованные услуги", children: "Диагностика, обследование" },
-    { label: "Адрес вызова", children: "-" },
-    { label: "Контактный телефон", children: "+79005006030" },
-    { label: "Дополнительная информация", children: "-" },
-    { label: "Исполнитель", children: "Юрасов Сергей Олегович" },
+/** Получение дополнительной информации */
+async function getAdditionalInfo(
+  approvalId: string
+): Promise<AdditionalInfo[]> {
+  const labels: AdditionalInfo[] = [
+    { value: "Дата выпуска согласования", info: "10.03.24" },
+    { value: "Дата начала действия согласования", info: "03.10.2024" },
+    { value: "Дата окончания действия согласования", info: "01.11.24" },
+    { value: "Номер согласования", info: "TS000025/24" },
+    { value: "Наименование ЛПУ", info: 'ООО "МедКлиникСервис"' },
+    { value: "Наименование ТОУ", info: '"Клиника здоровья"' },
+    { value: "Номер договора с ЛПУ", info: "PHP00000258" },
+    { value: " ФИО застрахованного", info: "Иванов Иван Иванович" },
+    { value: "Дата рождения застрахованного", info: "21.12.1995" },
+    { value: "Номер страхового полиса", info: "VMI000012/5" },
+    { value: "Срок действия полиса", info: "12.12.2023-11.12.2024" },
+    { value: "Страхователь", info: 'ООО "Росавтодор"' },
+    { value: "Номер договора страхования", info: "VMI000012" },
+    { value: "Диагноз", info: "Ишемическая болезнь сердца" },
+    { value: "Код МКБ", info: "l25" },
+    { value: "Согласованные услуги", info: "Диагностика, обследование" },
+    { value: "Адрес вызова", info: "-" },
+    { value: "Контактный телефон", info: "+79005006030" },
+    { value: "Дополнительная информация", info: "-" },
+    { value: "Исполнитель", info: "Юрасов Сергей Олегович" },
   ];
 
   await randomDelay();
   return labels;
 }
 
+/** Продолжить согласование */
+async function handleContinueApproval(approvalId: string): Promise<void> {
+  // Сменить статус
+}
+
+/** Аннулировать согласование */
+async function handleCloseApproval(approvalId: string): Promise<void> {
+  // Сменить статус
+}
+
+/** Ожидание */
+function sleep(ms: number) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+/** Генерация текста для email */
+async function generateEmailText(): Promise<string> {
+  // TODO
+  await sleep(1000);
+
+  return `Добрый день! 
+
+Согласованы услуги: подтягиваем инфо из Задачи, поле Согласованные слуги
+Не согласованы услуги: подтягиваем инфо из Задачи, поле Несогласованные слуги (выводим только если поле заполнено, в противном случае не выводим всю строку)
+
+Согласовал: подтягиваем инфо из задачи, поле Услуги согласовал`;
+}
+
+/** Получение проекта письма */
+async function getEmailPreview(approvalId: string): Promise<EmailPreviewData> {
+  // TODO
+  const text = await generateEmailText();
+
+  return {
+    text: text,
+  };
+}
+
 export default {
   getForma,
-  getLabel,
-  //   saveTreaty,
-  //   getTreaty,
-  //   getContractorPageLink,
-  //   createPlan,
-  getAmendments,
-  getAmendmentFulldata,
+  getAdditionalInfo,
+  getApprovals,
+  getApprovalFulldata,
   setChangeTaskCallback,
+  handleContinueApproval,
+  handleCloseApproval,
+  generateEmailText,
+  getEmailPreview,
 };

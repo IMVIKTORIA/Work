@@ -1,36 +1,77 @@
 .amendment-details {
-	background-color: #f0f6fa;
-	display: grid;
+  background-color: #f0f6fa;
+  display: grid;
 
-	// grid-template-columns:
-	// 	minmax(0, 2fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 2fr)
-	// 	minmax(0, 2fr);
+  // grid-template-columns:
+  // 	minmax(0, 2fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 2fr)
+  // 	minmax(0, 2fr);
 
-	& > div {
-		padding-right: 24px;
+  & > div {
+    padding-right: 24px;
 
-		&:last-child {
-			padding-right: 0;
-		}
-	}
+    &:last-child {
+      padding-right: 0;
+    }
+  }
 
-	& .custom-input__input,
-	& .custom-input__wrapper {
-		background-color: white;
-	}
+  & .custom-input__input,
+  & .custom-input__wrapper {
+    background-color: white;
+  }
 
-	&__actions-column {
-		display: flex;
-		gap: 12px;
-		align-items: center;
-		justify-content: center;
-	}
+  &__actions-column {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+  }
 
-	&__button-wrapper {
-		width: 52px;
-		height: 52px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+  &__button-wrapper {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.approval-details {
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.0784313725);
+  &__content {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  &_panel {
+    & > .medpult-panel {
+      border: 1px solid #ccc;
+    }
+
+    &__content {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      & > span {
+        color: #000;
+        font-size: 14px;
+        font-style: normal;
+        font-family: Inter;
+        font-weight: 400;
+        line-height: normal;
+
+        white-space: pre-wrap;
+      }
+    }
+  }
+
+  &__buttons {
+    text-align: right;
+    display: flex;
+    gap: 18px;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
 }
