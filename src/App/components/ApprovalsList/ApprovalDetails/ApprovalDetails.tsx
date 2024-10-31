@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   ApprovalData,
   ApprovalFormType,
+  ApprovalRowData,
+  ApprovalStatus,
   ButtonType,
   DetailsProps,
   EmailPreviewData,
@@ -20,17 +22,12 @@ import Button from "../../Button/Button";
 import Panel from "../../Panel/Panel";
 import ModalWrapper from "../../InsuranceLetterModal/ModalWrapper/ModalWrapper";
 import EmailModal from "../../InsuranceLetterModal/EmailModal/EmailModal";
+import PaperModal from "../../InsuranceLetterModal/PaperModal/PaperModal";
 import { copy } from "../../../shared/utils/utils";
-
-interface ApprovalRowData {
-  id: string;
-  numberGP: InputDataCategory;
-  services: InputDataCategory;
-  term: InputDataCategory;
-  status: InputDataCategory;
-  forma: InputDataCategory;
-  cancelDate: InputDataCategory;
-}
+import EmailPreview from "./EmailPreview/EmailPreview";
+import ApprovalButtons from "./ApprovalButtons/ApprovalButtons";
+import ApprovalHeader from "./ApprovalHeader/ApprovalHeader";
+import ApprovalInfo from "./ApprovalInfo/ApprovalInfo";
 
 class ApprovalDetailsProps implements DetailsProps {
   data: ApprovalRowData;
@@ -46,22 +43,21 @@ class ApprovalDetailsProps implements DetailsProps {
 
 /** Детальная форма согласования */
 function ApprovalDetails(props: ApprovalDetailsProps) {
-  const {
-    data,
-    values,
-    setValue,
-    setValues,
-    columnsSettings,
-    onClickRowHandler,
-    setSelectedForma,
-    onRowClick,
-  } = props;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isShowEmailModal, setIsShowEmailModal] = useState<boolean>(false);
+  const { data, values, setValue, setValues, columnsSettings, onClickRowHandler, setSelectedForma, onRowClick } = props
 
+  // Флаг загрузки
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // Флаг видимости модального окна email
+  const [isShowEmailModal, setIsShowEmailModal] = useState<boolean>(false);
+  // Флаг видимости модального окна ГП на бланке
+  const [isShowPaperModal, setIsShowPaperModal] = useState<boolean>(false);
+
+  // Данные
   const [labels, setLabels] = useState({});
+  // Данные макета письма
   const [emailPreviewData, setEmailPreviewData] = useState<EmailPreviewData>();
 
+  // Получить информацию согласования
   const fetchLabels = async () => {
     const fetchedLabels = await Scripts.getAdditionalInfo(data.id);
     const labelsObject = fetchedLabels.reduce((acc, item) => {
@@ -71,11 +67,13 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
     setLabels(labelsObject);
   };
 
+  // Получить данные макета письма
   const fetchEmailPreview = async () => {
     const previewData = await Scripts.getEmailPreview(data.id);
     setEmailPreviewData(previewData);
   };
 
+  // Перезагрузить данные формы
   const reloadFulldata = () => {
     setIsLoading(true);
     // Получить полные данные по data.id
@@ -90,170 +88,34 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
     fetchEmailPreview();
   }
 
+  // Изначальная загрузка данных
   useEffect(() => {
     reloadFulldata()
   }, []);
 
-  const onClickCancel = (event: React.MouseEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLElement;
-    if (!target.closest(".custom-select") && !target.closest(".input-button")) {
-      onClickRowHandler();
-      onRowClick();
-    }
-  };
-
-  const handleFormaChange = (name: string, value: InputDataCategory) => {
-    setValue(name, value);
-    setSelectedForma(value); // Сохраняем выбранное значение
-  };
-
-  /** Продолжить согласование */
-  const onClickContinue = async () => {
-    await Scripts.handleContinueApproval(data.id);
-  }
-
-  /** Завершить согласование */
-  const onClickComplete = async () => {
-    await Scripts.handleContinueApproval(data.id);
-  }
-
-  /** Сформировать ГП на бланке */
-  const onClickPaper = async () => {
-    await Scripts.handleContinueApproval(data.id);
-  }
-
-  /** Аннулировать согласование */
-  const onClickClose = async () => {
-    await Scripts.handleCloseApproval(data.id);
-  }
-
-  /** Сформировать письмо */
-  const onClickEmail = async () => {
-    // Появляется модальное окно для просмотра сформированного текста письма
-    setIsShowEmailModal(true)
-  }
-
   // Подтвердить и сохранить письмо
-  const handleSaveEmailTextClick = (text: string) => {
+  const handleSaveClick = (text: string) => {
     setIsShowEmailModal(false)
+    setIsShowPaperModal(false)
     reloadFulldata()
   }
 
   // Отмена создания письма
-  const handleCancelEmailTextClick = () => {
+  const handleCancelClick = () => {
     setIsShowEmailModal(false)
+    setIsShowPaperModal(false)
   }
-
-  // Кнопки
-  const detailsButtons = (
-    <div className="approval-details__buttons" >
-      {
-        values.forma &&
-        values.forma.data.code === ApprovalFormType.verbal && (
-          <Button clickHandler={onClickComplete} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
-        )
-      }
-      {
-        values.forma &&
-        values.forma.data.code === ApprovalFormType.email && (
-          <Button clickHandler={onClickEmail} title="СФОРМИРОВАТЬ ПИСЬМО" />
-        )
-      }
-      {
-        values.forma &&
-        values.forma.data.code === ApprovalFormType.paper && (
-          <>
-            <Button clickHandler={onClickPaper} title="СФОРМИРОВАТЬ ГП В БЛАНКЕ" />
-          </>
-        )
-      }
-      {/* <Button clickHandler={onClickContinue} title="ПРОДОЛЖИТЬ СОГЛАСОВАНИЕ" /> */}
-      <Button
-        clickHandler={onClickClose}
-        buttonType="outline"
-        title="АННУЛИРОВАТЬ"
-      />
-    </div >)
-
-  // Шапка
-  const header = (
-    <div
-      className="custom-list-row-approval custom-list-row-approval_openable amendment-details"
-      style={{
-        gridTemplateColumns: columnsSettings
-          .map((setting) => `minmax(0,${setting.fr}fr)`)
-          .join(" "),
-      }}
-      onClick={onClickCancel}
-    >
-      <div>
-        <CustomText
-          name="numberGP"
-          inputHandler={setValue}
-          values={values}
-        />
-      </div>
-      <div>
-        <CustomText
-          name="services"
-          inputHandler={setValue}
-          values={values}
-        />
-      </div>
-      <div>
-        <CustomText name="term" inputHandler={setValue} values={values} />
-      </div>
-      <div>
-        <CustomText
-          name="status"
-          inputHandler={setValue}
-          values={values}
-        />
-      </div>
-      <div>
-        <CustomSelect
-          isViewMode={false}
-          name="forma"
-          inputHandler={handleFormaChange}
-          values={values}
-          getDataHandler={Scripts.getForma}
-        />
-      </div>
-      <div className="amendment-details__actions-column">
-        <CustomText
-          name="cancelDate"
-          inputHandler={setValue}
-          values={values}
-        />
-        <div className="amendment-details__button-wrapper">
-          <InputButton svg={icons.Fail} clickHandler={""} />
-        </div>
-      </div>
-    </div>
-  )
-
-  // Скопировать текст письма
-  const onClickCopy = () => {
-    if (emailPreviewData?.text) copy(emailPreviewData.text)
-  }
-  // Проект письма
-  const email = (
-    <div className="approval-details_panel">
-      <Panel label="Проект письма" isOpen={false}>
-        <div className="approval-details_panel__content">
-          <span>{emailPreviewData?.text}</span>
-          <div>
-            <Button title={"Скопировать"} clickHandler={onClickCopy} buttonType={ButtonType.outline}></Button></div>
-        </div>
-      </Panel>
-    </div>
-  )
 
   return (
     <>
       {isShowEmailModal &&
         <ModalWrapper>
-          <EmailModal handleSaveClick={handleSaveEmailTextClick} handleCancelClick={handleCancelEmailTextClick} />
+          <EmailModal handleSaveClick={handleSaveClick} handleCancelClick={handleCancelClick} />
+        </ModalWrapper>
+      }
+      {isShowPaperModal &&
+        <ModalWrapper>
+          <PaperModal approvalId={data.id} handleSaveClick={handleSaveClick} handleCancelClick={handleCancelClick} />
         </ModalWrapper>
       }
       {isLoading ? (
@@ -263,18 +125,14 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
       ) : (
         <div className="approval-details">
           {/* Шапка */}
-          {header}
+          <ApprovalHeader {...props} />
           <div className="approval-details__content">
             {/* Информация */}
-            <div className="approval-details_panel">
-              <Panel label="Информация" isOpen={true}>
-                <LabledField data={labels} />
-              </Panel>
-            </div>
+            <ApprovalInfo labels={labels} />
             {/* Проект письма */}
-            {emailPreviewData && values.forma && values.forma.data.code === ApprovalFormType.email && email}
+            {values.forma && values.forma.data.code === ApprovalFormType.email && emailPreviewData && <EmailPreview emailPreviewData={emailPreviewData} />}
             {/* Кнопки */}
-            {detailsButtons}
+            <ApprovalButtons setIsShowEmailModal={setIsShowEmailModal} setIsShowPaperModal={setIsShowPaperModal} {...props} />
           </div>
         </div>
       )}

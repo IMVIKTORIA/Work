@@ -1,10 +1,5 @@
-import {
-  InputDataCategory,
-  ApprovalData,
-  GetApprovalsResponse,
-  AdditionalInfo,
-  EmailPreviewData,
-} from "../types";
+import ApprovalForm from "../../components/ApprovalForm/ApprovalForm";
+import { InputDataCategory, ApprovalData, GetApprovalsResponse, AdditionalInfo, EmailPreviewData, ApprovalStatus, ApprovalFormType } from "../types";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -34,10 +29,7 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
     /** Номер ГП */
     numberGP: new InputDataCategory("TS000025/24", "number_id"),
     /** Согласованные услуги */
-    services: new InputDataCategory(
-      "Диагностика обследование",
-      "services_code"
-    ),
+    services: new InputDataCategory("Диагностика обследование", "services_code"),
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /** Статус */
@@ -67,16 +59,13 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Номер ГП */
     numberGP: new InputDataCategory("TS000025/24", "number_id"),
     /** Согласованные услуги */
-    services: new InputDataCategory(
-      "Диагностика обследование",
-      "services_code"
-    ),
+    services: new InputDataCategory("Диагностика обследование", "services_code"),
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /**Статус */
-    status: new InputDataCategory("Оформление", "status_code"),
+    status: new InputDataCategory("Оформление", ApprovalStatus.processing),
     /** Форма */
-    forma: new InputDataCategory("email ", "verbal"),
+    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.paper),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
   };
@@ -94,9 +83,7 @@ function setChangeTaskCallback(callback?: SetVisibilityCallback): void {
 }
 
 /** Получение дополнительной информации */
-async function getAdditionalInfo(
-  approvalId: string
-): Promise<AdditionalInfo[]> {
+async function getAdditionalInfo(approvalId: string): Promise<AdditionalInfo[]> {
   const labels: AdditionalInfo[] = [
     { value: "Дата выпуска согласования", info: "10.03.24" },
     { value: "Дата начала действия согласования", info: "03.10.2024" },
@@ -150,6 +137,13 @@ async function generateEmailText(): Promise<string> {
 
 Согласовал: подтягиваем инфо из задачи, поле Услуги согласовал`;
 }
+/** Генерация файла для гп на бланке */
+async function generateEmailFile(approvalId: string): Promise<string> {
+  // TODO
+  await sleep(1000);
+
+  return `test`;
+}
 
 /** Получение проекта письма */
 async function getEmailPreview(approvalId: string): Promise<EmailPreviewData> {
@@ -158,7 +152,14 @@ async function getEmailPreview(approvalId: string): Promise<EmailPreviewData> {
 
   return {
     text: text,
+    fileSrc: "",
   };
+}
+
+/**  Удалить файл из гарантийного письма */
+async function removeLetterFile(approvalId: string): Promise<void> {
+  // TODO
+  await sleep(1000);
 }
 
 export default {
@@ -171,4 +172,6 @@ export default {
   handleCloseApproval,
   generateEmailText,
   getEmailPreview,
+  generateEmailFile,
+  removeLetterFile,
 };
