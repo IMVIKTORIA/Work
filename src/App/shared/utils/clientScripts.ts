@@ -1,5 +1,6 @@
 import ApprovalForm from "../../components/ApprovalForm/ApprovalForm";
 import { InputDataCategory, ApprovalData, GetApprovalsResponse, AdditionalInfo, EmailPreviewData, ApprovalStatus, ApprovalFormType } from "../types";
+import { fileSrc } from "./constants";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -142,7 +143,7 @@ async function generateEmailFile(approvalId: string): Promise<string> {
   // TODO
   await sleep(1000);
 
-  return `test`;
+  return fileSrc;
 }
 
 /** Получение проекта письма */

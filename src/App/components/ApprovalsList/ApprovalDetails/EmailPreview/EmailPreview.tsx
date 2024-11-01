@@ -3,6 +3,7 @@ import Panel from "../../../Panel/Panel";
 import Button from "../../../Button/Button";
 import { ButtonType, EmailPreviewData } from "../../../../shared/types";
 import { copy } from "../../../../shared/utils/utils";
+import FileViewer from "../../../InsuranceLetterModal/FileViewer/FileViewer";
 class EmailPreviewProps {
   /** Данные проекта письма */
   emailPreviewData: EmailPreviewData
@@ -18,8 +19,19 @@ function EmailPreview({ emailPreviewData }: EmailPreviewProps) {
 
   return (
     <div className="approval-details_panel">
-      <Panel label="Проект письма" isOpen={false}>
+      <Panel label="Макет письма" isOpen={false}>
         <div className="approval-details_panel__content">
+
+          {/* Файл */}
+          {emailPreviewData?.fileSrc &&
+            <>
+              <div className='approval-details_panel__viewer'>
+                <FileViewer src={emailPreviewData?.fileSrc} isFileLoading={false} />
+              </div>
+
+              <div className='insurance-letter-modal__separator'></div>
+            </>
+          }
           <span>{emailPreviewData?.text}</span>
           <div>
             <Button title={"Скопировать"} clickHandler={onClickCopy} buttonType={ButtonType.outline}></Button></div>

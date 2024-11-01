@@ -130,7 +130,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
             {/* Информация */}
             <ApprovalInfo labels={labels} />
             {/* Проект письма */}
-            {values.forma && values.forma.data.code === ApprovalFormType.email && emailPreviewData && <EmailPreview emailPreviewData={emailPreviewData} />}
+            {values.forma && (values.forma.data.code === ApprovalFormType.email || values.forma.data.code === ApprovalFormType.paper) && emailPreviewData && <EmailPreview emailPreviewData={emailPreviewData} />}
             {/* Кнопки */}
             <ApprovalButtons setIsShowEmailModal={setIsShowEmailModal} setIsShowPaperModal={setIsShowPaperModal} {...props} />
           </div>
