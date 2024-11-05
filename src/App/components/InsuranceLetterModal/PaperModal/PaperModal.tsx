@@ -40,6 +40,7 @@ export default function PaperModal({ handleSaveClick, handleCancelClick, approva
 	}
 
 	const onClickSave = async () => {
+		await Scripts.savePaperApproval(approvalId, text);
 		handleSaveClick(text)
 	}
 

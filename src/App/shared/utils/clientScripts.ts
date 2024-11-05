@@ -163,6 +163,30 @@ async function removeLetterFile(approvalId: string): Promise<void> {
   await sleep(1000);
 }
 
+/**  Сохранить форму ГП на бланке */
+async function savePaperApproval(approvalId: string, text: string): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
+/**  Сохранить форму email */
+async function saveEmailApproval(approvalId: string, text: string): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
+/**  Сохранить форму устное */
+async function saveVerbalApproval(approvalId: string): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
+/**  Открыть модальное окно отправки письма */
+async function sendInsuranceLetter(approvalId: string): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
 export default {
   getForma,
   getAdditionalInfo,
@@ -175,4 +199,8 @@ export default {
   getEmailPreview,
   generateEmailFile,
   removeLetterFile,
+  savePaperApproval,
+  saveEmailApproval,
+  saveVerbalApproval,
+  sendInsuranceLetter,
 };

@@ -2,28 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
   ApprovalData,
   ApprovalFormType,
-  ApprovalRowData,
-  ApprovalStatus,
-  ButtonType,
-  DetailsProps,
-  EmailPreviewData,
-  InputDataCategory,
-  ListColumnData,
+  ApprovalRowData, DetailsProps,
+  EmailPreviewData, ListColumnData
 } from "../../../shared/types";
 import Scripts from "../../../shared/utils/clientScripts";
-import CustomInput from "../../CustomInput/CustomInput";
-import InputButton from "../../InputButton/InputButton";
-import icons from "../../../shared/icons";
-import LabledField from "../../LabledField/LabledField";
-import CustomSelect from "../../CustomSelect/CustomSelect";
-import CustomText from "../../CustomText/CustomText";
 import Loader from "../../Loader/Loader";
-import Button from "../../Button/Button";
-import Panel from "../../Panel/Panel";
 import ModalWrapper from "../../InsuranceLetterModal/ModalWrapper/ModalWrapper";
 import EmailModal from "../../InsuranceLetterModal/EmailModal/EmailModal";
 import PaperModal from "../../InsuranceLetterModal/PaperModal/PaperModal";
-import { copy } from "../../../shared/utils/utils";
 import EmailPreview from "./EmailPreview/EmailPreview";
 import ApprovalButtons from "./ApprovalButtons/ApprovalButtons";
 import ApprovalHeader from "./ApprovalHeader/ApprovalHeader";
@@ -110,7 +96,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
     <>
       {isShowEmailModal &&
         <ModalWrapper>
-          <EmailModal handleSaveClick={handleSaveClick} handleCancelClick={handleCancelClick} />
+          <EmailModal approvalId={data.id} handleSaveClick={handleSaveClick} handleCancelClick={handleCancelClick} />
         </ModalWrapper>
       }
       {isShowPaperModal &&
@@ -132,7 +118,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
             {/* Проект письма */}
             {values.forma && (values.forma.data.code === ApprovalFormType.email || values.forma.data.code === ApprovalFormType.paper) && emailPreviewData && <EmailPreview emailPreviewData={emailPreviewData} />}
             {/* Кнопки */}
-            <ApprovalButtons setIsShowEmailModal={setIsShowEmailModal} setIsShowPaperModal={setIsShowPaperModal} {...props} />
+            <ApprovalButtons setIsShowEmailModal={setIsShowEmailModal} setIsShowPaperModal={setIsShowPaperModal} reloadFulldata={reloadFulldata} {...props} />
           </div>
         </div>
       )}

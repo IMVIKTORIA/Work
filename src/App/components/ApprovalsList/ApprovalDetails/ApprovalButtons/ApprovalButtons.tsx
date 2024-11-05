@@ -10,16 +10,19 @@ interface ApprovalButtonsProps {
   /** Данные строки списка согласований */
   data: ApprovalRowData,
   /** Данные согласования */
-  values: ApprovalData
+  values: ApprovalData,
+  /** Обовление полных данных согласования */
+  reloadFulldata: () => void
 }
 
 /** Проект письма */
-function ApprovalButtons({ setIsShowEmailModal, setIsShowPaperModal, data, values }: ApprovalButtonsProps) {
+function ApprovalButtons({ setIsShowEmailModal, setIsShowPaperModal, data, values, reloadFulldata }: ApprovalButtonsProps) {
 
   /** Завершить согласование */
   const onClickComplete = async () => {
     // Изменить статус
-    // await Scripts.handleContinueApproval(data.id);
+    await Scripts.saveVerbalApproval(data.id);
+    reloadFulldata()
   }
 
   /** Сформировать ГП на бланке */
@@ -42,6 +45,7 @@ function ApprovalButtons({ setIsShowEmailModal, setIsShowPaperModal, data, value
   /** Отправить письмо */
   const onClickSendEmail = async () => {
     // Появляется модальное окно для отправки email
+    await Scripts.sendInsuranceLetter(data.id);
   }
 
   return (
