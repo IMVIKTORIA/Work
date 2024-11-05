@@ -9,10 +9,12 @@ interface EmailModalProps {
 	handleSaveClick: (text: string) => void
 	/** Отмена */
 	handleCancelClick: () => void
+	/** Идентификатор согласования */
+	approvalId: string
 }
 
 /** Модальное окно гарантийного письма (Email) */
-export default function EmailModal({ handleSaveClick, handleCancelClick }: EmailModalProps) {
+export default function EmailModal({ handleSaveClick, handleCancelClick, approvalId }: EmailModalProps) {
 	// Флаг загрузки текста по шаблону
 	const [isTextLoading, setIsTextLoading] = useState<boolean>(false);
 	// Текст
@@ -28,6 +30,7 @@ export default function EmailModal({ handleSaveClick, handleCancelClick }: Email
 	}, [])
 
 	const onClickSave = async () => {
+		await Scripts.savePaperApproval(approvalId, text);
 		handleSaveClick(text)
 	}
 

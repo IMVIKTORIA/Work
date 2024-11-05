@@ -49,6 +49,16 @@
       border: 1px solid #ccc;
     }
 
+    &__viewer {
+      overflow-y: hidden;
+      resize: vertical;
+      height: 600px;
+
+      & > .file-viewer {
+        height: 100%;
+      }
+    }
+
     &__content {
       padding: 18px;
       display: flex;

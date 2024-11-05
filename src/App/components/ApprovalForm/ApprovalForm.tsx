@@ -82,27 +82,6 @@ export default function ApprovalForm() {
           setSelectedForma={setSelectedForma}
           onRowClick={handleRowClick}
         />
-        {/* <div className="approval-form__buttons">
-          {selectedForma &&
-            selectedForma.data.code === ApprovalFormType.verbal && (
-              <Button clickHandler={onClickComplete} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
-            )}
-          {selectedForma &&
-            selectedForma.data.code === ApprovalFormType.email && (
-              <Button clickHandler={onClickEmail} title="СФОРМИРОВАТЬ ПИСЬМО" />
-            )}
-          {selectedForma &&
-            selectedForma.data.code === ApprovalFormType.paper && (
-              <>
-                <Button clickHandler={onClickPaper} title="СФОРМИРОВАТЬ ГП В БЛАНКЕ" />
-              </>
-            )}
-          <Button
-            clickHandler={handleCloseTreaty}
-            buttonType="outline"
-            title="АННУЛИРОВАТЬ"
-          />
-        </div> */}
       </div>
     )
   );

@@ -65,8 +65,21 @@
   }
 
   &__viewer {
-    flex: 1;
+    flex: 1 0 0;
+    height: 0;
     display: flex;
+  }
+
+  &__viewer-text {
+    flex: 0.25 0 0;
+    height: 0;
+    white-space: pre-wrap;
+    overflow-y: auto;
+
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
   }
 
   &__text {

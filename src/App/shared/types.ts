@@ -128,10 +128,14 @@ export class ApprovalData {
 
 /** Данные проекта письма */
 export class EmailPreviewData {
+  /** Текст письма */
   text: string;
+  /** Файл письма */
+  fileSrc: string;
 
   constructor() {
     this.text = "";
+    this.fileSrc = "";
   }
 }
 
@@ -155,4 +159,27 @@ export enum ApprovalFormType {
 
 export enum ButtonType {
   outline = "outline",
+}
+
+/** Статус согласования */
+export enum ApprovalStatus {
+  /** В оформлении */
+  processing = "processing",
+  /** Выпущено */
+  finished = "finished",
+  /** Аннулировано */
+  nullified = "nullified",
+  /** Отозвано */
+  cancelled = "cancelled",
+}
+
+/** Данные строки списка согласования */
+export interface ApprovalRowData {
+  id: string;
+  numberGP: InputDataCategory;
+  services: InputDataCategory;
+  term: InputDataCategory;
+  status: InputDataCategory;
+  forma: InputDataCategory;
+  cancelDate: InputDataCategory;
 }
