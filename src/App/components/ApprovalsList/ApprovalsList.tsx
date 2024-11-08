@@ -103,6 +103,7 @@ function ApprovalsList({
         columnsSettings={columns}
         getDataHandler={() => Scripts.getApprovals(taskId)}
         isScrollable={false}
+        setSearchHandler={Scripts.setReloadApprovalsCallback}
       />
     </div>
   );

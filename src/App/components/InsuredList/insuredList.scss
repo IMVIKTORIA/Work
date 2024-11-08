@@ -1,0 +1,12 @@
+.insured-list {
+	&__actions {
+		display: flex;
+		flex-direction: row;
+		gap: 16px;
+	}
+	&__list {
+		flex: 1500;
+		width: 100%;
+		overflow-x: auto;
+	}
+}

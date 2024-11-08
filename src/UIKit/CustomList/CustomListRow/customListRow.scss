@@ -1,0 +1,24 @@
+#approval-tab-root .custom-list-row-uikit {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+
+  border-bottom: 2px solid var(--medpult-bg-color);
+  height: 52px;
+  align-items: center;
+
+  padding-right: 20px;
+
+  &_openable {
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--medpult-hover-color);
+    }
+  }
+
+  &_open {
+    cursor: pointer;
+    background-color: var(--medpult-bg-color);
+  }
+}

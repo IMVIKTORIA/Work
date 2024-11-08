@@ -1,5 +1,16 @@
+import { FetchData, ItemData } from "../../../UIKit/CustomList/CustomListTypes";
 import ApprovalForm from "../../components/ApprovalForm/ApprovalForm";
-import { InputDataCategory, ApprovalData, GetApprovalsResponse, AdditionalInfo, EmailPreviewData, ApprovalStatus, ApprovalFormType } from "../types";
+import {
+  InputDataCategory,
+  ApprovalData,
+  GetApprovalsResponse,
+  AdditionalInfo,
+  EmailPreviewData,
+  ApprovalStatus,
+  ApprovalFormType,
+  InsuredListData,
+  SortData,
+} from "../types";
 import { fileSrc } from "./constants";
 
 /** Заглушка ожидания ответа сервера */
@@ -187,6 +198,62 @@ async function sendInsuranceLetter(approvalId: string): Promise<void> {
   await sleep(1000);
 }
 
+/** Функция обратного вызова для обновления списка обращений */
+let reloadApprovalsCallback: () => void = () => {};
+/** Обновить списка обращений */
+async function reloadApprovalsList() {
+  reloadApprovalsCallback();
+}
+
+/** Установить функцию обратного вызова для обновления списка обращений */
+function setReloadApprovalsCallback(callback: () => void): void {
+  reloadApprovalsCallback = callback;
+}
+
+/** Получение списка задач */
+async function getInsuredList(page: number, sortData?: SortData): Promise<FetchData<InsuredListData>> {
+  await randomDelay();
+
+  console.log({
+    page,
+    sortData,
+  });
+
+  const mockData: InsuredListData = {
+    fullname: new ItemData({ value: "TS00000001/23", info: "test" }),
+    birthdate: new ItemData({ value: "TS00000001/23", info: "test" }),
+    phone: new ItemData({ value: "TS00000001/23", info: "test" }),
+    email: new ItemData({ value: "TS00000001/23", info: "test" }),
+    policy: new ItemData({ value: "TS00000001/23", info: "test" }),
+    policyStartDate: new ItemData({ value: "TS00000001/23", info: "test" }),
+    policyEndDate: new ItemData({ value: "TS00000001/23", info: "test" }),
+    policyTerm: new ItemData({ value: "TS00000001/23", info: "test" }),
+    policyRegion: new ItemData({ value: "TS00000001/23", info: "test" }),
+    policyProduct: new ItemData({ value: "TS00000001/23", info: "test" }),
+    plan: new ItemData({ value: "TS00000001/23", info: "test" }),
+    moreButton: new ItemData({ value: "Подробнее", info: "test" }),
+  };
+
+  return {
+    items: Array(20)
+      .fill(0)
+      .map((data, index) => {
+        return {
+          id: String(index),
+          data: new InsuredListData(mockData),
+        };
+      }),
+    hasMore: true,
+  };
+}
+
+/** Получение проекта письма */
+async function getApprovalInsuredList(approvalId: string): Promise<string[]> {
+  // TODO
+
+  return ["1", "3"];
+}
+
 export default {
   getForma,
   getAdditionalInfo,
@@ -203,4 +270,8 @@ export default {
   saveEmailApproval,
   saveVerbalApproval,
   sendInsuranceLetter,
+
+  setReloadApprovalsCallback,
+  getInsuredList,
+  getApprovalInsuredList,
 };

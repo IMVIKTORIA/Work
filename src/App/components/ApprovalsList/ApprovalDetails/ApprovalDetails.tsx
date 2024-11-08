@@ -14,6 +14,8 @@ import EmailPreview from "./EmailPreview/EmailPreview";
 import ApprovalButtons from "./ApprovalButtons/ApprovalButtons";
 import ApprovalHeader from "./ApprovalHeader/ApprovalHeader";
 import ApprovalInfo from "./ApprovalInfo/ApprovalInfo";
+import InsuredList from "../../InsuredList/InsuredList";
+import InsuredPanel from "./InsuredPanel/InsuredPanel";
 
 class ApprovalDetailsProps implements DetailsProps {
   data: ApprovalRowData;
@@ -43,6 +45,10 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
   // Данные макета письма
   const [emailPreviewData, setEmailPreviewData] = useState<EmailPreviewData>();
 
+  /** Идентификаторы выбранных контрагентов */
+  const [selectedContractorsIds, setSelectedContractorsIds] = useState<string[]>([]);
+  const [isContractorsLoading, setIsContractorsLoading] = useState<boolean>(true);
+
   // Получить информацию согласования
   const fetchLabels = async () => {
     const fetchedLabels = await Scripts.getAdditionalInfo(data.id);
@@ -59,6 +65,16 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
     setEmailPreviewData(previewData);
   };
 
+  // Получить список застрахованых
+  const fetchInsuredList = async () => {
+    setIsContractorsLoading(true)
+
+    const contractorsIds = await Scripts.getApprovalInsuredList(data.id);
+    setSelectedContractorsIds(contractorsIds);
+
+    setIsContractorsLoading(false)
+  };
+
   // Перезагрузить данные формы
   const reloadFulldata = () => {
     setIsLoading(true);
@@ -72,10 +88,11 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
 
     fetchLabels();
     fetchEmailPreview();
+    fetchInsuredList();
   }
 
   // Изначальная загрузка данных
-  useEffect(() => {
+  React.useLayoutEffect(() => {
     reloadFulldata()
   }, []);
 
@@ -117,6 +134,8 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
             <ApprovalInfo labels={labels} />
             {/* Проект письма */}
             {values.forma && (values.forma.data.code === ApprovalFormType.email || values.forma.data.code === ApprovalFormType.paper) && emailPreviewData && <EmailPreview emailPreviewData={emailPreviewData} />}
+            {/* Проект письма */}
+            {!isContractorsLoading && <InsuredPanel selectedContractorsIds={selectedContractorsIds} setSelectedContractorsIds={setSelectedContractorsIds} />}
             {/* Кнопки */}
             <ApprovalButtons setIsShowEmailModal={setIsShowEmailModal} setIsShowPaperModal={setIsShowPaperModal} reloadFulldata={reloadFulldata} {...props} />
           </div>
