@@ -73,6 +73,13 @@ function CustomList(props: ListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string>();
   const bodyRef = useRef<HTMLDivElement>(null);
 
+
+  const [columnWidth, setColumnWidth] = useState(columnsSettings[0].fr); // начальная ширина
+
+  const handleColumnResize = (newWidth) => {
+    setColumnWidth(newWidth);
+  };
+
   const reloadData = () => {
     setIsLoading(false);
     setItems([]);
@@ -153,6 +160,7 @@ function CustomList(props: ListProps) {
             sortData={sortData}
             handleSortClick={handleSortClick}
             {...columnSettings}
+            onColumnResize={handleColumnResize}
           />
         ))}
       </div>
