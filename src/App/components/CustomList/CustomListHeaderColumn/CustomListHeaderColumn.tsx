@@ -16,26 +16,26 @@ interface ListColumnProps extends ListColumnData {
 }
 
 function CustomListColumn(props: ListColumnProps) {
-	const { code, fr, isSortable, name, handleSortClick, sortData,onColumnResize } = props
+	const { code, fr, isSortable, name, handleSortClick, sortData, onColumnResize } = props
 
 	const headerRef = useRef<HTMLTableCellElement>(null); // Указан тип для useRef
-  
+
 	useEffect(() => {
-	  const observer = new ResizeObserver(([entry]) => {
-		if (entry && entry.contentRect) {
-		  onColumnResize(entry.contentRect.width);
-		}
-	  });
-  
-	  if (headerRef.current) {
-		observer.observe(headerRef.current);
-	  }
-  
-	  return () => {
+		const observer = new ResizeObserver(([entry]) => {
+			if (entry && entry.contentRect) {
+				onColumnResize(entry.contentRect.width);
+			}
+		});
+
 		if (headerRef.current) {
-		  observer.unobserve(headerRef.current);
+			observer.observe(headerRef.current);
 		}
-	  };
+
+		return () => {
+			if (headerRef.current) {
+				observer.unobserve(headerRef.current);
+			}
+		};
 	}, [onColumnResize]);
 
 	/** Переключение режима сортировки для колонки */
@@ -73,7 +73,7 @@ function CustomListColumn(props: ListColumnProps) {
 	)
 
 	return (
-		<div className="custom-list-header-column" ref={headerRef} style={{ resize: "horizontal", overflow: "auto" , minWidth: "100px"}}>
+		<div className="custom-list-header-column" ref={headerRef} style={{ flex: fr }}>
 			<div className="custom-list-header-column__name">{name}</div>
 			{isSortable && sortButton}
 		</div>

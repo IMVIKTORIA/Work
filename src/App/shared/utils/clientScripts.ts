@@ -81,7 +81,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
     /** Коллективное? */
-    isCollective: false,
+    isCollective: true,
   };
 
   await randomDelay();
