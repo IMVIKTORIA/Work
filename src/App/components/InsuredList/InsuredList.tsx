@@ -42,8 +42,8 @@ export default function InsuredList({ selectedContractorsIds, setSelectedContrac
 			<div className='insured-list__list'>
 				<CustomList<undefined, InsuredListData>
 					columnsSettings={columns}
-					getDataHandler={Scripts.getInsuredList}
-					isSelectable={true}
+					getDataHandler={() => Scripts.getApprovalInsuredListData(selectedContractorsIds)}
+					isSelectable={false}
 					isMultipleSelect={true}
 					height='300px'
 					listWidth={2000}
