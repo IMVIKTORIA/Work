@@ -69,12 +69,17 @@ function ApprovalHeader({ onClickRowHandler, onRowClick, columnsSettings, setVal
         />
       </div>
       <div>
-        <CustomSelect
+        {/* <CustomSelect
           isViewMode={false}
           name="forma"
           inputHandler={handleFormaChange}
           values={values}
           getDataHandler={Scripts.getForma}
+        /> */}
+        <CustomText
+          name="forma"
+          inputHandler={setValue}
+          values={values}
         />
       </div>
       <div className="amendment-details__actions-column">
