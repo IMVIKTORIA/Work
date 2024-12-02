@@ -11,7 +11,7 @@ interface InsuredPanelProps {
   setSelectedContractorsIds: (ids: string[]) => void
 }
 
-/** Проект письма */
+/** Список застрахованных */
 function InsuredPanel({ selectedContractorsIds, setSelectedContractorsIds }: InsuredPanelProps) {
 
   return (

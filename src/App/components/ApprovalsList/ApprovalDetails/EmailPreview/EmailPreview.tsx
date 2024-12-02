@@ -32,9 +32,10 @@ function EmailPreview({ emailPreviewData }: EmailPreviewProps) {
               <div className='insurance-letter-modal__separator'></div>
             </>
           }
-          <span>{emailPreviewData?.text}</span>
+          {/* <span>{emailPreviewData?.text}</span>
           <div>
-            <Button title={"Скопировать"} clickHandler={onClickCopy} buttonType={ButtonType.outline}></Button></div>
+            <Button title={"Скопировать"} clickHandler={onClickCopy} buttonType={ButtonType.outline}></Button>
+          </div> */}
         </div>
       </Panel>
     </div>

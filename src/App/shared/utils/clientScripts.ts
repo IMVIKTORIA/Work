@@ -254,6 +254,14 @@ async function getApprovalInsuredList(approvalId: string): Promise<string[]> {
   return ["1", "3"];
 }
 
+type OpenApprovalCallback = (id: string) => void;
+/** Функция обратного вызова для открытия согласования */
+let setOpenApproval: OpenApprovalCallback | undefined;
+/** Установить функцию обратного вызова для открытия согласования */
+async function setOpenApprovalCallback(callback: OpenApprovalCallback): Promise<void> {
+  setOpenApproval = callback;
+}
+
 export default {
   getForma,
   getAdditionalInfo,
@@ -274,4 +282,5 @@ export default {
   setReloadApprovalsCallback,
   getInsuredList,
   getApprovalInsuredList,
+  setOpenApprovalCallback,
 };

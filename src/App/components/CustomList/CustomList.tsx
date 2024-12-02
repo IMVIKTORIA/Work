@@ -16,6 +16,7 @@ import icons from "../../shared/icons";
 import CustomListColumn from "./CustomListHeaderColumn/CustomListHeaderColumn";
 import Loader from "../Loader/Loader";
 import CustomListRow from "./CustomListRow/CustomListRow";
+import Scripts from "../../shared/utils/clientScripts";
 
 type ListProps = {
   /** Основные настройки */
@@ -126,6 +127,7 @@ function CustomList(props: ListProps) {
 
   /** Установить обработчик нажатия на кнопку поиск */
   useEffect(() => {
+    Scripts.setOpenApprovalCallback((id: string) => setOpenRowIndex(id))
     if (!setSearchHandler) return;
 
     setSearchHandler(() => () => {
