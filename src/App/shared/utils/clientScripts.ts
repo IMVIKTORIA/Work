@@ -80,6 +80,8 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.paper),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
+    /** Коллективное? */
+    isCollective: false,
   };
 
   await randomDelay();

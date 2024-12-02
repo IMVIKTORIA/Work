@@ -135,7 +135,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
             {/* Проект письма */}
             {values.forma && (values.forma.data.code === ApprovalFormType.email || values.forma.data.code === ApprovalFormType.paper) && emailPreviewData && <EmailPreview emailPreviewData={emailPreviewData} />}
             {/* Проект письма */}
-            {!isContractorsLoading && <InsuredPanel selectedContractorsIds={selectedContractorsIds} setSelectedContractorsIds={setSelectedContractorsIds} />}
+            {!isContractorsLoading && values.isCollective && <InsuredPanel selectedContractorsIds={selectedContractorsIds} setSelectedContractorsIds={setSelectedContractorsIds} />}
             {/* Кнопки */}
             <ApprovalButtons setIsShowEmailModal={setIsShowEmailModal} setIsShowPaperModal={setIsShowPaperModal} reloadFulldata={reloadFulldata} {...props} />
           </div>

@@ -117,6 +117,7 @@ export class ApprovalData {
   status: InputDataCategory;
   forma: InputDataCategory;
   cancelDate: InputDataCategory;
+  isCollective: boolean;
 
   constructor() {
     this.numberGP = new InputDataCategory();
@@ -125,6 +126,7 @@ export class ApprovalData {
     this.status = new InputDataCategory();
     this.forma = new InputDataCategory();
     this.cancelDate = new InputDataCategory();
+    this.isCollective = false;
   }
 }
 
