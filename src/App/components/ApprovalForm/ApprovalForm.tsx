@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Button from "../Button/Button";
 import {
-  ApprovalFormType,
-  Forma,
   ApprovalData,
   InputDataCategory,
 } from "../../shared/types";
@@ -16,12 +13,9 @@ export default function ApprovalForm() {
   // Идентификатор текущей задачи
   const [taskId, setTaskId] = useState<string>(/* "test" */);
   // Данные выбранного гарантийного письма
-  const [selectedForma, setSelectedForma] = useState<InputDataCategory | null>(
-    null
-  );
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
-  const [approvalList, setApprovalList] = useState<Forma[]>([]);
-  const [approvalsData, setApprovalsData] = useState<ApprovalData[]>([]); // Для хранения списка ГП
+  const [selectedForma, setSelectedForma] = useState<InputDataCategory | null>(null);
+  // Для хранения списка ГП
+  const [approvalsData, setApprovalsData] = useState<ApprovalData[]>([]);
 
   const handleRowClick = (forma?: InputDataCategory) => {
     if (!forma) {
@@ -51,21 +45,6 @@ export default function ApprovalForm() {
     fetchApprovalsData();
   }, [taskId]);
 
-  /** Сохранить состояние в localStorage TODO: Скорее всего не нужно*/
-  const saveState = () => {
-    // const dataValues = values
-    // const dataIsViewMode = isViewMode
-    // const dataActiveTabCode = activeTabCode
-    // const data = JSON.stringify({
-    // 	values: dataValues,
-    // 	isViewMode: dataIsViewMode,
-    // 	activeTabCode: dataActiveTabCode,
-    // 	selectedForma: selectedForma,
-    // })
-    // localStorage.setItem(localStorageDraftKey, data)
-    // localStorage.setItem(localStorageIdKey, values.treaty.data.code)
-  };
-
   /** Закрытие задачи */
   const handleCloseTreaty = () => {
     history.back();
@@ -78,7 +57,7 @@ export default function ApprovalForm() {
           taskId={taskId}
           handler={() => { }}
           isViewMode={isViewMode}
-          saveStateHandler={saveState}
+          saveStateHandler={() => { }}
           setSelectedForma={setSelectedForma}
           onRowClick={handleRowClick}
         />

@@ -242,3 +242,12 @@ export class InsuredListData {
     this.moreButton = moreButton;
   }
 }
+
+export class InsuredListDataExtended extends InsuredListData {
+  /** Номер согласования */
+  appealNumber?: ItemDataString;
+  constructor(props: InsuredListDataExtended) {
+    super({ ...props });
+    this.appealNumber = props.appealNumber;
+  }
+}

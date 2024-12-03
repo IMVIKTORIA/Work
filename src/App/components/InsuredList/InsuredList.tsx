@@ -4,17 +4,20 @@ import { ListColumnData } from '../../../UIKit/CustomList/CustomListTypes';
 import { InsuredListData } from '../../shared/types';
 import Scripts from '../../shared/utils/clientScripts';
 
-interface InsuredListProps {
-	selectedContractorsIds: string[],
-	setSelectedContractorsIds: (ids: string[]) => void
+export interface InsuredListProps {
+	// selectedContractorsIds: string[],
+	// setSelectedContractorsIds: (ids: string[]) => void
+	/** id согласования */
+	approvalId: string;
 }
 
 /** Список застрахованных */
-export default function InsuredList({ selectedContractorsIds, setSelectedContractorsIds }: InsuredListProps) {
+export default function InsuredList({ approvalId/* selectedContractorsIds, setSelectedContractorsIds */ }: InsuredListProps) {
 
 	/** Колонки списка */
 	const columns = [
 		new ListColumnData({ name: "ФИО застрахованного", code: "fullname", fr: 1, isSortable: true, isLink: false }),
+		new ListColumnData({ name: "Номер согласования", code: "appealNumber", fr: 1, isSortable: true, isLink: false }),
 		new ListColumnData({ name: "Дата рождения", code: "birthdate", fr: 1, isSortable: true, isLink: false }),
 		new ListColumnData({ name: "Телефон", code: "phone", fr: 1, isSortable: true, isLink: false }),
 		new ListColumnData({ name: "Email", code: "email", fr: 1, isSortable: true, isLink: false }),
@@ -28,7 +31,7 @@ export default function InsuredList({ selectedContractorsIds, setSelectedContrac
 		new ListColumnData({ name: "", code: "moreButton", fr: 1, isSortable: false, isLink: true, onClick: (props) => { console.log(props) } }),
 	]
 
-	useEffect(() => console.log(selectedContractorsIds), [selectedContractorsIds])
+	// useEffect(() => console.log(selectedContractorsIds), [selectedContractorsIds])
 
 	const [reloadHandler, setReloadHandler] = useState<() => void>(() => { });
 
@@ -42,13 +45,13 @@ export default function InsuredList({ selectedContractorsIds, setSelectedContrac
 			<div className='insured-list__list'>
 				<CustomList<undefined, InsuredListData>
 					columnsSettings={columns}
-					getDataHandler={() => Scripts.getApprovalInsuredListData(selectedContractorsIds)}
-					isSelectable={false}
-					isMultipleSelect={true}
+					getDataHandler={() => Scripts.getApprovalInsuredList(approvalId)}
+					// isSelectable={true}
+					// isMultipleSelect={true}
 					height='300px'
 					listWidth={2000}
-					setSelectedItems={(ids: string[]) => setSelectedContractorsIds(ids)}
-					selectedItems={selectedContractorsIds}
+					// setSelectedItems={(ids: string[]) => setSelectedContractorsIds(ids)}
+					// selectedItems={selectedContractorsIds}
 					setSearchHandler={setSearchHandler}
 				/>
 			</div>

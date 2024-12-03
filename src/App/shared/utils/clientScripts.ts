@@ -1,4 +1,4 @@
-import { FetchData, ItemData } from "../../../UIKit/CustomList/CustomListTypes";
+import { FetchData, FetchItem, ItemData, ItemDataString } from "../../../UIKit/CustomList/CustomListTypes";
 import ApprovalForm from "../../components/ApprovalForm/ApprovalForm";
 import {
   InputDataCategory,
@@ -10,6 +10,7 @@ import {
   ApprovalFormType,
   InsuredListData,
   SortData,
+  InsuredListDataExtended,
 } from "../types";
 import { fileSrc } from "./constants";
 
@@ -249,48 +250,21 @@ async function getInsuredList(page: number, sortData?: SortData): Promise<FetchD
   };
 }
 
-/** Получение списка задач */
-async function getApprovalInsuredListData(contractosIds: string[]): Promise<FetchData<InsuredListData>> {
-  await randomDelay();
+/** Получение проекта письма */
+async function getApprovalInsuredList(approvalId: string): Promise<FetchData<InsuredListDataExtended>> {
+  // TODO
+  const data: FetchData<InsuredListDataExtended> = await getInsuredList(0);
+  const itemsExteded: FetchItem<InsuredListDataExtended>[] = data.items.map((item, index) => {
+    const newItemData = new InsuredListDataExtended({ ...item.data });
+    newItemData.appealNumber = new ItemDataString(`TS1234/${index}G`);
+    item.data = newItemData;
 
-  console.log({
-    page,
-    sortData,
+    return item;
   });
 
-  const mockData: InsuredListData = {
-    fullname: new ItemData({ value: "TS00000001/23", info: "test" }),
-    birthdate: new ItemData({ value: "TS00000001/23", info: "test" }),
-    phone: new ItemData({ value: "TS00000001/23", info: "test" }),
-    email: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policy: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyStartDate: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyEndDate: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyTerm: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyRegion: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyProduct: new ItemData({ value: "TS00000001/23", info: "test" }),
-    plan: new ItemData({ value: "TS00000001/23", info: "test" }),
-    moreButton: new ItemData({ value: "Подробнее", info: "test" }),
-  };
+  data.items = itemsExteded;
 
-  return {
-    items: Array(20)
-      .fill(0)
-      .map((data, index) => {
-        return {
-          id: String(index),
-          data: new InsuredListData(mockData),
-        };
-      }),
-    hasMore: true,
-  };
-}
-
-/** Получение проекта письма */
-async function getApprovalInsuredList(approvalId: string): Promise<string[]> {
-  // TODO
-
-  return ["1", "3"];
+  return data;
 }
 
 type OpenApprovalCallback = (id: string) => void;
@@ -322,5 +296,4 @@ export default {
   getInsuredList,
   getApprovalInsuredList,
   setOpenApprovalCallback,
-  getApprovalInsuredListData,
 };
