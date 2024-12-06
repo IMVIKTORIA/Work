@@ -1,13 +1,25 @@
 .custom-text {
-	&__wrapper {
-		color: black;
-		font-size: 14px;
-		font-style: normal;
-		font-family: Inter;
-		font-weight: 400;
-		line-height: normal;
-		letter-spacing: 0.42px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+  &__wrapper {
+    color: black;
+    font-size: 14px;
+    font-style: normal;
+    font-family: Inter;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__content {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.0025em;
+  }
 }
