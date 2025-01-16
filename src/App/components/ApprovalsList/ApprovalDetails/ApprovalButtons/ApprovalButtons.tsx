@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../../../Button/Button";
 import Scripts from "../../../../shared/utils/clientScripts";
 import { ApprovalData, ApprovalFormType, ApprovalRowData, ApprovalStatus } from "../../../../shared/types";
+import { showError } from "../../../../shared/utils/utils";
 interface ApprovalButtonsProps {
   /** Установить видимость модалки email */
   setIsShowEmailModal: React.Dispatch<React.SetStateAction<boolean>>,
@@ -17,6 +18,17 @@ interface ApprovalButtonsProps {
 
 /** Проект письма */
 function ApprovalButtons({ setIsShowEmailModal, setIsShowPaperModal, data, values, reloadFulldata }: ApprovalButtonsProps) {
+
+  /** Отозвать согласование */
+  const onClickRevoke = async () => {
+    const isRevoked = await Scripts.revokeApproval(data.id);
+    if(!isRevoked) {
+      showError("Истек срок согласования, отзыв невозможен")
+      return
+    }
+    
+    reloadFulldata()
+  }
 
   /** Завершить согласование */
   const onClickComplete = async () => {
@@ -50,6 +62,13 @@ function ApprovalButtons({ setIsShowEmailModal, setIsShowPaperModal, data, value
 
   return (
     <div className="approval-details__buttons" >
+      {
+        values.status &&
+        // values.status.data.code == ApprovalStatus.finished &&
+        (
+          <Button clickHandler={onClickRevoke} style={{marginRight:"auto"}} title="ОТОЗВАТЬ СОГЛАСОВАНИЕ" />
+        )
+      }
       {
         values.forma &&
         values.forma.data.code === ApprovalFormType.verbal &&

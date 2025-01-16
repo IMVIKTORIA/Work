@@ -97,3 +97,14 @@ export const copy = (text: string) => {
     document.body.removeChild(input);
   }
 };
+
+/** Показать уведомление об ошибке */
+export const showError = (text: string) => {
+  if((window as any).showError) {
+    (window as any).showError(text)
+
+    return
+  }
+
+  alert(text)
+};

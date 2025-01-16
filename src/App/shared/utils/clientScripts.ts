@@ -275,6 +275,14 @@ async function setOpenApprovalCallback(callback: OpenApprovalCallback): Promise<
   setOpenApproval = callback;
 }
 
+/** Отозвать согласование */
+async function revokeApproval(approvalId: string): Promise<boolean> {
+  // TODO
+  await sleep(1000);
+
+  return false
+}
+
 export default {
   getForma,
   getAdditionalInfo,
@@ -296,4 +304,5 @@ export default {
   getInsuredList,
   getApprovalInsuredList,
   setOpenApprovalCallback,
+  revokeApproval,
 };
