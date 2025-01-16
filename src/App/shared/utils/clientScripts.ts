@@ -1,4 +1,9 @@
-import { FetchData, FetchItem, ItemData, ItemDataString } from "../../../UIKit/CustomList/CustomListTypes";
+import {
+  FetchData,
+  FetchItem,
+  ItemData,
+  ItemDataString,
+} from "../../../UIKit/CustomList/CustomListTypes";
 import ApprovalForm from "../../components/ApprovalForm/ApprovalForm";
 import {
   InputDataCategory,
@@ -42,7 +47,10 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
     /** Номер ГП */
     numberGP: new InputDataCategory("TS000025/24", "number_id"),
     /** Согласованные услуги */
-    services: new InputDataCategory("Диагностика обследование", "services_code"),
+    services: new InputDataCategory(
+      "Диагностика обследование",
+      "services_code"
+    ),
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /** Статус */
@@ -72,7 +80,10 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Номер ГП */
     numberGP: new InputDataCategory("TS000025/24", "number_id"),
     /** Согласованные услуги */
-    services: new InputDataCategory("Диагностика обследование", "services_code"),
+    services: new InputDataCategory(
+      "Диагностика обследование",
+      "services_code"
+    ),
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /**Статус */
@@ -98,7 +109,9 @@ function setChangeTaskCallback(callback?: SetVisibilityCallback): void {
 }
 
 /** Получение дополнительной информации */
-async function getAdditionalInfo(approvalId: string): Promise<AdditionalInfo[]> {
+async function getAdditionalInfo(
+  approvalId: string
+): Promise<AdditionalInfo[]> {
   const labels: AdditionalInfo[] = [
     { value: "Дата выпуска согласования", info: "10.03.24" },
     { value: "Дата начала действия согласования", info: "03.10.2024" },
@@ -118,7 +131,7 @@ async function getAdditionalInfo(approvalId: string): Promise<AdditionalInfo[]> 
     { value: "Согласованные услуги", info: "Диагностика, обследование" },
     { value: "Адрес вызова", info: "-" },
     { value: "Контактный телефон", info: "+79005006030" },
-    { value: "Дополнительная информация", info: "-" },
+    { value: "Примечание", info: "-" },
     { value: "Исполнитель", info: "Юрасов Сергей Олегович" },
   ];
 
@@ -178,13 +191,19 @@ async function removeLetterFile(approvalId: string): Promise<void> {
 }
 
 /**  Сохранить форму ГП на бланке */
-async function savePaperApproval(approvalId: string, text: string): Promise<void> {
+async function savePaperApproval(
+  approvalId: string,
+  text: string
+): Promise<void> {
   // TODO
   await sleep(1000);
 }
 
 /**  Сохранить форму email */
-async function saveEmailApproval(approvalId: string, text: string): Promise<void> {
+async function saveEmailApproval(
+  approvalId: string,
+  text: string
+): Promise<void> {
   // TODO
   await sleep(1000);
 }
@@ -214,7 +233,10 @@ function setReloadApprovalsCallback(callback: () => void): void {
 }
 
 /** Получение списка задач */
-async function getInsuredList(page: number, sortData?: SortData): Promise<FetchData<InsuredListData>> {
+async function getInsuredList(
+  page: number,
+  sortData?: SortData
+): Promise<FetchData<InsuredListData>> {
   await randomDelay();
 
   console.log({
@@ -251,16 +273,20 @@ async function getInsuredList(page: number, sortData?: SortData): Promise<FetchD
 }
 
 /** Получение проекта письма */
-async function getApprovalInsuredList(approvalId: string): Promise<FetchData<InsuredListDataExtended>> {
+async function getApprovalInsuredList(
+  approvalId: string
+): Promise<FetchData<InsuredListDataExtended>> {
   // TODO
   const data: FetchData<InsuredListDataExtended> = await getInsuredList(0);
-  const itemsExteded: FetchItem<InsuredListDataExtended>[] = data.items.map((item, index) => {
-    const newItemData = new InsuredListDataExtended({ ...item.data });
-    newItemData.appealNumber = new ItemDataString(`TS1234/${index}G`);
-    item.data = newItemData;
+  const itemsExteded: FetchItem<InsuredListDataExtended>[] = data.items.map(
+    (item, index) => {
+      const newItemData = new InsuredListDataExtended({ ...item.data });
+      newItemData.appealNumber = new ItemDataString(`TS1234/${index}G`);
+      item.data = newItemData;
 
-    return item;
-  });
+      return item;
+    }
+  );
 
   data.items = itemsExteded;
 
@@ -271,7 +297,9 @@ type OpenApprovalCallback = (id: string) => void;
 /** Функция обратного вызова для открытия согласования */
 let setOpenApproval: OpenApprovalCallback | undefined;
 /** Установить функцию обратного вызова для открытия согласования */
-async function setOpenApprovalCallback(callback: OpenApprovalCallback): Promise<void> {
+async function setOpenApprovalCallback(
+  callback: OpenApprovalCallback
+): Promise<void> {
   setOpenApproval = callback;
 }
 

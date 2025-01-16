@@ -34,7 +34,7 @@ function ApprovalsList({
   /** Колонки списка */
   const columns = [
     new ListColumnData({
-      name: "Номер ГП",
+      name: "Номер согласования",
       code: "numberGP",
       fr: 1,
       isSortable: true,

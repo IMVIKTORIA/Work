@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  ApprovalData,
-  InputDataCategory,
-} from "../../shared/types";
+import { ApprovalData, InputDataCategory } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
 import ApprovalsList from "../ApprovalsList/ApprovalsList";
 
@@ -13,7 +10,9 @@ export default function ApprovalForm() {
   // Идентификатор текущей задачи
   const [taskId, setTaskId] = useState<string>("test");
   // Данные выбранного гарантийного письма
-  const [selectedForma, setSelectedForma] = useState<InputDataCategory | null>(null);
+  const [selectedForma, setSelectedForma] = useState<InputDataCategory | null>(
+    null
+  );
   // Для хранения списка ГП
   const [approvalsData, setApprovalsData] = useState<ApprovalData[]>([]);
 
@@ -55,9 +54,9 @@ export default function ApprovalForm() {
       <div className="approval-form">
         <ApprovalsList
           taskId={taskId}
-          handler={() => { }}
+          handler={() => {}}
           isViewMode={isViewMode}
-          saveStateHandler={() => { }}
+          saveStateHandler={() => {}}
           setSelectedForma={setSelectedForma}
           onRowClick={handleRowClick}
         />
