@@ -59,6 +59,10 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
     forma: new InputDataCategory("Устное", "forma_code"),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
+    /** Задача на отзыв */
+    revokeTask: new InputDataCategory("TS1209451205/228", "12345"),
+    /** Причина отзыва */
+    revokeReason: new InputDataCategory("afsesss asf sfa fjkajkkjksjfsgh  ka ks f aih3w avhqu  idhafia aijf asi safasfasf safasfas sfsf"),
   };
 
   await randomDelay();
@@ -92,6 +96,10 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.paper),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
+    /** Задача на отзыв */
+    revokeTask: new InputDataCategory("TS1209451205/228", "12345"),
+    /** Причина отзыва */
+    revokeReason: new InputDataCategory("afsesss asf sfa fjkajkkjksjfsgh  ka ks f aih3w avhqu  idhafia aijf asi"),
     /** Коллективное? */
     isCollective: true,
   };

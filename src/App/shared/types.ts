@@ -117,6 +117,8 @@ export class ApprovalData {
   status: InputDataCategory;
   forma: InputDataCategory;
   cancelDate: InputDataCategory;
+  revokeTask: InputDataCategory;
+  revokeReason: InputDataCategory;
   isCollective: boolean;
 
   constructor() {
@@ -126,6 +128,8 @@ export class ApprovalData {
     this.status = new InputDataCategory();
     this.forma = new InputDataCategory();
     this.cancelDate = new InputDataCategory();
+    this.revokeTask = new InputDataCategory();
+    this.revokeReason = new InputDataCategory();
     this.isCollective = false;
   }
 }
@@ -171,6 +175,8 @@ export enum ApprovalStatus {
   processing = "processing",
   /** Выпущено */
   finished = "finished",
+  /** Выпущено (Отправлено) */
+  finishedSend = "finishedSend",
   /** Аннулировано */
   nullified = "nullified",
   /** Отозвано */

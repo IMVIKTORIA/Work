@@ -37,37 +37,49 @@ function ApprovalsList({
       name: "Номер согласования",
       code: "numberGP",
       fr: 1,
-      isSortable: true,
+      isSortable: false,
     }),
     new ListColumnData({
       name: "Согласованные услуги",
       code: "services",
       fr: 1.5,
-      isSortable: true,
+      isSortable: false,
     }),
     new ListColumnData({
       name: "Срок действия",
       code: "term",
       fr: 1.5,
-      isSortable: true,
+      isSortable: false,
     }),
     new ListColumnData({
       name: "Статус",
       code: "status",
       fr: 1,
-      isSortable: true,
+      isSortable: false,
     }),
     new ListColumnData({
       name: "Форма",
       code: "forma",
       fr: 1.5,
-      isSortable: true,
+      isSortable: false,
     }),
     new ListColumnData({
       name: "Дата отзыва",
       code: "cancelDate",
       fr: 1,
-      isSortable: true,
+      isSortable: false,
+    }),
+    new ListColumnData({
+      name: "Задача на отзыв",
+      code: "revokeTask",
+      fr: 1,
+      isSortable: false
+    }),
+    new ListColumnData({
+      name: "Причина отзыва",
+      code: "revokeReason",
+      fr: 1,
+      isSortable: false,
     }),
   ];
 

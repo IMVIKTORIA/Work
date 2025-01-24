@@ -26,7 +26,7 @@ function ApprovalButtons({ setIsShowEmailModal, setIsShowPaperModal, data, value
       showError("Истек срок согласования, отзыв невозможен")
       return
     }
-    
+
     reloadFulldata()
   }
 
@@ -64,7 +64,7 @@ function ApprovalButtons({ setIsShowEmailModal, setIsShowPaperModal, data, value
     <div className="approval-details__buttons" >
       {
         values.status &&
-        // values.status.data.code == ApprovalStatus.finished &&
+        (values.status.data.code == ApprovalStatus.finished || values.status.data.code == ApprovalStatus.finishedSend) &&
         (
           <Button clickHandler={onClickRevoke} style={{marginRight:"auto"}} title="ОТОЗВАТЬ СОГЛАСОВАНИЕ" />
         )

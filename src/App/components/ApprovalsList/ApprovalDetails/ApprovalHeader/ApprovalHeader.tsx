@@ -88,6 +88,11 @@ function ApprovalHeader({ onClickRowHandler, onRowClick, columnsSettings, setVal
           inputHandler={setValue}
           values={values}
         />
+        <CustomText
+          name="revokeTask"
+          inputHandler={setValue}
+          values={values}
+        />
         <div className="amendment-details__button-wrapper">
           <InputButton svg={icons.Fail} clickHandler={""} />
         </div>
