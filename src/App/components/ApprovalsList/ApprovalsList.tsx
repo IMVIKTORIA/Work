@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import {
   ApprovalData,
+  InputDataCategory,
   ListColumnData,
   getDetailsLayoutAttributes,
 } from "../../shared/types";
 import CustomList from "../CustomList/CustomList";
 import Scripts from "../../shared/utils/clientScripts";
-import { useMapState } from "../../shared/utils/utils";
+import utils, { useMapState } from "../../shared/utils/utils";
 import ApprovalDetails from "./ApprovalDetails/ApprovalDetails";
 import Button from "../Button/Button";
 
@@ -31,6 +32,21 @@ function ApprovalsList({
   setSelectedForma,
   onRowClick,
 }: ApprovalsListProps) {
+  const onClickRevokeTask = async (props: InputDataCategory) => {
+		const taskId = props.data.code;
+		if (!taskId) return
+		// Установка обращения
+		const requestId = await Scripts.getRequestIdByTaskId(taskId)
+		utils.setRequest(requestId)
+
+		localStorage.setItem("taskId", taskId);
+
+		// Переход
+		// const link = await Scripts.getRequestLink()
+		// utils.redirectSPA(link)
+    window.location.reload()
+  }
+
   /** Колонки списка */
   const columns = [
     new ListColumnData({
@@ -73,7 +89,9 @@ function ApprovalsList({
       name: "Задача на отзыв",
       code: "revokeTask",
       fr: 1,
-      isSortable: false
+      isSortable: false,
+      onClick: onClickRevokeTask,
+      isLink: true
     }),
     new ListColumnData({
       name: "Причина отзыва",

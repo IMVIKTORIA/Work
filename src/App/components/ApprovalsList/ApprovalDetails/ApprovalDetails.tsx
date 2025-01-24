@@ -16,6 +16,7 @@ import ApprovalHeader from "./ApprovalHeader/ApprovalHeader";
 import ApprovalInfo from "./ApprovalInfo/ApprovalInfo";
 import InsuredList from "../../InsuredList/InsuredList";
 import InsuredPanel from "./InsuredPanel/InsuredPanel";
+import CustomListRow from "../../CustomList/CustomListRow/CustomListRow";
 
 class ApprovalDetailsProps implements DetailsProps {
   data: ApprovalRowData;
@@ -113,7 +114,16 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
       ) : (
         <div className="approval-details">
           {/* Шапка */}
-          <ApprovalHeader {...props} />
+          <CustomListRow
+            data={data as any}
+            columnsSettings={columnsSettings}
+            // isShowDetails={false}
+            setOpenRowIndex={onClickRowHandler}
+            reloadData={function () { }}
+            isOpen
+            isClickable
+          />
+          {/* <ApprovalHeader {...props} /> */}
           <div className="approval-details__content">
             {/* Информация */}
             <ApprovalInfo labels={labels} />

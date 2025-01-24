@@ -12,7 +12,18 @@ export const redirectSPA = (href: string) => {
   element.remove();
 };
 
+/** Запись идентификатора обращения в localStorage
+ * @param id Идентификатор обращения
+ */
+async function setRequest(id: string) {
+	localStorage.setItem('currentRequestId', id)
+	localStorage.setItem('currentContractorId', '')
+	localStorage.setItem('currentContractorPhone', '')
+}
+
+
 export default {
+  setRequest,
   redirectSPA,
 };
 

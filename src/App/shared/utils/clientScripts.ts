@@ -319,6 +319,16 @@ async function revokeApproval(approvalId: string): Promise<boolean> {
   return false
 }
 
+/** Получение id обращения по id задачи */
+async function getRequestIdByTaskId(taskId: string): Promise<string> {
+	return 'test'
+}
+
+
+/** Получение ссылки для перехода на страницу обращения */
+async function getRequestLink(): Promise<string> {
+	return '#test'
+}
 export default {
   getForma,
   getAdditionalInfo,
@@ -341,4 +351,6 @@ export default {
   getApprovalInsuredList,
   setOpenApprovalCallback,
   revokeApproval,
+  getRequestIdByTaskId,
+  getRequestLink
 };
