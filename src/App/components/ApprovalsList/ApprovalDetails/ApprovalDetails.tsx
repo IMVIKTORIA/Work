@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   ApprovalData,
   ApprovalFormType,
-  ApprovalRowData, DetailsProps,
-  EmailPreviewData, ListColumnData
+  ApprovalRowData,
+  DetailsProps,
+  EmailPreviewData,
+  ListColumnData,
 } from "../../../shared/types";
 import Scripts from "../../../shared/utils/clientScripts";
 import Loader from "../../Loader/Loader";
@@ -17,6 +19,9 @@ import ApprovalInfo from "./ApprovalInfo/ApprovalInfo";
 import InsuredList from "../../InsuredList/InsuredList";
 import InsuredPanel from "./InsuredPanel/InsuredPanel";
 import CustomListRow from "../../CustomList/CustomListRow/CustomListRow";
+import TabItem from "../../../../UIKit/Tabs/TabItem/TabItem";
+import TabsWrapper from "../../../../UIKit/Tabs/TabsWrapper/TabsWrapper";
+import { ApprovalInfoCard } from "../../../shared/types";
 
 class ApprovalDetailsProps implements DetailsProps {
   data: ApprovalRowData;
@@ -32,7 +37,16 @@ class ApprovalDetailsProps implements DetailsProps {
 
 /** Детальная форма согласования */
 function ApprovalDetails(props: ApprovalDetailsProps) {
-  const { data, values, setValue, setValues, columnsSettings, onClickRowHandler, setSelectedForma, onRowClick } = props
+  const {
+    data,
+    values,
+    setValue,
+    setValues,
+    columnsSettings,
+    onClickRowHandler,
+    setSelectedForma,
+    onRowClick,
+  } = props;
 
   // Флаг загрузки
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,6 +59,16 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
   const [labels, setLabels] = useState({});
   // Данные макета письма
   const [emailPreviewData, setEmailPreviewData] = useState<EmailPreviewData>();
+  // Код активной вкладки
+  const [activeTabCode, setActiveTabCode] = useState<string>();
+  // Данные
+  const [info, setInfo] = useState<ApprovalInfoCard[]>([]);
+
+  // Получить информацию согласования
+  const fetchInfo = async () => {
+    const fetchedInfo = await Scripts.getApprovalInfoCard(data.id);
+    setInfo(fetchedInfo);
+  };
 
   // Получить информацию согласования
   const fetchLabels = async () => {
@@ -70,43 +94,52 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
       setIsLoading(false);
       // Присвоить полные данные в состояние
       setValues(fullData);
-      setSelectedForma(fullData.forma)
+      setSelectedForma(fullData.forma);
     });
 
     fetchLabels();
+    fetchInfo();
     fetchEmailPreview();
-  }
+  };
 
   // Изначальная загрузка данных
   React.useLayoutEffect(() => {
-    reloadFulldata()
+    reloadFulldata();
   }, []);
 
   // Подтвердить и сохранить письмо
   const handleSaveClick = (text: string) => {
-    setIsShowEmailModal(false)
-    setIsShowPaperModal(false)
-    reloadFulldata()
-  }
+    setIsShowEmailModal(false);
+    setIsShowPaperModal(false);
+    reloadFulldata();
+  };
 
   // Отмена создания письма
   const handleCancelClick = () => {
-    setIsShowEmailModal(false)
-    setIsShowPaperModal(false)
-  }
+    setIsShowEmailModal(false);
+    setIsShowPaperModal(false);
+  };
 
   return (
     <>
-      {isShowEmailModal &&
+      {isShowEmailModal && (
         <ModalWrapper>
-          <EmailModal approvalId={data.id} handleSaveClick={handleSaveClick} handleCancelClick={handleCancelClick} />
+          <EmailModal
+            approvalId={data.id}
+            handleSaveClick={handleSaveClick}
+            handleCancelClick={handleCancelClick}
+          />
         </ModalWrapper>
-      }
-      {isShowPaperModal &&
+      )}
+      {isShowPaperModal && (
         <ModalWrapper>
-          <PaperModal approvalId={data.id} handleSaveClick={handleSaveClick} handleCancelClick={handleCancelClick} />
+          <PaperModal
+            approvalId={data.id}
+            handleSaveClick={handleSaveClick}
+            handleCancelClick={handleCancelClick}
+          />
         </ModalWrapper>
-      }
+      )}
       {isLoading ? (
         <div className="custom-list-row-approval custom-list-row-approval_openable amendment-details">
           <Loader />
@@ -119,20 +152,42 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
             columnsSettings={columnsSettings}
             // isShowDetails={false}
             setOpenRowIndex={onClickRowHandler}
-            reloadData={function () { }}
+            reloadData={function () {}}
             isOpen
             isClickable
           />
           {/* <ApprovalHeader {...props} /> */}
           <div className="approval-details__content">
-            {/* Информация */}
-            <ApprovalInfo labels={labels} />
-            {/* Проект письма */}
-            {values.forma && (values.forma.data.code === ApprovalFormType.email || values.forma.data.code === ApprovalFormType.paper) && emailPreviewData && <EmailPreview emailPreviewData={emailPreviewData} />}
-            {/* Список застрахованных */}
-            {/* !isContractorsLoading && */ values.isCollective && <InsuredPanel approvalId={data.id} />}
+            <TabsWrapper
+              setActiveTabCodeGlobal={setActiveTabCode}
+              activeTabCodeGlobal={activeTabCode}
+            >
+              <TabItem code={"info"} name={"Информация"}>
+                <ApprovalInfo labels={labels} info={info} />
+              </TabItem>
+              <TabItem code={"letter"} name={"Макет письма"}>
+                {values.forma &&
+                  (values.forma.data.code === ApprovalFormType.email ||
+                    values.forma.data.code === ApprovalFormType.paper) &&
+                  emailPreviewData && (
+                    <EmailPreview emailPreviewData={emailPreviewData} />
+                  )}
+              </TabItem>
+              <TabItem code={"insured"} name={"Застрахованные"}>
+                {
+                  /* !isContractorsLoading && */ values.isCollective && (
+                    <InsuredPanel approvalId={data.id} />
+                  )
+                }
+              </TabItem>
+            </TabsWrapper>
             {/* Кнопки */}
-            <ApprovalButtons setIsShowEmailModal={setIsShowEmailModal} setIsShowPaperModal={setIsShowPaperModal} reloadFulldata={reloadFulldata} {...props} />
+            <ApprovalButtons
+              setIsShowEmailModal={setIsShowEmailModal}
+              setIsShowPaperModal={setIsShowPaperModal}
+              reloadFulldata={reloadFulldata}
+              {...props}
+            />
           </div>
         </div>
       )}

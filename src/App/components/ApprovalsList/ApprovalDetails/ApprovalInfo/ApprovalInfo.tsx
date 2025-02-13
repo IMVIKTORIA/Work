@@ -1,22 +1,19 @@
 import React from "react";
-import Button from "../../../Button/Button";
-import Scripts from "../../../../shared/utils/clientScripts";
-import { ApprovalData, ApprovalFormType, ApprovalRowData, ApprovalStatus } from "../../../../shared/types";
-import Panel from "../../../Panel/Panel";
 import LabledField from "../../../LabledField/LabledField";
+import InfoCard from "../../../InfoCard/InfoCard";
+import { ApprovalInfoCard } from "../../../../shared/types";
 interface ApprovalInfoProps {
-  labels: {}
+  labels: {};
+  info: ApprovalInfoCard[];
 }
 
 /** Информация согласования */
-function ApprovalInfo({ labels }: ApprovalInfoProps) {
-
+function ApprovalInfo({ labels, info }: ApprovalInfoProps) {
   return (
-    < div className="approval-details_panel" >
-      <Panel label="Информация" isOpen={true}>
-        <LabledField data={labels} />
-      </Panel>
-    </div >
+    <div className="approval-details_panel">
+      <InfoCard data={info} />
+      <LabledField data={labels} />
+    </div>
   );
 }
 

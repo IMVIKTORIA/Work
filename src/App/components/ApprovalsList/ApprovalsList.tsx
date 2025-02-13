@@ -33,19 +33,19 @@ function ApprovalsList({
   onRowClick,
 }: ApprovalsListProps) {
   const onClickRevokeTask = async (props: InputDataCategory) => {
-		const taskId = props.data.code;
-		if (!taskId) return
-		// Установка обращения
-		const requestId = await Scripts.getRequestIdByTaskId(taskId)
-		utils.setRequest(requestId)
+    const taskId = props.data.code;
+    if (!taskId) return;
+    // Установка обращения
+    const requestId = await Scripts.getRequestIdByTaskId(taskId);
+    utils.setRequest(requestId);
 
-		localStorage.setItem("taskId", taskId);
+    localStorage.setItem("taskId", taskId);
 
-		// Переход
-		// const link = await Scripts.getRequestLink()
-		// utils.redirectSPA(link)
-    window.location.reload()
-  }
+    // Переход
+    // const link = await Scripts.getRequestLink()
+    // utils.redirectSPA(link)
+    window.location.reload();
+  };
 
   /** Колонки списка */
   const columns = [
@@ -91,7 +91,7 @@ function ApprovalsList({
       fr: 1,
       isSortable: false,
       onClick: onClickRevokeTask,
-      isLink: true
+      isLink: true,
     }),
     new ListColumnData({
       name: "Причина отзыва",

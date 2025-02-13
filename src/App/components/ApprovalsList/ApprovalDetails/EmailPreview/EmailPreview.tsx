@@ -18,31 +18,29 @@ function EmailPreview({ emailPreviewData }: EmailPreviewProps) {
 
   return (
     <div className="approval-details_panel">
-      <Panel label="Макет письма" isOpen={false}>
-        <div className="approval-details_panel__content">
-          {/* Файл */}
-          {emailPreviewData?.fileSrc && (
-            <>
-              <div className="approval-details_panel__viewer">
-                <FileViewer
-                  src={emailPreviewData?.fileSrc}
-                  isFileLoading={false}
-                />
-              </div>
+      <div className="approval-details_panel__content">
+        {/* Файл */}
+        {emailPreviewData?.fileSrc && (
+          <>
+            <div className="approval-details_panel__viewer">
+              <FileViewer
+                src={emailPreviewData?.fileSrc}
+                isFileLoading={false}
+              />
+            </div>
 
-              <div className="insurance-letter-modal__separator"></div>
-            </>
-          )}
-          <span>{emailPreviewData?.text}</span>
-          <div>
-            <Button
-              title={"Скопировать"}
-              clickHandler={onClickCopy}
-              buttonType={ButtonType.outline}
-            ></Button>
-          </div>
+            <div className="insurance-letter-modal__separator"></div>
+          </>
+        )}
+        <span>{emailPreviewData?.text}</span>
+        <div>
+          <Button
+            title={"Скопировать"}
+            clickHandler={onClickCopy}
+            buttonType={ButtonType.outline}
+          ></Button>
         </div>
-      </Panel>
+      </div>
     </div>
   );
 }
