@@ -1,4 +1,4 @@
-.tab-selector-item {
+.tab-selector-item-new {
   cursor: pointer;
   color: var(--mp-header-color);
   user-select: none;
@@ -24,7 +24,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: -15px;
+      bottom: -10px;
       height: 2px;
       background-color: var(--medpult-blue-active-color);
     }

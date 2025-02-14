@@ -73,10 +73,10 @@ function TabsWrapper({
   }, []);
 
   return (
-    <div className="tabs-wrapper">
-      <div className="tabs-wrapper__header">
-        <div className="tabs-wrapper__selector">{getSelector()}</div>
-        <div className="tabs-wrapper__actions">
+    <div className="tabs-wrapper-new">
+      <div className="tabs-wrapper-new__header">
+        <div className="tabs-wrapper-new__selector">{getSelector()}</div>
+        <div className="tabs-wrapper-new__actions">
           {!!addHandler && (
             <TabButton
               svg={Icons.Add}
@@ -100,7 +100,7 @@ function TabsWrapper({
           )}
         </div>
       </div>
-      <div className="tabs-wrapper__container">{getActiveTab()}</div>
+      <div className="tabs-wrapper-new__container">{getActiveTab()}</div>
     </div>
   );
 }

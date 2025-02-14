@@ -1,4 +1,4 @@
-.tabs-wrapper {
+.tabs-wrapper-new {
   display: flex;
   flex-direction: column;
 
@@ -18,9 +18,9 @@
     flex-direction: row;
     justify-content: space-between;
     border-bottom: 2px solid var(--medpult-bg-color);
-    height: 55px;
+    height: 45px;
     align-items: center;
-    padding: 0 18px;
+    //padding: 0 18px;
   }
 
   &__selector {

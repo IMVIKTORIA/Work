@@ -96,7 +96,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /**Статус */
     status: new InputDataCategory("Оформление", ApprovalStatus.processing),
     /** Форма */
-    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.paper),
+    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.verbal),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
     /** Задача на отзыв */
@@ -130,7 +130,7 @@ async function getApprovalInfoCard(
     {
       title: "Форма согласования",
       value: "ГП на бланке",
-      code: ApprovalFormType.paper,
+      code: ApprovalFormType.verbal,
     },
     { title: "Срок согласования", value: "01.01.2024-01.02.2024" },
     { title: "Статус", value: "В оформлении", code: ApprovalStatus.processing },
@@ -162,7 +162,8 @@ async function getAdditionalInfo(
     { value: "Контактный телефон", info: "+79005006030" },
     { value: "Примечание", info: "-" },
     { value: "Исполнитель", info: "Юрасов Сергей Олегович" },
-    { value: "Причина отзыв", info: "причина есть" },
+    { value: "Дата отзыва", info: "12.01.2025" },
+    { value: "Причина отзыва", info: "причина есть" },
     { value: "Задача на отзыв", info: "TS004636/24" },
   ];
 
@@ -344,6 +345,11 @@ async function getRequestIdByTaskId(taskId: string): Promise<string> {
 async function getRequestLink(): Promise<string> {
   return "#test";
 }
+
+/** Получить количество застрахованных */
+async function getInsuredCount(): Promise<number> {
+  return 5;
+}
 export default {
   getForma,
   getAdditionalInfo,
@@ -369,4 +375,5 @@ export default {
   getRequestIdByTaskId,
   getRequestLink,
   getApprovalInfoCard,
+  getInsuredCount,
 };

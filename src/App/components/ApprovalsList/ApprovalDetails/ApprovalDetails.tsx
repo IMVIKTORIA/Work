@@ -64,6 +64,17 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
   // Данные
   const [info, setInfo] = useState<ApprovalInfoCard[]>([]);
 
+  //количество застрахованных
+  const [elementsCount, setElementsCount] = useState<number>(0);
+  const fetchElementsCount = async () => {
+    const count = await Scripts.getInsuredCount();
+    setElementsCount(count);
+  };
+  // Вычислить количество застрахованных
+  useEffect(() => {
+    fetchElementsCount();
+  }, []);
+
   // Получить информацию согласования
   const fetchInfo = async () => {
     const fetchedInfo = await Scripts.getApprovalInfoCard(data.id);
@@ -173,7 +184,10 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
                     <EmailPreview emailPreviewData={emailPreviewData} />
                   )}
               </TabItem>
-              <TabItem code={"insured"} name={"Застрахованные"}>
+              <TabItem
+                code={"insured"}
+                name={`Застрахованные (${elementsCount})`}
+              >
                 {
                   /* !isContractorsLoading && */ values.isCollective && (
                     <InsuredPanel approvalId={data.id} />
