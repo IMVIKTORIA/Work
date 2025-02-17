@@ -25,18 +25,37 @@ const formIcons = {
 };
 
 function InfoCard({ data }: InfoCardProps) {
+  const isDateInFuture = (dateString: string): boolean => {
+    const date = new Date(dateString.split(".").reverse().join("-"));
+    const currentDate = new Date();
+    return date > currentDate;
+  };
+
   return (
     <div className="info-card">
-      {data.map(({ title, value, code }) => (
-        <div key={title} className="info-card__item">
-          <div className="info-card__title">{title}</div>
-          <div className="info-card__icons">
-            {code && statusIcons[code as ApprovalStatus]}
-            {code && formIcons[code as ApprovalFormType]}
-            <div className="info-card__value">{value}</div>
+      {data.map(({ title, value, code }) => {
+        const isApprovalDate = title === "Срок согласования";
+        const isPastDate = isApprovalDate && code && !isDateInFuture(code);
+
+        return (
+          <div key={title} className="info-card__item">
+            <div className="info-card__title">{title}</div>
+            <div className="info-card__icons">
+              {code && statusIcons[code as ApprovalStatus]}
+              {code && formIcons[code as ApprovalFormType]}
+              <div className="info-card__value">
+                {isApprovalDate ? (
+                  <span style={{ color: isPastDate ? "red" : "inherit" }}>
+                    {value}
+                  </span>
+                ) : (
+                  value
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

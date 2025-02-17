@@ -6,6 +6,8 @@ import {
   DetailsProps,
   EmailPreviewData,
   ListColumnData,
+  AdditionalInfo,
+  InputDataCategory,
 } from "../../../shared/types";
 import Scripts from "../../../shared/utils/clientScripts";
 import Loader from "../../Loader/Loader";
@@ -33,6 +35,7 @@ class ApprovalDetailsProps implements DetailsProps {
   reloadData: () => void;
   setSelectedForma: (forma: any) => void;
   onRowClick: () => void;
+  onClickRevokeTask?: (props: InputDataCategory) => void;
 }
 
 /** Детальная форма согласования */
@@ -84,10 +87,13 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
   // Получить информацию согласования
   const fetchLabels = async () => {
     const fetchedLabels = await Scripts.getAdditionalInfo(data.id);
-    const labelsObject = fetchedLabels.reduce((acc, item) => {
-      acc[item.value] = item.info;
-      return acc;
-    }, {});
+    const labelsObject = fetchedLabels.reduce(
+      (acc, item) => {
+        acc[item.value] = item;
+        return acc;
+      },
+      {} as { [key: string]: AdditionalInfo }
+    );
     setLabels(labelsObject);
   };
 
@@ -130,6 +136,9 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
     setIsShowEmailModal(false);
     setIsShowPaperModal(false);
   };
+
+  //Переход на задачу на отзыв
+  const handleClick = (info: string) => {};
 
   return (
     <>
@@ -174,14 +183,21 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
               activeTabCodeGlobal={activeTabCode}
             >
               <TabItem code={"info"} name={"Информация"}>
-                <ApprovalInfo labels={labels} info={info} />
+                <ApprovalInfo
+                  labels={labels}
+                  info={info}
+                  onClick={handleClick}
+                />
               </TabItem>
               <TabItem code={"letter"} name={"Макет письма"}>
                 {values.forma &&
                   (values.forma.data.code === ApprovalFormType.email ||
                     values.forma.data.code === ApprovalFormType.paper) &&
                   emailPreviewData && (
-                    <EmailPreview emailPreviewData={emailPreviewData} />
+                    <EmailPreview
+                      emailPreviewData={emailPreviewData}
+                      values={values}
+                    />
                   )}
               </TabItem>
               <TabItem

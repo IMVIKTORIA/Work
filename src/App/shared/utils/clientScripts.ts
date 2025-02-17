@@ -96,7 +96,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /**Статус */
     status: new InputDataCategory("Оформление", ApprovalStatus.processing),
     /** Форма */
-    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.verbal),
+    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.paper),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
     /** Задача на отзыв */
@@ -132,7 +132,11 @@ async function getApprovalInfoCard(
       value: "ГП на бланке",
       code: ApprovalFormType.verbal,
     },
-    { title: "Срок согласования", value: "01.01.2024-01.02.2024" },
+    {
+      title: "Срок согласования",
+      value: "01.01.2024-01.02.2024",
+      code: "01.01.2024",
+    },
     { title: "Статус", value: "В оформлении", code: ApprovalStatus.processing },
   ];
 
@@ -164,7 +168,7 @@ async function getAdditionalInfo(
     { value: "Исполнитель", info: "Юрасов Сергей Олегович" },
     { value: "Дата отзыва", info: "12.01.2025" },
     { value: "Причина отзыва", info: "причина есть" },
-    { value: "Задача на отзыв", info: "TS004636/24" },
+    { value: "Задача на отзыв", info: "TS004636/24", isLink: true },
   ];
 
   await randomDelay();

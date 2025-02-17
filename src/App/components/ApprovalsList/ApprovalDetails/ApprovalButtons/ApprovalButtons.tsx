@@ -58,21 +58,22 @@ function ApprovalButtons({
     await Scripts.sendInsuranceLetter(data.id);
   };
 
-  /** Подтвердить согласование */
-  const onClickСonfirm = async () => {
-    // Появляется модальное окно для просмотра сформированного текста письма
-    setIsShowEmailModal(true);
-  };
-
   /** Сформировать ГП на бланке */
   const onClickPaper = async () => {
-    // Появляется модальное окно для просмотра сформированного текста письма и файла
-    setIsShowPaperModal(true);
+    const [text, fileSrc] = await Promise.all([
+      Scripts.generateEmailText(),
+      Scripts.generateEmailFile(data.id),
+    ]);
+    await Scripts.savePaperApproval(data.id, text);
+
+    reloadFulldata();
   };
   /** Сформировать письмо */
   const onClickEmail = async () => {
-    // Появляется модальное окно для просмотра сформированного текста письма
-    setIsShowEmailModal(true);
+    const text = await Scripts.generateEmailText();
+    await Scripts.saveEmailApproval(data.id, text);
+
+    reloadFulldata();
   };
 
   return (
@@ -118,7 +119,14 @@ function ApprovalButtons({
       {values.status.data.code === ApprovalStatus.processing &&
         (values.forma.data.code === ApprovalFormType.email ||
           values.forma.data.code === ApprovalFormType.paper) && (
-          <Button clickHandler={onClickСonfirm} title="ПОДТВЕРДИТЬ" />
+          <Button
+            clickHandler={
+              values.forma.data.code === ApprovalFormType.email
+                ? onClickEmail
+                : onClickPaper
+            }
+            title="ПОДТВЕРДИТЬ"
+          />
         )}
       {values.status.data.code === ApprovalStatus.processing && (
         <Button

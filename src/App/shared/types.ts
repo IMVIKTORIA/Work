@@ -99,11 +99,12 @@ export interface DetailsProps {
 export interface AdditionalInfo {
   value: string;
   info: string;
+  isLink?: boolean;
 }
 export interface ApprovalInfoCard {
   title: string;
   value: string;
-  code?: ApprovalStatus | ApprovalFormType;
+  code?: any;
 }
 
 /** Атрибуты функции получения разметки деталей строки динамического списка */

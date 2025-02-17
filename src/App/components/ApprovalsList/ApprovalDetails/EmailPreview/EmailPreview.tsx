@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Panel from "../../../Panel/Panel";
 import Button from "../../../Button/Button";
-import { ButtonType, EmailPreviewData } from "../../../../shared/types";
+import {
+  ButtonType,
+  EmailPreviewData,
+  ApprovalFormType,
+  ApprovalData,
+} from "../../../../shared/types";
 import { copy } from "../../../../shared/utils/utils";
 import FileViewer from "../../../InsuranceLetterModal/FileViewer/FileViewer";
+
 class EmailPreviewProps {
   /** Данные проекта письма */
   emailPreviewData: EmailPreviewData;
+  values: ApprovalData;
 }
 
 /** Проект письма */
-function EmailPreview({ emailPreviewData }: EmailPreviewProps) {
+function EmailPreview({ emailPreviewData, values }: EmailPreviewProps) {
   // Скопировать текст письма
   const onClickCopy = () => {
     if (emailPreviewData?.text) copy(emailPreviewData.text);
@@ -32,14 +39,18 @@ function EmailPreview({ emailPreviewData }: EmailPreviewProps) {
             <div className="insurance-letter-modal__separator"></div>
           </>
         )}
-        <span>{emailPreviewData?.text}</span>
-        <div>
-          <Button
-            title={"Скопировать"}
-            clickHandler={onClickCopy}
-            buttonType={ButtonType.outline}
-          ></Button>
-        </div>
+        {values.forma && values.forma.data.code === ApprovalFormType.email && (
+          <>
+            <span>{emailPreviewData?.text}</span>
+            <div>
+              <Button
+                title={"Скопировать"}
+                clickHandler={onClickCopy}
+                buttonType={ButtonType.outline}
+              ></Button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

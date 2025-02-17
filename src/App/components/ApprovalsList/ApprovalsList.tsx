@@ -122,6 +122,7 @@ function ApprovalsList({
         onClickRowHandler={onClickRowHandler}
         setSelectedForma={setSelectedForma}
         onRowClick={onRowClick}
+        onClickRevokeTask={onClickRevokeTask}
       />
     );
   };
