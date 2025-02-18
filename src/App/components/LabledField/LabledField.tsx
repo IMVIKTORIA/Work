@@ -27,7 +27,9 @@ function LabledField({ data, onClick }: LabledFieldProps) {
               {item.isLink ? (
                 <span
                   className="link-text"
-                  onClick={() => onClick && onClick(item.info)}
+                  onClick={() =>
+                    onClick && onClick({ data: { code: item.code } })
+                  }
                 >
                   {item.info}
                 </span>

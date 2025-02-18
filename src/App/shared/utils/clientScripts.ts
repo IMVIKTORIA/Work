@@ -13,7 +13,7 @@ import {
   EmailPreviewData,
   ApprovalStatus,
   ApprovalFormType,
-  InsuredListData,
+  InsuredListDataApproval,
   SortData,
   InsuredListDataExtended,
   ApprovalInfoCard,
@@ -168,7 +168,12 @@ async function getAdditionalInfo(
     { value: "Исполнитель", info: "Юрасов Сергей Олегович" },
     { value: "Дата отзыва", info: "12.01.2025" },
     { value: "Причина отзыва", info: "причина есть" },
-    { value: "Задача на отзыв", info: "TS004636/24", isLink: true },
+    {
+      value: "Задача на отзыв",
+      info: "TS004636/24",
+      code: "123",
+      isLink: true,
+    },
   ];
 
   await randomDelay();
@@ -269,10 +274,10 @@ function setReloadApprovalsCallback(callback: () => void): void {
 }
 
 /** Получение списка задач */
-async function getInsuredList(
+async function getInsuredListApproval(
   page: number,
   sortData?: SortData
-): Promise<FetchData<InsuredListData>> {
+): Promise<FetchData<InsuredListDataApproval>> {
   await randomDelay();
 
   console.log({
@@ -280,7 +285,7 @@ async function getInsuredList(
     sortData,
   });
 
-  const mockData: InsuredListData = {
+  const mockData: InsuredListDataApproval = {
     fullname: new ItemData({ value: "Иванов Иван Иванович", info: "test" }),
     birthdate: new ItemData({ value: "21.12.1995", info: "test" }),
     policy: new ItemData({ value: "VMI000012/5", info: "test" }),
@@ -294,7 +299,7 @@ async function getInsuredList(
       .map((data, index) => {
         return {
           id: String(index),
-          data: new InsuredListData(mockData),
+          data: new InsuredListDataApproval(mockData),
         };
       }),
     hasMore: true,
@@ -306,7 +311,8 @@ async function getApprovalInsuredList(
   approvalId: string
 ): Promise<FetchData<InsuredListDataExtended>> {
   // TODO
-  const data: FetchData<InsuredListDataExtended> = await getInsuredList(0);
+  const data: FetchData<InsuredListDataExtended> =
+    await getInsuredListApproval(0);
   const itemsExteded: FetchItem<InsuredListDataExtended>[] = data.items.map(
     (item, index) => {
       const newItemData = new InsuredListDataExtended({ ...item.data });
@@ -349,6 +355,11 @@ async function getRequestIdByTaskId(taskId: string): Promise<string> {
 async function getRequestLink(): Promise<string> {
   return "#test";
 }
+declare const Context: any;
+/** Получение ссылки для перехода на застрахованного */
+function getContractorPageCode(): string {
+  return Context.data.contractor_page_path ?? "";
+}
 
 /** Получить количество застрахованных */
 async function getInsuredCount(): Promise<number> {
@@ -372,7 +383,7 @@ export default {
   sendInsuranceLetter,
 
   setReloadApprovalsCallback,
-  getInsuredList,
+  getInsuredListApproval,
   getApprovalInsuredList,
   setOpenApprovalCallback,
   revokeApproval,
@@ -380,4 +391,5 @@ export default {
   getRequestLink,
   getApprovalInfoCard,
   getInsuredCount,
+  getContractorPageCode,
 };

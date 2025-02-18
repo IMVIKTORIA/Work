@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import CustomList from "../../../UIKit/CustomList/CustomList";
-import { ListColumnData } from "../../../UIKit/CustomList/CustomListTypes";
-import { InsuredListData } from "../../shared/types";
+import {
+  ListColumnData,
+  ItemData,
+} from "../../../UIKit/CustomList/CustomListTypes";
+import { InsuredListDataApproval } from "../../shared/types";
 import Scripts from "../../shared/utils/clientScripts";
+import utils from "../../shared/utils/utils";
 
 export interface InsuredListProps {
   // selectedContractorsIds: string[],
@@ -10,6 +14,23 @@ export interface InsuredListProps {
   /** id согласования */
   approvalId: string;
 }
+
+/** Обработчик нажатия на ФИО */
+const onClickFullname = async (props: ItemData) => {
+  const contractorId = props.info;
+  if (!contractorId) return;
+
+  // Запись текущего url в localStorage
+  window.localStorage.setItem(
+    "medpultPathBefore",
+    window.location.pathname + window.location.search
+  );
+  localStorage.setItem("medpultContractorId", contractorId);
+
+  // Переход
+  const link = await Scripts.getContractorPageCode();
+  utils.redirectSPA(link);
+};
 
 /** Список застрахованных */
 export default function InsuredList({
@@ -23,6 +44,7 @@ export default function InsuredList({
       fr: 1,
       isSortable: true,
       isLink: true,
+      onClick: onClickFullname,
     }),
     new ListColumnData({
       name: "Дата рождения",
@@ -66,7 +88,7 @@ export default function InsuredList({
   return (
     <div className="insured-list">
       <div className="insured-list__list">
-        <CustomList<undefined, InsuredListData>
+        <CustomList<undefined, InsuredListDataApproval>
           columnsSettings={columns}
           getDataHandler={() => Scripts.getApprovalInsuredList(approvalId)}
           // isSelectable={true}

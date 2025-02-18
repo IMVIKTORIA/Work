@@ -49,6 +49,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
     onClickRowHandler,
     setSelectedForma,
     onRowClick,
+    onClickRevokeTask,
   } = props;
 
   // Флаг загрузки
@@ -186,7 +187,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
                 <ApprovalInfo
                   labels={labels}
                   info={info}
-                  onClick={handleClick}
+                  onClick={onClickRevokeTask}
                 />
               </TabItem>
               <TabItem code={"letter"} name={"Макет письма"}>

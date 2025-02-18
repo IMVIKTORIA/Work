@@ -99,6 +99,7 @@ export interface DetailsProps {
 export interface AdditionalInfo {
   value: string;
   info: string;
+  code?: string;
   isLink?: boolean;
 }
 export interface ApprovalInfoCard {
@@ -203,7 +204,7 @@ export interface ApprovalRowData {
   cancelDate: InputDataCategory;
 }
 
-export class InsuredListData {
+export class InsuredListDataApproval {
   /** ФИО застрахованного */
   fullname?: ItemData;
   /** Дата рождения */
@@ -221,7 +222,7 @@ export class InsuredListData {
     policy,
     policyTerm,
     appealNumb,
-  }: InsuredListData) {
+  }: InsuredListDataApproval) {
     this.fullname = fullname;
     this.birthdate = birthdate;
     this.policy = policy;
@@ -230,7 +231,7 @@ export class InsuredListData {
   }
 }
 
-export class InsuredListDataExtended extends InsuredListData {
+export class InsuredListDataExtended extends InsuredListDataApproval {
   /** Номер согласования */
   appealNumber?: ItemDataString;
   constructor(props: InsuredListDataExtended) {
