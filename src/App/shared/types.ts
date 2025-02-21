@@ -131,6 +131,7 @@ export class ApprovalData {
   revokeReason: InputDataCategory;
   isCollective: boolean;
   sortTask: boolean;
+  isStatusRevokeTask: boolean;
   /** ID Отзыва */
   //revokeId: string;
   /** Тело файла */
@@ -147,6 +148,7 @@ export class ApprovalData {
     this.revokeReason = new InputDataCategory();
     this.isCollective = false;
     this.sortTask = false;
+    this.isStatusRevokeTask = false;
     // this.fileSrc = ''
   }
 }

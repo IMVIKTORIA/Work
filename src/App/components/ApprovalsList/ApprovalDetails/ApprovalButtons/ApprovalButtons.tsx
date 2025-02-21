@@ -141,6 +141,7 @@ function ApprovalButtons({
       )}
       {/* В задаче на отзыв */}
       {values.sortTask &&
+        values.isStatusRevokeTask &&
         (values.status.data.code == ApprovalStatus.finished ||
           values.status.data.code == ApprovalStatus.finishedSend) && (
           <Button clickHandler={onClickСonfirm} title="ПОДТВЕРДИТЬ" />

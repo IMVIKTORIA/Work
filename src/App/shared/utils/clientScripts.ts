@@ -108,6 +108,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Коллективное? */
     isCollective: true,
     sortTask: true,
+    isStatusRevokeTask: false,
   };
 
   await randomDelay();
