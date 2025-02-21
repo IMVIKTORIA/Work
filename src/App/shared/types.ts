@@ -130,6 +130,11 @@ export class ApprovalData {
   revokeTask: InputDataCategory;
   revokeReason: InputDataCategory;
   isCollective: boolean;
+  sortTask: boolean;
+  /** ID Отзыва */
+  //revokeId: string;
+  /** Тело файла */
+  //fileSrc: string;
 
   constructor() {
     this.numberGP = new InputDataCategory();
@@ -141,6 +146,21 @@ export class ApprovalData {
     this.revokeTask = new InputDataCategory();
     this.revokeReason = new InputDataCategory();
     this.isCollective = false;
+    this.sortTask = false;
+    // this.fileSrc = ''
+  }
+}
+/** Данные отзыва согласования */
+export class RevokeApprovalData {
+  /** ID Согласования */
+  approvalId: string;
+  /** ID Отзыва */
+  revokeId: string;
+  /** Тело файла */
+  fileSrc: string;
+
+  constructor() {
+    this.fileSrc = "";
   }
 }
 

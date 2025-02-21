@@ -64,7 +64,7 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
   // Данные макета письма
   const [emailPreviewData, setEmailPreviewData] = useState<EmailPreviewData>();
   // Код активной вкладки
-  const [activeTabCode, setActiveTabCode] = useState<string>();
+  const [activeTabCode, setActiveTabCode] = useState<string>("letter");
   // Данные
   const [info, setInfo] = useState<ApprovalInfoCard[]>([]);
 

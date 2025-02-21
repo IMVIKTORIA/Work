@@ -8,6 +8,7 @@ import {
   ApprovalStatus,
 } from "../../../../shared/types";
 import { showError } from "../../../../shared/utils/utils";
+
 interface ApprovalButtonsProps {
   /** Установить видимость модалки email */
   setIsShowEmailModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -76,9 +77,15 @@ function ApprovalButtons({
     reloadFulldata();
   };
 
+  /** Подтвердить в задаче на отзыв */
+  const onClickСonfirm = async () => {
+    await Scripts.RevokeDataConfirmClick(values.revokeTask);
+  };
+
   return (
     <div className="approval-details__buttons">
       {values.status &&
+        !values.sortTask &&
         (values.status.data.code == ApprovalStatus.finished ||
           values.status.data.code == ApprovalStatus.finishedSend) && (
           <Button clickHandler={onClickRevoke} title="ОТОЗВАТЬ" />
@@ -86,11 +93,7 @@ function ApprovalButtons({
       {values.forma &&
         values.forma.data.code === ApprovalFormType.verbal &&
         values.status.data.code === ApprovalStatus.processing && (
-          <Button
-            clickHandler={onClickComplete}
-            style={{ backgroundColor: "#FF4545" }}
-            title="ЗАВЕРШИТЬ"
-          />
+          <Button clickHandler={onClickComplete} title="ПОДТВЕРДИТЬ" />
         )}
       {/* {values.forma &&
         values.forma.data.code === ApprovalFormType.email &&
@@ -98,6 +101,7 @@ function ApprovalButtons({
           <Button clickHandler={onClickEmail} title="СФОРМИРОВАТЬ ПИСЬМО" />
         )} */}
       {values.forma &&
+        !values.sortTask &&
         (values.forma.data.code === ApprovalFormType.email ||
           values.forma.data.code === ApprovalFormType.paper) &&
         (values.status.data.code == ApprovalStatus.finished ||
@@ -135,6 +139,12 @@ function ApprovalButtons({
           title="АННУЛИРОВАТЬ"
         />
       )}
+      {/* В задаче на отзыв */}
+      {values.sortTask &&
+        (values.status.data.code == ApprovalStatus.finished ||
+          values.status.data.code == ApprovalStatus.finishedSend) && (
+          <Button clickHandler={onClickСonfirm} title="ПОДТВЕРДИТЬ" />
+        )}
     </div>
   );
 }

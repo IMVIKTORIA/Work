@@ -1,9 +1,9 @@
-import React from 'react'
-import { IProject } from '../shared/types'
+import React from "react";
+import { IProject } from "../shared/types";
 
 const Context = React.createContext({
-	data: [] as IProject[],
-	dataRender: [] as IProject[],
-})
+  data: [] as IProject[],
+  dataRender: [] as IProject[],
+});
 
-export default Context
+export default Context;

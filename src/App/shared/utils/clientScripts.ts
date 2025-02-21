@@ -94,7 +94,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /**Статус */
-    status: new InputDataCategory("Оформление", ApprovalStatus.processing),
+    status: new InputDataCategory("Оформление", ApprovalStatus.finished),
     /** Форма */
     forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.paper),
     /** Дата отзыва */
@@ -107,6 +107,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     ),
     /** Коллективное? */
     isCollective: true,
+    sortTask: true,
   };
 
   await randomDelay();
@@ -365,6 +366,17 @@ function getContractorPageCode(): string {
 async function getInsuredCount(): Promise<number> {
   return 5;
 }
+
+/** Обновление дат согласования */
+async function updateRevokeData(data: ApprovalData): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
+/** Обработчик нажатия на кнопку Подтвердить в задаче на отзыв */
+async function RevokeDataConfirmClick(currentTaskId: InputDataCategory) {
+  // TODO
+}
 export default {
   getForma,
   getAdditionalInfo,
@@ -392,4 +404,6 @@ export default {
   getApprovalInfoCard,
   getInsuredCount,
   getContractorPageCode,
+
+  RevokeDataConfirmClick,
 };

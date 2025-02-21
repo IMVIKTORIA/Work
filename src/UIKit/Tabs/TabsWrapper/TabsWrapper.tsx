@@ -20,7 +20,9 @@ function TabsWrapper({
   deleteHandler,
   setActiveTabCodeGlobal,
 }: TabsWrapperProps) {
-  const [activeTabCode, setActiveTabCode] = useState<string>("");
+  const [activeTabCode, setActiveTabCode] = useState<string>(
+    activeTabCodeGlobal ?? ""
+  );
 
   useEffect(() => {
     if (setActiveTabCodeGlobal) setActiveTabCodeGlobal(activeTabCode);
