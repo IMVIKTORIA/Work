@@ -34,7 +34,7 @@ function ApprovalButtons({
   const onClickRevoke = async () => {
     const isRevoked = await Scripts.revokeApproval(data.id);
     if (!isRevoked) {
-      showError("Истек срок согласования, отзыв невозможен");
+      //showError("Истек срок согласования, отзыв невозможен");
       return;
     }
 
@@ -81,6 +81,10 @@ function ApprovalButtons({
   const onClickСonfirm = async () => {
     await Scripts.RevokeDataConfirmClick(values.revokeTask);
   };
+  /** Отправить в задаче на отзыв */
+  const onClickSendRevoke = async () => {
+    await Scripts.RevokeDataSendClick(values.revokeTask);
+  };
 
   return (
     <div className="approval-details__buttons">
@@ -88,7 +92,11 @@ function ApprovalButtons({
         !values.sortTask &&
         (values.status.data.code == ApprovalStatus.finished ||
           values.status.data.code == ApprovalStatus.finishedSend) && (
-          <Button clickHandler={onClickRevoke} title="ОТОЗВАТЬ" />
+          <Button
+            clickHandler={onClickRevoke}
+            title="ОТОЗВАТЬ"
+            style={{ backgroundColor: "#FF4545" }}
+          />
         )}
       {values.forma &&
         values.forma.data.code === ApprovalFormType.verbal &&
@@ -145,6 +153,11 @@ function ApprovalButtons({
         (values.status.data.code == ApprovalStatus.finished ||
           values.status.data.code == ApprovalStatus.finishedSend) && (
           <Button clickHandler={onClickСonfirm} title="ПОДТВЕРДИТЬ" />
+        )}
+      {values.sortTask &&
+        values.isStatusRevokeTask &&
+        values.status.data.code == ApprovalStatus.cancelled && (
+          <Button clickHandler={onClickSendRevoke} title="Отправить Email" />
         )}
     </div>
   );

@@ -94,9 +94,9 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /**Статус */
-    status: new InputDataCategory("Оформление", ApprovalStatus.finished),
+    status: new InputDataCategory("Оформление", ApprovalStatus.cancelled),
     /** Форма */
-    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.paper),
+    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.email),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
     /** Задача на отзыв */
@@ -108,7 +108,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Коллективное? */
     isCollective: true,
     sortTask: true,
-    isStatusRevokeTask: false,
+    isStatusRevokeTask: true,
   };
 
   await randomDelay();
@@ -378,6 +378,10 @@ async function updateRevokeData(data: ApprovalData): Promise<void> {
 async function RevokeDataConfirmClick(currentTaskId: InputDataCategory) {
   // TODO
 }
+/** Обработчик нажатия на кнопку Отправить в задаче на отзыв */
+async function RevokeDataSendClick(currentTaskId: InputDataCategory) {
+  // TODO
+}
 export default {
   getForma,
   getAdditionalInfo,
@@ -407,4 +411,5 @@ export default {
   getContractorPageCode,
 
   RevokeDataConfirmClick,
+  RevokeDataSendClick,
 };

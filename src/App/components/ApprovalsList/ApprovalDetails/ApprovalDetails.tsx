@@ -141,6 +141,21 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
   //Переход на задачу на отзыв
   const handleClick = (info: string) => {};
 
+  useEffect(() => {
+    if (
+      values.forma &&
+      (values.forma.data.code === ApprovalFormType.email ||
+        values.forma.data.code === ApprovalFormType.paper)
+    ) {
+      setActiveTabCode("letter");
+    } else if (
+      values.forma &&
+      values.forma.data.code === ApprovalFormType.verbal
+    ) {
+      setActiveTabCode("info");
+    }
+  }, [values.forma.data.code]);
+
   return (
     <>
       {isShowEmailModal && (
