@@ -39,18 +39,20 @@ function EmailPreview({ emailPreviewData, values }: EmailPreviewProps) {
             <div className="insurance-letter-modal__separator"></div>
           </>
         )}
-        {values.forma && values.forma.data.code === ApprovalFormType.email && (
-          <>
-            <span>{emailPreviewData?.text}</span>
-            <div>
-              <Button
-                title={"Скопировать"}
-                clickHandler={onClickCopy}
-                buttonType={ButtonType.outline}
-              ></Button>
-            </div>
-          </>
-        )}
+        {!values.sortTask &&
+          values.forma &&
+          values.forma.data.code === ApprovalFormType.email && (
+            <>
+              <span>{emailPreviewData?.text}</span>
+              <div>
+                <Button
+                  title={"Скопировать"}
+                  clickHandler={onClickCopy}
+                  buttonType={ButtonType.outline}
+                ></Button>
+              </div>
+            </>
+          )}
       </div>
     </div>
   );

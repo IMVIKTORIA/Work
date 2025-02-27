@@ -206,15 +206,12 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
                 />
               </TabItem>
               <TabItem code={"letter"} name={"Макет письма"}>
-                {values.forma &&
-                  (values.forma.data.code === ApprovalFormType.email ||
-                    values.forma.data.code === ApprovalFormType.paper) &&
-                  emailPreviewData && (
-                    <EmailPreview
-                      emailPreviewData={emailPreviewData}
-                      values={values}
-                    />
-                  )}
+                {values.forma && emailPreviewData && (
+                  <EmailPreview
+                    emailPreviewData={emailPreviewData}
+                    values={values}
+                  />
+                )}
               </TabItem>
               <TabItem
                 code={"insured"}
