@@ -3,7 +3,10 @@ export interface IInputData {
   data?: any;
 }
 
-import { ItemData, ItemDataString } from "../../UIKit/CustomList/CustomListTypes";
+import {
+  ItemData,
+  ItemDataString,
+} from "../../UIKit/CustomList/CustomListTypes";
 
 /** Данные столбца таблицы */
 export class ListColumnData {
@@ -96,6 +99,13 @@ export interface DetailsProps {
 export interface AdditionalInfo {
   value: string;
   info: string;
+  code?: string;
+  isLink?: boolean;
+}
+export interface ApprovalInfoCard {
+  title: string;
+  value: string;
+  code?: any;
 }
 
 /** Атрибуты функции получения разметки деталей строки динамического списка */
@@ -120,6 +130,12 @@ export class ApprovalData {
   revokeTask: InputDataCategory;
   revokeReason: InputDataCategory;
   isCollective: boolean;
+  sortTask: boolean;
+  isStatusRevokeTask: boolean;
+  /** ID Отзыва */
+  //revokeId: string;
+  /** Тело файла */
+  //fileSrc: string;
 
   constructor() {
     this.numberGP = new InputDataCategory();
@@ -131,6 +147,22 @@ export class ApprovalData {
     this.revokeTask = new InputDataCategory();
     this.revokeReason = new InputDataCategory();
     this.isCollective = false;
+    this.sortTask = false;
+    this.isStatusRevokeTask = false;
+    // this.fileSrc = ''
+  }
+}
+/** Данные отзыва согласования */
+export class RevokeApprovalData {
+  /** ID Согласования */
+  approvalId: string;
+  /** ID Отзыва */
+  revokeId: string;
+  /** Тело файла */
+  fileSrc: string;
+
+  constructor() {
+    this.fileSrc = "";
   }
 }
 
@@ -194,62 +226,34 @@ export interface ApprovalRowData {
   cancelDate: InputDataCategory;
 }
 
-export class InsuredListData {
+export class InsuredListDataApproval {
   /** ФИО застрахованного */
   fullname?: ItemData;
   /** Дата рождения */
   birthdate?: ItemData;
-  /** Телефон */
-  phone?: ItemData;
-  /** Email */
-  email?: ItemData;
   /** Полис */
   policy?: ItemData;
-  /** Дата начала действия полиса */
-  policyStartDate?: ItemData;
-  /** Дата окончания действия полиса */
-  policyEndDate?: ItemData;
   /** Срок действия полиса */
   policyTerm?: ItemData;
-  /** Регион действия полиса */
-  policyRegion?: ItemData;
-  /** Продукт */
-  policyProduct?: ItemData;
-  /** План страхования */
-  plan?: ItemData;
-  /** Кнопка Подробнее, при нажатии на которую происходит переход на форму данного Контрагента (по аналогии с кнопкой Подробнее в текущей реализации) */
-  moreButton?: ItemData;
+  /** Номер согласования */
+  appealNumb?: ItemData;
 
   constructor({
     fullname,
     birthdate,
-    phone,
-    email,
     policy,
-    policyStartDate,
-    policyEndDate,
     policyTerm,
-    policyRegion,
-    policyProduct,
-    plan,
-    moreButton,
-  }: InsuredListData) {
+    appealNumb,
+  }: InsuredListDataApproval) {
     this.fullname = fullname;
     this.birthdate = birthdate;
-    this.phone = phone;
-    this.email = email;
     this.policy = policy;
-    this.policyStartDate = policyStartDate;
-    this.policyEndDate = policyEndDate;
     this.policyTerm = policyTerm;
-    this.policyRegion = policyRegion;
-    this.policyProduct = policyProduct;
-    this.plan = plan;
-    this.moreButton = moreButton;
+    this.appealNumb = appealNumb;
   }
 }
 
-export class InsuredListDataExtended extends InsuredListData {
+export class InsuredListDataExtended extends InsuredListDataApproval {
   /** Номер согласования */
   appealNumber?: ItemDataString;
   constructor(props: InsuredListDataExtended) {

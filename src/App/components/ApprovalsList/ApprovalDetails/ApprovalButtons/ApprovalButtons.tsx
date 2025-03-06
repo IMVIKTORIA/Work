@@ -1,119 +1,165 @@
 import React from "react";
 import Button from "../../../Button/Button";
 import Scripts from "../../../../shared/utils/clientScripts";
-import { ApprovalData, ApprovalFormType, ApprovalRowData, ApprovalStatus } from "../../../../shared/types";
+import {
+  ApprovalData,
+  ApprovalFormType,
+  ApprovalRowData,
+  ApprovalStatus,
+} from "../../../../shared/types";
 import { showError } from "../../../../shared/utils/utils";
+
 interface ApprovalButtonsProps {
   /** Установить видимость модалки email */
-  setIsShowEmailModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsShowEmailModal: React.Dispatch<React.SetStateAction<boolean>>;
   /** Установить видимость модалки ГП на бланке */
-  setIsShowPaperModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsShowPaperModal: React.Dispatch<React.SetStateAction<boolean>>;
   /** Данные строки списка согласований */
-  data: ApprovalRowData,
+  data: ApprovalRowData;
   /** Данные согласования */
-  values: ApprovalData,
+  values: ApprovalData;
   /** Обовление полных данных согласования */
-  reloadFulldata: () => void
+  reloadFulldata: () => void;
 }
 
 /** Проект письма */
-function ApprovalButtons({ setIsShowEmailModal, setIsShowPaperModal, data, values, reloadFulldata }: ApprovalButtonsProps) {
-
+function ApprovalButtons({
+  setIsShowEmailModal,
+  setIsShowPaperModal,
+  data,
+  values,
+  reloadFulldata,
+}: ApprovalButtonsProps) {
   /** Отозвать согласование */
   const onClickRevoke = async () => {
     const isRevoked = await Scripts.revokeApproval(data.id);
-    if(!isRevoked) {
-      showError("Истек срок согласования, отзыв невозможен")
-      return
+    if (!isRevoked) {
+      //showError("Истек срок согласования, отзыв невозможен");
+      return;
     }
 
-    reloadFulldata()
-  }
+    reloadFulldata();
+  };
 
   /** Завершить согласование */
   const onClickComplete = async () => {
     // Изменить статус
     await Scripts.saveVerbalApproval(data.id);
-    reloadFulldata()
-  }
-
-  /** Сформировать ГП на бланке */
-  const onClickPaper = async () => {
-    // Появляется модальное окно для просмотра сформированного текста письма и файла
-    setIsShowPaperModal(true)
-  }
+    reloadFulldata();
+  };
 
   /** Аннулировать согласование */
   const onClickClose = async () => {
     await Scripts.handleCloseApproval(data.id);
-  }
-
-  /** Сформировать письмо */
-  const onClickEmail = async () => {
-    // Появляется модальное окно для просмотра сформированного текста письма
-    setIsShowEmailModal(true)
-  }
+  };
 
   /** Отправить письмо */
   const onClickSendEmail = async () => {
     // Появляется модальное окно для отправки email
     await Scripts.sendInsuranceLetter(data.id);
-  }
+  };
+
+  /** Сформировать ГП на бланке */
+  const onClickPaper = async () => {
+    const [text, fileSrc] = await Promise.all([
+      Scripts.generateEmailText(),
+      Scripts.generateEmailFile(data.id),
+    ]);
+    await Scripts.savePaperApproval(data.id, text);
+
+    reloadFulldata();
+  };
+  /** Сформировать письмо */
+  const onClickEmail = async () => {
+    const text = await Scripts.generateEmailText();
+    await Scripts.saveEmailApproval(data.id, text);
+
+    reloadFulldata();
+  };
+
+  /** Подтвердить в задаче на отзыв */
+  const onClickСonfirm = async () => {
+    await Scripts.RevokeDataConfirmClick(values.revokeTask);
+  };
+  /** Отправить в задаче на отзыв */
+  const onClickSendRevoke = async () => {
+    await Scripts.RevokeDataSendClick(values.revokeTask);
+  };
 
   return (
-    <div className="approval-details__buttons" >
-      {
-        values.status &&
-        (values.status.data.code == ApprovalStatus.finished || values.status.data.code == ApprovalStatus.finishedSend) &&
-        (
-          <Button clickHandler={onClickRevoke} style={{marginRight:"auto"}} title="ОТОЗВАТЬ СОГЛАСОВАНИЕ" />
-        )
-      }
-      {
-        values.forma &&
-        values.forma.data.code === ApprovalFormType.verbal &&
-        values.status.data.code === ApprovalStatus.processing &&
-        (
-          <Button clickHandler={onClickComplete} title="ЗАВЕРШИТЬ СОГЛАСОВАНИЕ" />
-        )
-      }
-      {
-        values.forma &&
-        values.forma.data.code === ApprovalFormType.email &&
-        values.status.data.code === ApprovalStatus.processing &&
-        (
-          <Button clickHandler={onClickEmail} title="СФОРМИРОВАТЬ ПИСЬМО" />
-        )
-      }
-      {
-        values.forma &&
-        (values.forma.data.code === ApprovalFormType.email
-          || values.forma.data.code === ApprovalFormType.paper
-        ) &&
-        values.status.data.code === ApprovalStatus.finished &&
-        (
-          <Button clickHandler={onClickSendEmail} title="Отправить Email" />
-        )
-      }
-      {
-        values.forma &&
-        values.forma.data.code === ApprovalFormType.paper &&
-        values.status.data.code === ApprovalStatus.processing &&
-        (
-          <Button clickHandler={onClickPaper} title="СФОРМИРОВАТЬ ГП В БЛАНКЕ" />
-        )
-      }
-      {
-        values.status.data.code === ApprovalStatus.processing &&
-        (
+    <div className="approval-details__buttons">
+      {values.status &&
+        !values.sortTask &&
+        (values.status.data.code == ApprovalStatus.finished ||
+          values.status.data.code == ApprovalStatus.finishedSend) && (
           <Button
-            clickHandler={onClickClose}
-            buttonType="outline"
-            title="АННУЛИРОВАТЬ"
+            clickHandler={onClickRevoke}
+            title="ОТОЗВАТЬ"
+            style={{ backgroundColor: "#FF4545" }}
           />
-        )
-      }
-    </div >
+        )}
+      {values.forma &&
+        values.forma.data.code === ApprovalFormType.verbal &&
+        values.status.data.code === ApprovalStatus.processing && (
+          <Button clickHandler={onClickComplete} title="ПОДТВЕРДИТЬ" />
+        )}
+      {/* {values.forma &&
+        values.forma.data.code === ApprovalFormType.email &&
+        values.status.data.code === ApprovalStatus.processing && (
+          <Button clickHandler={onClickEmail} title="СФОРМИРОВАТЬ ПИСЬМО" />
+        )} */}
+      {values.forma &&
+        !values.sortTask &&
+        (values.forma.data.code === ApprovalFormType.email ||
+          values.forma.data.code === ApprovalFormType.paper) &&
+        (values.status.data.code == ApprovalStatus.finished ||
+          values.status.data.code == ApprovalStatus.finishedSend) && (
+          <Button
+            clickHandler={onClickSendEmail}
+            buttonType="outline"
+            title="Отправить Email"
+          />
+        )}
+      {/* {values.forma &&
+        values.forma.data.code === ApprovalFormType.paper &&
+        values.status.data.code === ApprovalStatus.processing && (
+          <Button
+            clickHandler={onClickPaper}
+            title="СФОРМИРОВАТЬ ГП В БЛАНКЕ"
+          />
+        )} */}
+      {values.status.data.code === ApprovalStatus.processing &&
+        (values.forma.data.code === ApprovalFormType.email ||
+          values.forma.data.code === ApprovalFormType.paper) && (
+          <Button
+            clickHandler={
+              values.forma.data.code === ApprovalFormType.email
+                ? onClickEmail
+                : onClickPaper
+            }
+            title="ПОДТВЕРДИТЬ"
+          />
+        )}
+      {values.status.data.code === ApprovalStatus.processing && (
+        <Button
+          clickHandler={onClickClose}
+          buttonType="outline"
+          title="АННУЛИРОВАТЬ"
+        />
+      )}
+      {/* В задаче на отзыв */}
+      {values.sortTask &&
+        values.isStatusRevokeTask &&
+        (values.status.data.code == ApprovalStatus.finished ||
+          values.status.data.code == ApprovalStatus.finishedSend) && (
+          <Button clickHandler={onClickСonfirm} title="ПОДТВЕРДИТЬ" />
+        )}
+      {values.sortTask &&
+        values.isStatusRevokeTask &&
+        values.status.data.code == ApprovalStatus.cancelled && (
+          <Button clickHandler={onClickSendRevoke} title="Отправить Email" />
+        )}
+    </div>
   );
 }
 

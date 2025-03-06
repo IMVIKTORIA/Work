@@ -1,23 +1,32 @@
-.tab-selector-item {
-	cursor: pointer;
-	color: var(--mp-header-color);
-	user-select: none;
-	color: #666;
-	font-family: Inter;
-	font-size: 19px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
-	letter-spacing: 0.038px;
-	padding: 5px 24px;
-	border-radius: 10px 10px 0 0;
-	display: flex;
-	flex-direction: row;
+.tab-selector-item-new {
+  cursor: pointer;
+  color: var(--mp-header-color);
+  user-select: none;
+  color: #666;
+  font-family: Inter;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.038px;
+  padding: 5px 24px;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  flex-direction: row;
+  position: relative;
 
-	&_active {
-		color: white;
-		background-color: var(--medpult-blue-active-color);
-		font-weight: 600;
-		position: relative;
-	}
+  &_active {
+    color: var(--medpult-blue-active-color);
+    font-weight: 600;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -10px;
+      height: 2px;
+      background-color: var(--medpult-blue-active-color);
+    }
+  }
 }

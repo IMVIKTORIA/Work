@@ -13,9 +13,10 @@ import {
   EmailPreviewData,
   ApprovalStatus,
   ApprovalFormType,
-  InsuredListData,
+  InsuredListDataApproval,
   SortData,
   InsuredListDataExtended,
+  ApprovalInfoCard,
 } from "../types";
 import { fileSrc } from "./constants";
 
@@ -62,12 +63,14 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
     /** Задача на отзыв */
     revokeTask: new InputDataCategory("TS1209451205/228", "12345"),
     /** Причина отзыва */
-    revokeReason: new InputDataCategory("afsesss asf sfa fjkajkkjksjfsgh  ka ks f aih3w avhqu  idhafia aijf asi safasfasf safasfas sfsf"),
+    revokeReason: new InputDataCategory(
+      "afsesss asf sfa fjkajkkjksjfsgh  ka ks f aih3w avhqu  idhafia aijf asi safasfasf safasfas sfsf"
+    ),
   };
 
   await randomDelay();
   return {
-    data: Array(5)
+    data: Array(3)
       .fill(null)
       .map((data, index) => {
         return { ...mockData, id: `${taskId}-${index}` };
@@ -91,17 +94,21 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /**Статус */
-    status: new InputDataCategory("Оформление", ApprovalStatus.processing),
+    status: new InputDataCategory("Оформление", ApprovalStatus.cancelled),
     /** Форма */
-    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.paper),
+    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.email),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
     /** Задача на отзыв */
     revokeTask: new InputDataCategory("TS1209451205/228", "12345"),
     /** Причина отзыва */
-    revokeReason: new InputDataCategory("afsesss asf sfa fjkajkkjksjfsgh  ka ks f aih3w avhqu  idhafia aijf asi"),
+    revokeReason: new InputDataCategory(
+      "afsesss asf sfa fjkajkkjksjfsgh  ka ks f aih3w avhqu  idhafia aijf asi"
+    ),
     /** Коллективное? */
     isCollective: true,
+    sortTask: true,
+    isStatusRevokeTask: true,
   };
 
   await randomDelay();
@@ -117,14 +124,34 @@ function setChangeTaskCallback(callback?: SetVisibilityCallback): void {
 }
 
 /** Получение дополнительной информации */
+async function getApprovalInfoCard(
+  approvalId: string
+): Promise<ApprovalInfoCard[]> {
+  const info: ApprovalInfoCard[] = [
+    { title: "Номер согласования", value: "TS000025/24" },
+    {
+      title: "Форма согласования",
+      value: "ГП на бланке",
+      code: ApprovalFormType.verbal,
+    },
+    {
+      title: "Срок согласования",
+      value: "01.01.2024-01.02.2024",
+      code: "01.01.2024",
+    },
+    { title: "Статус", value: "В оформлении", code: ApprovalStatus.processing },
+  ];
+
+  await randomDelay();
+  return info;
+}
+
+/** Получение данных для InfoCard */
 async function getAdditionalInfo(
   approvalId: string
 ): Promise<AdditionalInfo[]> {
   const labels: AdditionalInfo[] = [
     { value: "Дата выпуска согласования", info: "10.03.24" },
-    { value: "Дата начала действия согласования", info: "03.10.2024" },
-    { value: "Дата окончания действия согласования", info: "01.11.24" },
-    { value: "Номер согласования", info: "TS000025/24" },
     { value: "Наименование ЛПУ", info: 'ООО "МедКлиникСервис"' },
     { value: "Наименование ТОУ", info: '"Клиника здоровья"' },
     { value: "Номер договора с ЛПУ", info: "PHP00000258" },
@@ -141,6 +168,14 @@ async function getAdditionalInfo(
     { value: "Контактный телефон", info: "+79005006030" },
     { value: "Примечание", info: "-" },
     { value: "Исполнитель", info: "Юрасов Сергей Олегович" },
+    { value: "Дата отзыва", info: "12.01.2025" },
+    { value: "Причина отзыва", info: "причина есть" },
+    {
+      value: "Задача на отзыв",
+      info: "TS004636/24",
+      code: "123",
+      isLink: true,
+    },
   ];
 
   await randomDelay();
@@ -241,10 +276,10 @@ function setReloadApprovalsCallback(callback: () => void): void {
 }
 
 /** Получение списка задач */
-async function getInsuredList(
+async function getInsuredListApproval(
   page: number,
   sortData?: SortData
-): Promise<FetchData<InsuredListData>> {
+): Promise<FetchData<InsuredListDataApproval>> {
   await randomDelay();
 
   console.log({
@@ -252,19 +287,12 @@ async function getInsuredList(
     sortData,
   });
 
-  const mockData: InsuredListData = {
-    fullname: new ItemData({ value: "TS00000001/23", info: "test" }),
-    birthdate: new ItemData({ value: "TS00000001/23", info: "test" }),
-    phone: new ItemData({ value: "TS00000001/23", info: "test" }),
-    email: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policy: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyStartDate: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyEndDate: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyTerm: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyRegion: new ItemData({ value: "TS00000001/23", info: "test" }),
-    policyProduct: new ItemData({ value: "TS00000001/23", info: "test" }),
-    plan: new ItemData({ value: "TS00000001/23", info: "test" }),
-    moreButton: new ItemData({ value: "Подробнее", info: "test" }),
+  const mockData: InsuredListDataApproval = {
+    fullname: new ItemData({ value: "Иванов Иван Иванович", info: "test" }),
+    birthdate: new ItemData({ value: "21.12.1995", info: "test" }),
+    policy: new ItemData({ value: "VMI000012/5", info: "test" }),
+    policyTerm: new ItemData({ value: "12.12.2023-11.12.2024", info: "test" }),
+    appealNumb: new ItemData({ value: "TS000025/24", info: "test" }),
   };
 
   return {
@@ -273,7 +301,7 @@ async function getInsuredList(
       .map((data, index) => {
         return {
           id: String(index),
-          data: new InsuredListData(mockData),
+          data: new InsuredListDataApproval(mockData),
         };
       }),
     hasMore: true,
@@ -285,7 +313,8 @@ async function getApprovalInsuredList(
   approvalId: string
 ): Promise<FetchData<InsuredListDataExtended>> {
   // TODO
-  const data: FetchData<InsuredListDataExtended> = await getInsuredList(0);
+  const data: FetchData<InsuredListDataExtended> =
+    await getInsuredListApproval(0);
   const itemsExteded: FetchItem<InsuredListDataExtended>[] = data.items.map(
     (item, index) => {
       const newItemData = new InsuredListDataExtended({ ...item.data });
@@ -316,18 +345,42 @@ async function revokeApproval(approvalId: string): Promise<boolean> {
   // TODO
   await sleep(1000);
 
-  return false
+  return false;
 }
 
 /** Получение id обращения по id задачи */
 async function getRequestIdByTaskId(taskId: string): Promise<string> {
-	return 'test'
+  return "test";
 }
-
 
 /** Получение ссылки для перехода на страницу обращения */
 async function getRequestLink(): Promise<string> {
-	return '#test'
+  return "#test";
+}
+declare const Context: any;
+/** Получение ссылки для перехода на застрахованного */
+function getContractorPageCode(): string {
+  return Context.data.contractor_page_path ?? "";
+}
+
+/** Получить количество застрахованных */
+async function getInsuredCount(): Promise<number> {
+  return 5;
+}
+
+/** Обновление дат согласования */
+async function updateRevokeData(data: ApprovalData): Promise<void> {
+  // TODO
+  await sleep(1000);
+}
+
+/** Обработчик нажатия на кнопку Подтвердить в задаче на отзыв */
+async function RevokeDataConfirmClick(currentTaskId: InputDataCategory) {
+  // TODO
+}
+/** Обработчик нажатия на кнопку Отправить в задаче на отзыв */
+async function RevokeDataSendClick(currentTaskId: InputDataCategory) {
+  // TODO
 }
 export default {
   getForma,
@@ -347,10 +400,16 @@ export default {
   sendInsuranceLetter,
 
   setReloadApprovalsCallback,
-  getInsuredList,
+  getInsuredListApproval,
   getApprovalInsuredList,
   setOpenApprovalCallback,
   revokeApproval,
   getRequestIdByTaskId,
-  getRequestLink
+  getRequestLink,
+  getApprovalInfoCard,
+  getInsuredCount,
+  getContractorPageCode,
+
+  RevokeDataConfirmClick,
+  RevokeDataSendClick,
 };

@@ -1,0 +1,39 @@
+.info-card {
+  display: flex;
+  flex-direction: row;
+  font-family: Inter;
+  justify-content: space-between;
+  gap: 16px;
+
+  &__item {
+    padding: 20px;
+    background-color: #f4f4f5;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    margin-top: 10px;
+    border: 1px solid #d2d3d6;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    color: #6b6c6f;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18.2px;
+  }
+  &__icons {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+  }
+
+  &__value {
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 5px;
+    color: #2d2e2f;
+    line-height: 18.2px;
+  }
+}
