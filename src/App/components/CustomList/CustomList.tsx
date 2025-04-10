@@ -49,7 +49,10 @@ type ListProps = {
   /** toggle Режим создания */
   closeCreateMode?: () => any;
   /** Открытая строка по-умолчанию */
-  defaultOpenRowId?: any;
+  defaultOpenRowId?: string | null;
+  alwaysExpanded?: boolean;
+  /** Дополнительная фильтрация */
+  filterItem?: (item: any) => boolean;
 };
 
 function CustomList(props: ListProps) {
@@ -64,6 +67,8 @@ function CustomList(props: ListProps) {
     isCreateMode,
     closeCreateMode,
     defaultOpenRowId,
+    alwaysExpanded = false,
+    filterItem = () => true,
   } = props;
 
   const [page, setPage] = useState<number>(0);
@@ -71,9 +76,8 @@ function CustomList(props: ListProps) {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [sortData, setSortData] = useState<SortData>();
   const [items, setItems] = useState<any[]>([]);
-  const [openRowIndex, setOpenRowIndex] = useState<string>();
+  const [openRowIndex, setOpenRowIndex] = useState<string | null>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
-
 
   const [columnWidth, setColumnWidth] = useState(columnsSettings[0].fr); // начальная ширина
 
@@ -101,7 +105,8 @@ function CustomList(props: ListProps) {
     const fetchData = await getDataHandler(page, sortData, searchData);
     setHasMore(fetchData.hasMore);
 
-    setItems([...items, ...fetchData.data]);
+    const filteredData = fetchData.data.filter(filterItem);
+    setItems([...items, ...filteredData]);
     setPage(page + 1);
     setIsLoading(false);
   };
@@ -122,12 +127,14 @@ function CustomList(props: ListProps) {
   }, []);
 
   useEffect(() => {
-    console.log("openRowIndex: ", openRowIndex);
-  }, [openRowIndex]);
+    if (alwaysExpanded && items.length > 0) {
+      setOpenRowIndex(String(items[0].id));
+    }
+  }, [items, alwaysExpanded, openRowIndex]);
 
   /** Установить обработчик нажатия на кнопку поиск */
   useEffect(() => {
-    Scripts.setOpenApprovalCallback((id: string) => setOpenRowIndex(id))
+    Scripts.setOpenApprovalCallback((id: string) => setOpenRowIndex(id));
     if (!setSearchHandler) return;
 
     setSearchHandler(() => () => {
@@ -142,7 +149,7 @@ function CustomList(props: ListProps) {
 
   /** Обновление оглавления при изменении сортировки */
   useEffect(() => {
-    if (isCreateMode) setOpenRowIndex(undefined);
+    if (isCreateMode) setOpenRowIndex(null);
   }, [isCreateMode]);
 
   /** Нажатие на сортировку */
@@ -150,12 +157,16 @@ function CustomList(props: ListProps) {
     setSortData(sortDataNew);
   };
 
+  // Фильтрация элементов перед отображением
+  const displayItems = items.filter(filterItem);
+
   return (
     <div className="custom-list-approval">
       {/* Заголовок */}
       <div
-        className={`custom-list-approval__header${isScrollable ? " custom-list-approval__header_scrollable" : ""
-          }`}
+        className={`custom-list-approval__header${
+          isScrollable ? " custom-list-approval__header_scrollable" : ""
+        }`}
       >
         {columnsSettings.map((columnSettings) => (
           <CustomListColumn
@@ -168,8 +179,9 @@ function CustomList(props: ListProps) {
       </div>
       {/* Тело */}
       <div
-        className={`custom-list-approval__body${isScrollable ? " custom-list-approval__body_scrollable" : ""
-          }`}
+        className={`custom-list-approval__body${
+          isScrollable ? " custom-list-approval__body_scrollable" : ""
+        }`}
         ref={bodyRef}
         onScroll={onScroll}
       >
@@ -178,20 +190,21 @@ function CustomList(props: ListProps) {
           getCreateLayout &&
           getCreateLayout({
             reloadData: reloadData,
-            onClickRowHandler: () => { },
+            onClickRowHandler: () => {},
           })}
         {/* Данные */}
-        {items.map((data) => {
+        {displayItems.map((data) => {
           /** Обработчик нажатия на строку */
-          const toggleShowDetails = () => {
+          const toggleShowDetails = (data: any) => {
+            if (alwaysExpanded) return;
             if (data.id === undefined) return;
-            closeCreateMode && closeCreateMode();
 
-            if (String(data.id) == openRowIndex) {
-              setOpenRowIndex(undefined);
+            closeCreateMode?.();
+
+            if (String(data.id) === openRowIndex) {
+              setOpenRowIndex(null);
               return;
             }
-
             setOpenRowIndex(String(data.id));
           };
 
@@ -204,7 +217,7 @@ function CustomList(props: ListProps) {
               isShowDetails={
                 getDetailsLayout && String(data.id) === openRowIndex
               }
-              setOpenRowIndex={toggleShowDetails}
+              setOpenRowIndex={() => toggleShowDetails(data)}
               reloadData={reloadData}
             />
           );

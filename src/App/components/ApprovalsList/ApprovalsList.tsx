@@ -5,6 +5,7 @@ import {
   InputDataCategory,
   ListColumnData,
   getDetailsLayoutAttributes,
+  ApprovalStatus,
 } from "../../shared/types";
 import CustomList from "../CustomList/CustomList";
 import Scripts from "../../shared/utils/clientScripts";
@@ -127,14 +128,29 @@ function ApprovalsList({
     );
   };
 
+  const getFilteredApprovals = async () => {
+    const response = await Scripts.getApprovals(taskId);
+
+    const filteredData = response.data.filter(
+      (item: any) => item.status?.data?.code !== ApprovalStatus.nullified
+    );
+
+    return {
+      ...response,
+      data: filteredData,
+      hasMore: response.hasMore,
+    };
+  };
+
   return (
     <div className="amendment-tab">
       <CustomList
         getDetailsLayout={getAmendmentDetailsLayout}
         columnsSettings={columns}
-        getDataHandler={() => Scripts.getApprovals(taskId)}
+        getDataHandler={getFilteredApprovals}
         isScrollable={false}
         setSearchHandler={Scripts.setReloadApprovalsCallback}
+        alwaysExpanded={true}
       />
     </div>
   );

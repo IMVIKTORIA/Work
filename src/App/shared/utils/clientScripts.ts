@@ -55,7 +55,7 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /** Статус */
-    status: new InputDataCategory("Оформление", "status_code"),
+    status: new InputDataCategory("Оформление", ApprovalStatus.processing),
     /** Форма */
     forma: new InputDataCategory("Устное", "forma_code"),
     /** Дата отзыва */
@@ -70,7 +70,7 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
 
   await randomDelay();
   return {
-    data: Array(3)
+    data: Array(2)
       .fill(null)
       .map((data, index) => {
         return { ...mockData, id: `${taskId}-${index}` };
@@ -94,9 +94,9 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /**Статус */
-    status: new InputDataCategory("Оформление", ApprovalStatus.cancelled),
+    status: new InputDataCategory("Оформление", ApprovalStatus.nullified),
     /** Форма */
-    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.email),
+    forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.verbal),
     /** Дата отзыва */
     cancelDate: new InputDataCategory("10.05.2024"),
     /** Задача на отзыв */
