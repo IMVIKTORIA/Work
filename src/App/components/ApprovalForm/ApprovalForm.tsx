@@ -8,7 +8,7 @@ export default function ApprovalForm() {
   const [isViewMode, setIsViewMode] = useState<boolean>(true);
 
   // Идентификатор текущей задачи
-  const [taskId, setTaskId] = useState<string>(/**"test"*/);
+  const [taskId, setTaskId] = useState<string>(/* "test" */);
   // Данные выбранного гарантийного письма
   const [selectedForma, setSelectedForma] = useState<InputDataCategory | null>(
     null
@@ -43,11 +43,6 @@ export default function ApprovalForm() {
 
     fetchApprovalsData();
   }, [taskId]);
-
-  /** Закрытие задачи */
-  const handleCloseTreaty = () => {
-    history.back();
-  };
 
   return (
     taskId && (

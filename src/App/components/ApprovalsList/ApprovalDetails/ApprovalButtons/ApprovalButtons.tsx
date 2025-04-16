@@ -7,15 +7,10 @@ import {
   ApprovalRowData,
   ApprovalStatus,
 } from "../../../../shared/types";
-import { showError } from "../../../../shared/utils/utils";
 
 interface ApprovalButtonsProps {
-  /** Установить видимость модалки email */
-  setIsShowEmailModal: React.Dispatch<React.SetStateAction<boolean>>;
-  /** Установить видимость модалки ГП на бланке */
-  setIsShowPaperModal: React.Dispatch<React.SetStateAction<boolean>>;
-  /** Данные строки списка согласований */
-  data: ApprovalRowData;
+  /** Идентификатор согласования */
+  approvalId: string;
   /** Данные согласования */
   values: ApprovalData;
   /** Обовление полных данных согласования */
@@ -24,15 +19,13 @@ interface ApprovalButtonsProps {
 
 /** Проект письма */
 function ApprovalButtons({
-  setIsShowEmailModal,
-  setIsShowPaperModal,
-  data,
+  approvalId,
   values,
   reloadFulldata,
 }: ApprovalButtonsProps) {
   /** Отозвать согласование */
   const onClickRevoke = async () => {
-    const isRevoked = await Scripts.revokeApproval(data.id);
+    const isRevoked = await Scripts.revokeApproval(approvalId);
     if (!isRevoked) {
       //showError("Истек срок согласования, отзыв невозможен");
       return;
@@ -44,35 +37,35 @@ function ApprovalButtons({
   /** Завершить согласование */
   const onClickComplete = async () => {
     // Изменить статус
-    await Scripts.saveVerbalApproval(data.id);
+    await Scripts.saveVerbalApproval(approvalId);
     reloadFulldata();
   };
 
   /** Аннулировать согласование */
   const onClickClose = async () => {
-    await Scripts.handleCloseApproval(data.id);
+    await Scripts.handleCloseApproval(approvalId);
   };
 
   /** Отправить письмо */
   const onClickSendEmail = async () => {
     // Появляется модальное окно для отправки email
-    await Scripts.sendInsuranceLetter(data.id);
+    await Scripts.sendInsuranceLetter(approvalId);
   };
 
   /** Сформировать ГП на бланке */
   const onClickPaper = async () => {
     const [text, fileSrc] = await Promise.all([
       Scripts.generateEmailText(),
-      Scripts.generateEmailFile(data.id),
+      Scripts.generateEmailFile(approvalId),
     ]);
-    await Scripts.savePaperApproval(data.id, text);
+    await Scripts.savePaperApproval(approvalId, text);
 
     reloadFulldata();
   };
   /** Сформировать письмо */
   const onClickEmail = async () => {
     const text = await Scripts.generateEmailText();
-    await Scripts.saveEmailApproval(data.id, text);
+    await Scripts.saveEmailApproval(approvalId, text);
 
     reloadFulldata();
   };
