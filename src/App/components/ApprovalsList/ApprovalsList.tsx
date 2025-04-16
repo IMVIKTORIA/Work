@@ -106,28 +106,6 @@ function ApprovalsList({
   const [amendmentValues, setAmendmentValue, setAmendmentValues] =
     useMapState<ApprovalData>(new ApprovalData());
 
-  /** Получение формы детальной информации по строке списка ДС */
-  const getAmendmentDetailsLayout = ({
-    rowData,
-    reloadData,
-    onClickRowHandler,
-  }: getDetailsLayoutAttributes) => {
-    return (
-      <ApprovalDetails
-        reloadData={reloadData}
-        columnsSettings={columns}
-        data={rowData}
-        values={amendmentValues}
-        setValue={setAmendmentValue}
-        setValues={setAmendmentValues}
-        onClickRowHandler={onClickRowHandler}
-        setSelectedForma={setSelectedForma}
-        onRowClick={onRowClick}
-        onClickRevokeTask={onClickRevokeTask}
-      />
-    );
-  };
-
   const getFilteredApprovals = async () => {
     const response = await Scripts.getApprovals(taskId);
 
@@ -142,16 +120,40 @@ function ApprovalsList({
     };
   };
 
+  // Идентификатор согласования
+  const [approvalId, setApprovalId] = useState<string | undefined>();
+
+  
+  // Перезагрузка карточки
+  const reloadData = () => {
+    setApprovalId(undefined)
+    getFilteredApprovals().then(approvals => {
+      if(!approvals.data.length) return;
+      
+      const approval = (approvals.data[0] as ApprovalData);
+      setApprovalId(approval.id);
+    })
+  }
+
+  // Получение идентификатора согласования
+  useEffect(() => {
+    console.log("Scripts.setReloadApprovalsCallback", reloadData)
+    Scripts.setReloadApprovalsCallback(reloadData)
+    reloadData()
+  }, [])
+  
   return (
     <div className="amendment-tab">
-      <CustomList
-        getDetailsLayout={getAmendmentDetailsLayout}
-        columnsSettings={columns}
-        getDataHandler={getFilteredApprovals}
-        isScrollable={false}
-        setSearchHandler={Scripts.setReloadApprovalsCallback}
-        alwaysExpanded={true}
-      />
+      {approvalId && 
+        <ApprovalDetails
+          approvalId={approvalId}
+          reloadData={reloadData}
+          values={amendmentValues}
+          setValues={setAmendmentValues}
+          setSelectedForma={setSelectedForma}
+          onClickRevokeTask={onClickRevokeTask}
+        />
+      }
     </div>
   );
 }

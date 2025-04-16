@@ -66,6 +66,9 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
     revokeReason: new InputDataCategory(
       "afsesss asf sfa fjkajkkjksjfsgh  ka ks f aih3w avhqu  idhafia aijf asi safasfasf safasfas sfsf"
     ),
+    isCollective: false,
+    sortTask: false,
+    isStatusRevokeTask: false
   };
 
   await randomDelay();
@@ -94,7 +97,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     /** Срок действия */
     term: new InputDataCategory("01.01.2024-01.02.2024"),
     /**Статус */
-    status: new InputDataCategory("Оформление", ApprovalStatus.nullified),
+    status: new InputDataCategory("Оформление", ApprovalStatus.processing),
     /** Форма */
     forma: new InputDataCategory("ГП на бланке ", ApprovalFormType.verbal),
     /** Дата отзыва */
@@ -272,6 +275,7 @@ async function reloadApprovalsList() {
 
 /** Установить функцию обратного вызова для обновления списка обращений */
 function setReloadApprovalsCallback(callback: () => void): void {
+  window["reloadApprovalsCallback"]= callback;
   reloadApprovalsCallback = callback;
 }
 
