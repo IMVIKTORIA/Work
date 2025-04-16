@@ -215,7 +215,11 @@ function ApprovalDetails(props: ApprovalDetailsProps) {
               </TabItem>
               <TabItem
                 code={"insured"}
-                name={`Застрахованные (${elementsCount})`}
+                name={
+                  values.isCollective
+                    ? `Застрахованные (${elementsCount})`
+                    : "Застрахованные"
+                }
               >
                 {
                   /* !isContractorsLoading && */ values.isCollective && (
