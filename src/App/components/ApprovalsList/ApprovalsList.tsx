@@ -45,7 +45,14 @@ function ApprovalsList({
     // Переход
     // const link = await Scripts.getRequestLink()
     // utils.redirectSPA(link)
-    window.location.reload();
+    const link = await Scripts.getRequestLink();
+    const redirectUrl = new URL(window.location.origin + "/" + link);
+    if (requestId) redirectUrl.searchParams.set("request_id", requestId);
+    if (taskId) redirectUrl.searchParams.set("task_id", taskId);
+    utils.redirectSPA(redirectUrl.toString());
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
   };
 
   /** Колонки списка */
@@ -123,28 +130,27 @@ function ApprovalsList({
   // Идентификатор согласования
   const [approvalId, setApprovalId] = useState<string | undefined>();
 
-  
   // Перезагрузка карточки
   const reloadData = () => {
-    setApprovalId(undefined)
-    getFilteredApprovals().then(approvals => {
-      if(!approvals.data.length) return;
-      
-      const approval = (approvals.data[0] as ApprovalData);
+    setApprovalId(undefined);
+    getFilteredApprovals().then((approvals) => {
+      if (!approvals.data.length) return;
+
+      const approval = approvals.data[0] as ApprovalData;
       setApprovalId(approval.id);
-    })
-  }
+    });
+  };
 
   // Получение идентификатора согласования
   useEffect(() => {
-    console.log("Scripts.setReloadApprovalsCallback", reloadData)
-    Scripts.setReloadApprovalsCallback(reloadData)
-    reloadData()
-  }, [])
-  
+    console.log("Scripts.setReloadApprovalsCallback", reloadData);
+    Scripts.setReloadApprovalsCallback(reloadData);
+    reloadData();
+  }, []);
+
   return (
     <div className="amendment-tab">
-      {approvalId && 
+      {approvalId && (
         <ApprovalDetails
           approvalId={approvalId}
           reloadData={reloadData}
@@ -153,7 +159,7 @@ function ApprovalsList({
           setSelectedForma={setSelectedForma}
           onClickRevokeTask={onClickRevokeTask}
         />
-      }
+      )}
     </div>
   );
 }
