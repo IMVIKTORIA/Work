@@ -149,7 +149,8 @@ function ApprovalButtons({
         )}
       {values.sortTask &&
         values.isStatusRevokeTask &&
-        values.status.data.code == ApprovalStatus.cancelled && (
+        values.status.data.code == ApprovalStatus.cancelled &&
+        values.forma.data.code !== ApprovalFormType.verbal && (
           <Button clickHandler={onClickSendRevoke} title="Отправить Email" />
         )}
     </div>
