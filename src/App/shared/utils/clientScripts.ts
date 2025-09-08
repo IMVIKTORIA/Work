@@ -68,7 +68,8 @@ async function getApprovals(taskId: string): Promise<GetApprovalsResponse> {
     ),
     isCollective: false,
     sortTask: false,
-    isStatusRevokeTask: false
+    isStatusRevokeTask: false,
+    isStatusTask:false,
   };
 
   await randomDelay();
@@ -112,6 +113,7 @@ async function getApprovalFulldata(approvalId: string): Promise<ApprovalData> {
     isCollective: true,
     sortTask: true,
     isStatusRevokeTask: true,
+    isStatusTask:false,
   };
 
   await randomDelay();

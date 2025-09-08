@@ -83,6 +83,7 @@ function ApprovalButtons({
     <div className="approval-details__buttons">
       {values.status &&
         !values.sortTask &&
+        values.isStatusTask &&
         (values.status.data.code == ApprovalStatus.finished ||
           values.status.data.code == ApprovalStatus.finishedSend) && (
           <Button
@@ -133,7 +134,7 @@ function ApprovalButtons({
             title="ПОДТВЕРДИТЬ"
           />
         )}
-      {values.status.data.code === ApprovalStatus.processing && (
+      {(values.status.data.code === ApprovalStatus.processing || (values.status.data.code === ApprovalStatus.finished && values.forma.data.code !== ApprovalFormType.verbal )) && (
         <Button
           clickHandler={onClickClose}
           buttonType="outline"

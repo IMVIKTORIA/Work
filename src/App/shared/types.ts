@@ -132,6 +132,7 @@ export class ApprovalData {
   isCollective: boolean;
   sortTask: boolean;
   isStatusRevokeTask: boolean;
+  isStatusTask:boolean;
   /** ID Отзыва */
   //revokeId: string;
   /** Тело файла */
@@ -149,6 +150,7 @@ export class ApprovalData {
     this.isCollective = false;
     this.sortTask = false;
     this.isStatusRevokeTask = false;
+     this.isStatusTask = false;
     // this.fileSrc = ''
   }
 }
